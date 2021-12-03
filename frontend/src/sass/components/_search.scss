@@ -1,0 +1,81 @@
+.search {
+	box-shadow: none;
+	background: none;
+	padding: 0;
+	display: flex;
+	box-shadow: none;
+	border: 0.1rem solid $color-grey;
+	border-radius: 0.8rem;
+	width: 60vw;
+
+	@include respond(phone) {
+		width: 95vw;
+		border-radius: 0.3rem;
+		flex-direction: column;
+	}
+
+	& > input{
+		font-family: 'Poppins', 'sans-serif';
+		width: 100%;
+		background-color: #fff;
+		padding: 1.5rem 2rem;
+		border: none;
+		transition: none;
+		transform: none;
+		font-size: 1.6rem;
+		opacity: 0.97;
+
+		@include respond(phone) {
+			padding: 1.2rem;
+		}
+		
+		
+		&:first-child {
+			border-top-left-radius: 0.7rem;
+			border-bottom-left-radius: 0.7rem;
+
+			@include respond(phone) {
+				border-radius: 0.2rem 0.2rem 0 0;
+			}
+		}
+
+		&:nth-child(2), &:nth-child(2):focus {
+			border-left: 0.1rem solid $color-grey;
+			border-right: 0.1rem solid $color-grey;
+
+			@include respond(phone) {
+				border: 0;
+				border-top: 0.1rem solid $color-grey;
+				border-bottom: 0.1rem solid $color-grey;
+	
+			}
+		}
+
+		&:last-child {
+			border-top-right-radius: 0.7rem;
+			border-bottom-right-radius: 0.7rem;		
+			
+			@include respond(phone) {
+				border-radius: 0;
+			}
+		}
+
+		&:focus {
+			outline: none;
+			border:none;
+			box-shadow: none;
+		}	
+	}
+
+	& > div {
+		background-color: $color-orange;
+		width: 100%;
+		border-radius: 0 0.8rem 0.8rem 0;
+
+		@include respond(phone) {
+			padding: 0.7rem;
+			border-radius: 0 0 0.3rem 0.3rem;
+		}
+	}
+
+}

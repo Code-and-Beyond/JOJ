@@ -1,0 +1,24 @@
+.icon{
+	object-fit: contain;
+
+	&--xl{ max-width: 20rem; max-height: 20rem; }
+
+	&--l{ max-width: 14rem; max-height: 14rem; }
+
+	&--b{ width: 8rem; height: 8rem; }
+
+	&--m {width: 4.5rem; height: 4.5rem;}
+
+	&--s{ width: 3.2rem; height: 3.2rem; }
+
+	&--xs{ width: 2.5rem; height: 2.5rem; }
+
+	&--container{
+		border-radius: 0.4rem;
+		padding: 0.6rem 0.8rem;
+		display: flex;
+		align-items: center;
+	}
+
+}
+

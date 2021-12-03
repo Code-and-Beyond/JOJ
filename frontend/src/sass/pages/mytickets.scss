@@ -1,0 +1,31 @@
+.mytickets {
+	height: 100%;
+	display: flex;
+
+	&__profile {
+		padding: 2rem;
+		flex: 0.3;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border-right: 0.1rem solid $color-grey;
+	}
+
+	&__container {
+		flex: 0.7;
+
+		& > h2 {
+			text-align: center;
+			padding: 2rem;
+			border-bottom: 0.1rem solid $color-grey;
+		}
+
+		&--tickets {
+			height: 85.5vh;
+			overflow-y: scroll;
+			padding: 2.5rem;
+		}
+	}
+
+	
+}

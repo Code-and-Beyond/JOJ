@@ -1,0 +1,58 @@
+.admin {
+	display: flex;
+	height: 100%;
+	&__options {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		flex: 0.1;
+		background: $color-gray;
+		text-align: center;
+		cursor: pointer;
+		
+		& > h2 {
+			font-weight: 400;
+			padding: 1rem;
+			width: 100%;
+			background: $color-white;
+			border-bottom: 0.1rem solid $color-grey;
+			border-top: 0.1rem solid $color-grey;
+		}
+
+		&--selected {
+			opacity: 1;			
+			color: $color-white;
+			border-right: 0.2rem solid $color-black;
+			border-left: 0.2rem solid $color-black;
+			background: rgba($color-orange, 1) !important;
+		}
+	}
+	
+	&__content {
+		padding: 3rem;
+		border-left: 0.1rem solid $color-grey;
+		flex: 0.9;
+		height: 93.2vh;
+		display: flex;
+		flex-direction: column;
+
+		&--head {
+			flex: 0.1;
+			align-items: center;
+			display: flex;
+			justify-content: center;
+
+			& > div {
+				border-radius: 0;
+				width: 15rem;
+				margin: 0 1rem;
+			}
+		}
+
+		&--body {
+			flex: 0.9;
+			padding: 1rem;
+
+		}
+	}
+}

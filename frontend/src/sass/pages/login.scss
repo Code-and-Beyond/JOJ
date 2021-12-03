@@ -1,0 +1,52 @@
+.login {
+	width: 40rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	border: .1rem solid rgba($color-black, 0.3);
+	z-index: 200 !important;
+
+	&__head {	
+		height: fit-content;
+		margin: -2rem 0;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		& > img {
+			padding: 0;
+			width: 12rem;
+		}
+	}
+
+	&__body {
+
+		& > h1 {
+			text-align: center;
+			color: $color-black;
+			font-weight: 400;
+		}
+
+		& > input {
+			margin: 1rem 0;
+			border-width: 0.15rem;
+			padding: 1.2rem;
+			width: 100%;
+			border-radius: 0.4rem;
+			&:focus {
+				box-shadow: none;
+			}
+		}
+
+		& > h4 {
+			text-align: center;
+			margin-top: 2rem;
+			font-weight: 300;
+			& > span {
+				cursor: pointer;
+				color: $color-blue-dark;
+			}
+		}
+
+	}
+}

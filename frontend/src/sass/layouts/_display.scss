@@ -1,0 +1,64 @@
+.d{
+
+	&--f{
+		display:flex;
+
+		&--c{ flex-direction: column; }
+
+		&--r{ flex-direction: row; }
+		&--rv{ flex-direction: row-reverse; }
+	}
+
+	&__w{
+		&--mn-20 {min-width: 20rem;}
+		&--mn-25 {min-width: 25rem;}
+		&--mn-30 {min-width: 30rem;}
+		&--100{ width: 100%; }
+		&--75 {width: 75%; }
+		&--50{ width: 50%; }
+		&--45{ width: 45%; }
+		&--40{ width: 40%; }
+		&--25{ width: 25%;}
+		&--fc{ width: fit-content; }
+
+		&f{
+			&--40{
+				width: 40% !important;
+				@include respond(phone){width: 100% !important;}
+			}
+			&--20{
+				width: 20% !important;
+				@include respond(phone){width: 100% !important;}
+			}
+		}
+	}
+
+	&__h{
+		&--100h{ height: 100vh }
+		&--100{ height: 100% }
+		&--50{ height: 50% }
+		&--fc{ height: fit-content; }
+	}
+}
+
+.jc{
+	&--c{ justify-content: center; }
+	&--s{ justify-content: flex-start; }
+	&--e{ justify-content: flex-end; }
+	&--sb{ justify-content: space-between; }
+	&--sa{ justify-content: space-around; }
+}
+
+.ai{
+	&--c{ align-items: center; }
+	&--s{ align-items: flex-start; }
+	&--fs{ align-items: flex-start; }
+	&--bs{ align-items: baseline; }
+}
+
+
+.fd{
+	&--rr{ flex-direction: row-reverse !important;}
+}
+
+.row{display: flex; flex-direction: row; width: 100%;}
