@@ -1,10 +1,10 @@
 import express from "express";
 import courseController from '../controllers/course.controller';
-import auth from '../middleware/auth';
+// import auth from '../middleware/auth';
 
 const router = express.Router();
 
-
-router.post('/add-course', auth.authenticateToken, auth.restrictTo('admin'), courseController.addCourse);
+router.post('/create/course', courseController.createCourse);
+router.get('/get/courses', courseController.getAllCourses);
 
 export = router;

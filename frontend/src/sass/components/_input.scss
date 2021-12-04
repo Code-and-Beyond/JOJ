@@ -1,0 +1,21 @@
+.input{
+	border: 0.2rem solid $color-gray;
+	font-family: 'Poppins', 'sans-serif';
+	border-radius: 0.4rem;
+	padding: 0.8rem 1rem;
+	background-color: rgba($color-white-light, 0.5);
+	transition: all 0.1s ease-in-out;
+
+	width: 100%;
+
+	&:focus{ 
+		border-color: $color-blue-dark; 
+		outline: none;
+        box-shadow: 0 0.3rem 0.9rem rgba($color-black, 0.25);
+	
+	}
+
+	&--error{border-color: $color-red;}
+	&--warning{border-color: $color-yellow;}
+	&--success{border-color: $color-green;}
+}

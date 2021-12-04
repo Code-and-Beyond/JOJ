@@ -1,0 +1,17 @@
+.filters{
+	display: flex;
+	padding: 2rem 0;
+
+	@include respond(phone){overflow-x: scroll;}
+
+	&__container{
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		width: max-content;
+		width: -moz-max-content;
+		min-width: 100%;
+
+		@include respond(phone){justify-content: flex-start;}
+	}
+}

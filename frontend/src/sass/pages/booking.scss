@@ -1,0 +1,48 @@
+.booking {
+	display: flex;
+	padding: 8rem;
+	background-color: $color-gray;
+	border: 0.1rem solid $color-grey;
+
+	&__bus {
+		display: flex;
+		flex-direction: column;
+		flex: 0.6;
+		align-items: center;
+		justify-content: center;
+	
+
+		&--head {
+			min-width: 55rem;
+			padding: 0.3rem ;
+			margin-bottom: 0.5rem;
+			text-align: center;
+			color: $color-white;
+			background-color: $color-orange;
+		}
+	}
+
+	&__info {
+		width: 100%;
+		flex: 0.4;
+		text-align: center;
+		
+		&--legend {
+			min-height: 20rem;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			// margin-top: 2rem;
+			flex-direction: column;
+
+			& > div:last-child {
+				// align-self: center;
+				width: 25rem;
+			}
+		}
+	}
+
+	&--link {
+		text-decoration: none;
+	}
+}

@@ -1,0 +1,42 @@
+/**Abstract*/
+@import "sass/abstracts/funcs";
+@import "sass/abstracts/mixins";
+@import "sass/abstracts/vars";
+
+/**Base*/
+@import "sass/base/anims";
+@import "sass/base/base";
+@import "sass/base/typo";
+@import "sass/base/utils";
+
+/**Components*/
+@import "sass/components/button";
+@import "sass/components/card";
+@import "sass/components//footer";
+@import "sass/components/header";
+@import "sass/components/icon";
+@import "sass/components/input";
+@import "sass/components/spinner";
+@import "sass/components/navdrawer";
+@import "sass/components/filters";
+@import "sass/components/snackbar";
+@import "sass/components/search";
+@import "sass/components/bustile";
+@import "sass/components/popover";
+@import "sass/components/seats";
+@import "sass/components/switch";
+@import "sass/components/ticket";
+
+
+/**Layouts*/
+@import "sass/layouts/display";
+@import "sass/layouts/grid";
+
+/**Pages*/
+@import "sass/pages/login.scss";
+@import "sass/pages/landing.scss";
+@import "sass/pages/buses.scss";
+@import "sass/pages/booking.scss";
+@import "sass/pages/passengers.scss";
+@import "sass/pages/mytickets.scss";
+@import "sass/pages/admin.scss";

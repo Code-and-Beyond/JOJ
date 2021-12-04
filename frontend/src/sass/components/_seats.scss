@@ -1,0 +1,57 @@
+.seats {
+	min-width: 55rem;
+	height: 21rem;
+	padding: 1rem;
+	display: flex;
+	background: $color-white;
+	border: 0.1rem solid $color-grey;
+	border-left-width: 1rem;
+
+	&__icon {
+		padding: 1rem;
+		height: 100%;
+		border-right: 0.1rem solid $color-grey;
+		margin-right: 2rem;		
+
+		&--steering {
+			opacity: 0.9;
+			transform: rotate(-90deg);
+			width: 3rem;
+			height: 3rem;
+		}
+	}
+
+	&__row {
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		flex-direction: column;
+
+		& > div:nth-child(2) {
+			margin-bottom: 3rem;
+		}
+
+	}
+
+	&__seat {
+		position: relative;
+		margin: 0.5rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		
+		&--icon {
+			background-color: $color-white;
+			border-radius: 0.4rem;
+			width: 3rem;
+			height: 3rem;
+		}
+		&--no {
+			position: absolute;
+			bottom: 15%;
+			left: 25%;
+			font-weight: 500;
+		}
+	}
+}

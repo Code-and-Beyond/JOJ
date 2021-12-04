@@ -1,0 +1,74 @@
+.buses {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	height: 93.5vh; 
+
+	@include respond(phone){height: 92vh;}
+
+	&__head {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 12vh;
+		width: 100%;
+		border-bottom: 0.1rem solid $color-grey;
+
+		& > * > input {
+			padding: 0.8rem 1rem;
+		}
+
+		@include respond(phone){height: 40vh;}
+	}
+
+	&__body {
+		height: calc(93.5vh - 12vh);
+		width: 100%;
+		display: flex;
+
+		@include respond(phone){flex-direction: column;}
+
+		&--filters {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex: 0.2;
+			border-right: 0.1rem solid $color-grey;	
+
+			@include respond(phone){
+				border-right: 0;
+				border-bottom: 0.1rem solid $color-grey;				
+			}
+
+		}
+
+		&--results {			
+			flex: 0.8;
+			&-sort {
+				display: flex;
+				align-items: center;
+				justify-content: space-around;
+				align-content: flex-end;
+				height: 5rem;
+				border-bottom: 0.1rem solid $color-grey;				
+				// & > h3 {
+				// 	// min-width: 12rem;
+				// 	&:first-child {
+				// 		// margin-left: -10rem;
+				// 	}
+				// }
+			}	
+
+			&-tiles {	
+				padding: 0 1.5rem;
+				max-height: calc(100% - 5rem);
+				overflow-y: scroll;
+
+				// for each bus tile
+				& > div {
+					margin-top: 1.5rem;
+				}
+			}
+		}
+	}
+}

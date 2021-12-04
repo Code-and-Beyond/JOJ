@@ -1,0 +1,68 @@
+.passengers {
+	justify-content: flex-end;
+	align-items: stretch;
+
+	&__container {
+		position: relative;
+		border-radius: 0;
+		height: 100vh;
+		min-width: 30vw;
+
+		&--head {
+			position: relative;
+			padding: 1rem;
+			& > img {
+				opacity: 0.7;
+				top: 50%;
+				transform: translateY(-50%);
+				cursor: pointer;
+				position: absolute;
+				left: 0;
+			}
+
+			& > h2 {
+				font-weight: 500;
+			}
+			border-bottom: 0.1rem solid $color-grey;
+		}
+
+		&--footer {
+			position: absolute;
+			width: 100%;
+			bottom: 0;
+			left: 0;
+			padding: 2rem;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			text-align: center;
+			border-top: 0.1rem solid $color-gray;
+
+			& > h2 {
+				font-weight: 500;
+			}
+		}
+	}
+
+	&__info {
+		border: .15rem solid $color-gray;
+		padding: 2rem;
+		margin: 2rem 0;
+		// box-shadow: 0 0.3rem 0.5rem rgba($color-black, 0.2);
+		& > h4 {
+			font-weight: 400;
+			opacity: 0.8;
+		}
+
+		& > input {
+			background: $color-white;
+			border-width: 0.1rem;
+			margin-top: 1rem;
+
+			&:focus {
+				box-shadow: none;
+				outline: none;
+			}
+		}
+	}
+}
