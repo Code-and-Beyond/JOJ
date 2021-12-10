@@ -1,0 +1,91 @@
+.teacher {
+	display: flex;
+
+	& > div:first-child {
+		flex: 0.15;
+	}
+
+
+	& > div:nth-child(2) {
+		flex: 0.85;
+	}
+
+	&__form {
+		// display: none;
+		max-width: 23vw;
+	}
+
+	&__courses {
+		height: 100vh;
+		display: flex;
+		flex-direction: column;
+
+		&--head {
+			background-size: cover;
+			flex: 0.2;
+			padding: 2rem;
+			display: flex;
+			background-color: $color-gray-500;
+			justify-content: center;
+
+			& > div {
+				flex: 0.75; // sets the width of content
+				display: flex;
+				align-items: center;
+				width: 100%;
+
+				& > div:first-child {
+					// display: none;
+					flex: 0.7;
+				}
+
+				& div:last-child {	
+					
+					flex: 0.3;
+				}
+				
+				h1, h2 {
+					font-weight: 600;
+					color: $color-white;
+				}
+
+				& > div > h2 {
+					font-weight: 400;
+					width: 80%;
+				} 
+                
+			}
+
+			
+		}
+
+		&--body {
+			background-color: $color-white-light;
+			flex: 0.8;
+			display: flex;
+			justify-content: center;
+			padding: 2rem;
+			height: 80vh;
+			// overflow-y: scroll;
+
+			scroll-behavior: smooth;
+			overflow-y: scroll;
+	
+			&::-webkit-scrollbar {
+			width: 0.3rem; /* Remove scrollbar space */
+			background: transparent; /* Optional: just make scrollbar invisible */
+			}
+			/* Optional: show position indicator in any color */
+			&::-webkit-scrollbar-thumb {
+				background: $color-gray-100;
+			}
+
+			& > div {
+				display: flex;
+				flex-wrap: wrap;
+				flex: 0.75; // sets the width of content
+			}
+		}
+	}
+
+}

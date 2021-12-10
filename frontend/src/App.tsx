@@ -1,12 +1,21 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 import Landing from './pages/Landing';
+import TeacherPanel from './pages/Teacher/Controller';
+
 import "./main.scss";
 
-function App() {
+const App = () => {
 	return (
 		<div className="App">
-			<Landing />
+			<Router>
+				<Routes>
+					<Route path="/" element={<Landing />} />
+					<Route path="/teacher/dashboard" element={<TeacherPanel />} />
+				</Routes>
+			</Router>
 		</div>
 	);
-}
+};
 
 export default App;

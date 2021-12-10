@@ -1,0 +1,39 @@
+.form {
+	&__container {
+		// padding: 2rem;
+		height: 100vh;
+		border-left: 0.1rem solid $color-navy-100;
+
+		
+		h1 {
+			background: $color-navy-200;
+			color: $color-white;
+			padding: 2rem;
+			height: 7rem;
+			border-bottom: 0.1rem solid $color-navy-100;
+			// margin-bottom: 2rem;
+		}
+
+		& > div {
+			height: calc(100vh - 7rem);
+			background: $color-navy-200;
+			padding: 5rem 3rem;
+
+			& > input {
+				margin-bottom: 3rem;
+			}
+		}
+
+		&--btn {
+			display: flex;
+			justify-content: space-between;
+			margin-top: 1rem;
+
+			& > div {
+				color: $color-white-light !important;
+				flex: 0.48;
+			}
+		}
+	}
+
+}

@@ -26,6 +26,9 @@
 @import "sass/components/seats";
 @import "sass/components/switch";
 @import "sass/components/ticket";
+@import "sass/components/sidebar";
+@import "sass/components/course";
+@import "sass/components/form";
 
 
 /**Layouts*/
@@ -40,3 +43,4 @@
 @import "sass/pages/passengers.scss";
 @import "sass/pages/mytickets.scss";
 @import "sass/pages/admin.scss";
+@import "sass/pages/teacher.scss";

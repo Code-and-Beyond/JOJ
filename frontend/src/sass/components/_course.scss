@@ -1,0 +1,48 @@
+.course {
+	cursor: pointer;
+	border: 0.1rem solid $color-gray-200;
+	background: $color-white;
+	flex: 1 1 auto;
+	// width: 100%;
+	// height: max-content;
+	box-shadow: 0.2rem 0.2rem 0.2rem $color-gray;	
+	border-radius: 1.5rem;
+	margin: 0 2rem 2rem 0;
+	
+	&:hover {
+		box-shadow: calc(0.2rem + 0.2rem) calc(0.2rem + 0.2rem) calc(0.2rem + 0.2rem) $color-gray-200;
+	}
+
+	&__head {
+		border-top-left-radius: inherit;
+		border-top-right-radius: inherit;
+		padding: 3rem 3rem;
+
+		&--title {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: 1rem;
+		}
+
+		h1 {
+			color: $color-white;
+			font-weight: 600;
+		}
+		
+		h3 {
+			font-weight: 400;
+			color: $color-white;
+		}
+	}
+
+	&__body {
+		padding: 2rem 3rem;
+		
+		h3 {
+			color: $color-gray-400;
+			margin-bottom: 1rem;
+		}
+
+	}
+}

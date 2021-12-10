@@ -1,0 +1,43 @@
+.sidebar {
+	background: $color-navy-200;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+
+	&__head {		
+		height: 7rem;
+		flex: 0.02;
+		padding: 1.5rem 3rem; 
+		border-bottom: 0.1rem solid $color-navy-100;
+
+		h1 {
+			color: $color-white;
+			font-weight: 600;
+		}
+	}
+
+	&__container {
+		flex: 0.98;
+		display: flex;
+		flex-direction: column;
+		h2 {
+			cursor: pointer;
+			font-weight: 400;
+			padding: 1rem 3rem;
+			color: $color-white;
+			border-bottom: 0.1rem solid $color-navy-100;
+
+			&:last-child {
+				border-bottom: none;
+				border-top: 0.1rem solid $color-navy-100;
+				margin-top: auto;
+			}
+
+			&:hover {
+				transform: scale(1.07);
+				background: $color-navy-100;
+			}
+		}
+
+	}
+}

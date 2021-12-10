@@ -5,6 +5,7 @@ interface fillButtonProps {
 	text: string;
 	extraStyle?: string;
 	onClickHandler: React.MouseEventHandler<HTMLDivElement> | undefined;
+	disable?: boolean;
 }
 const FillButton: React.FC<fillButtonProps> = props => {
 
@@ -21,13 +22,24 @@ const FillButton: React.FC<fillButtonProps> = props => {
 			default: classes.push("button--fill--primary");
 		}
 
+		if (props.disable) {
+			classes.pop();
+			classes.push('button--disable');
+		}
+		console.log(classes);
+
 		return classes.join(" , ");
 	};
 
 	return (
-		<div className={getClasses()} onClick={props.onClickHandler}>
-			{props.text}
-		</div>
+		props.disable ?
+			<div className={getClasses()}>
+				{props.text}
+			</div>
+			:
+			<div className={getClasses()} onClick={props.onClickHandler}>
+				{props.text}
+			</div>
 	);
 };
 
