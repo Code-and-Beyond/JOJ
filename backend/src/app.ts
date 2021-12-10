@@ -2,6 +2,11 @@ import express from 'express';
 import config from './config/config';
 import http from 'http';
 import userRoutes from './routes/user';
+import courseRoutes from './routes/course';
+import courseMemberRoutes from './routes/courseMember';
+import evaluationRoutes from './routes/evaluation';
+import evalReportRoutes from './routes/evalReport';
+import problemRoutes from './routes/problem';
 import bodyParser from 'body-parser';
 
 const app = express();
@@ -37,6 +42,11 @@ app.use((req, res, next) => {
 
 /** Routes */
 app.use('/api', userRoutes);
+app.use('/api', courseRoutes);
+app.use('/api', courseMemberRoutes);
+app.use('/api', evaluationRoutes);
+app.use('/api', evalReportRoutes);
+app.use('/api', problemRoutes);
 
 /** Error handling */
 app.use((req, res, next) => {
