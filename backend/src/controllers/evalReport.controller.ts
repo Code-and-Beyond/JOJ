@@ -1,42 +1,21 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 
 import { HttpException } from '../middleware/errorHandler';
 import { Connect, Query } from '../config/postgres';
 
-import { v4 as uuidv4 } from 'uuid';
-
-// get all courses
-const getAllCourses = async (
+// get report of an eval
+const getEvalReport = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const client = await Connect();
-    const courses = await Query(client, 'SELECT * FROM "courses"');
-    res.status(200).json({
-      courses: courses.rows,
-      count: courses.rows.length,
-    });
-    client.end();
-  } catch (error: any) {
-    next(new HttpException(404, error.message));
-  }
-};
-
-// get course by course id
-const getCourseById = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const { courseId } = req.params;
+    const { evalId } = req.params;
     const client = await Connect();
     const course = await Query(
       client,
-      'SELECT * FROM "courses" WHERE "courseId" = $1',
-      [courseId]
+      'SELECT * FROM "evalReports" WHERE "evalId" = $1',
+      [evalId]
     );
     res.status(200).json({
       course: course.rows,
@@ -47,19 +26,19 @@ const getCourseById = async (
   }
 };
 
-// get course by invite code
-const getCourseByInviteCode = async (
+// get eval reports for a student
+const getEvalReportsForUser = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const { code } = req.params;
+    const { uid } = req.params;
     const client = await Connect();
     const course = await Query(
       client,
-      'SELECT * FROM "courses" WHERE "inviteCode" = $1',
-      [code]
+      'SELECT * FROM "evalReports" WHERE "uid" = $1',
+      [uid]
     );
     res.status(200).json({
       course: course.rows,
@@ -70,37 +49,33 @@ const getCourseByInviteCode = async (
   }
 };
 
-// create a course
-const createCourse = async (
+// create eval report entry
+const createEvalReportEntry = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const courseObj = {
+    const evalReportObj = {
       ...req.body,
-      courseId: uuidv4(),
-      creationTime: new Date(),
-      inviteCode: uuidv4(),
+      evalId: req.params.evalId,
+      uid: req.params.uid,
     };
     const client = await Connect();
-    const course = await Query(
+    const evalReport = await Query(
       client,
-      'INSERT INTO "courses" ("courseId", "name", "creationTime", "inviteCode", "subjectCode", "degree", "branch", "batch", "year") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)',
+      'INSERT INTO "evalReports" ("evalId", "uid", "score", "plagPercentage", "marks", "comments") VALUES ($1, $2, $3, $4, $5, $6)',
       [
-        courseObj.courseId,
-        courseObj.name,
-        courseObj.creationTime,
-        courseObj.inviteCode,
-        courseObj.subjectCode,
-        courseObj.degree,
-        courseObj.branch,
-        courseObj.batch,
-        courseObj.year,
+        evalReportObj.evalId,
+        evalReportObj.uid,
+        evalReportObj.score,
+        evalReportObj.plagPercentage,
+        evalReportObj.marks,
+        evalReportObj.comments,
       ]
     );
     res.status(201).json({
-      course: course.rows,
+      evalReport: evalReportObj.rows,
     });
     client.end();
   } catch (error: any) {
@@ -108,15 +83,15 @@ const createCourse = async (
   }
 };
 
-// update a course
-const updateCourse = async (
+// update eval report entry
+const updateEvalReportEntry = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const computeUpdateQuery = () => {
-      let queryString = 'UPDATE "courses" SET ';
+      let queryString = 'UPDATE "evalReports" SET ';
       let queryArray: any = [];
 
       const updateColumns = (colArray: string[]) => {
@@ -128,18 +103,10 @@ const updateCourse = async (
         }
       };
 
-      updateColumns([
-        'name',
-        'inviteCode',
-        'subjectCode',
-        'degree',
-        'branch',
-        'batch',
-        'year',
-      ]);
+      updateColumns(['score', 'plagPercentage', 'marks', 'comments']);
 
       queryString = queryString.substring(0, queryString.length - 2);
-      queryString += ` WHERE "courseId" = '${req.params.courseId}'`;
+      queryString += ` WHERE "evalId" = '${req.params.evalId}' AND "uid" = '${req.params.uid}'`;
 
       return { queryString, queryArray };
     };
@@ -157,9 +124,8 @@ const updateCourse = async (
 };
 
 export default {
-  getAllCourses,
-  getCourseById,
-  getCourseByInviteCode,
-  createCourse,
-  updateCourse,
+  getEvalReport,
+  getEvalReportsForUser,
+  createEvalReportEntry,
+  updateEvalReportEntry,
 };
