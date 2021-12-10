@@ -20,22 +20,36 @@
 		flex: 0.98;
 		display: flex;
 		flex-direction: column;
+		
+		li {
+			border-bottom: 0.1rem solid $color-navy-100;
+		}
+
+		&--link {
+			text-decoration: none;
+
+			&:visited {
+				text-decoration: none;
+			}
+		}
+
+		&--active {
+			border-left: 0.4rem solid $color-blue-dark;
+			background: $color-navy-50;
+		}
+
 		h2 {
 			cursor: pointer;
 			font-weight: 400;
 			padding: 1rem 3rem;
 			color: $color-white;
-			border-bottom: 0.1rem solid $color-navy-100;
 
 			&:last-child {
-				border-bottom: none;
-				border-top: 0.1rem solid $color-navy-100;
 				margin-top: auto;
 			}
 
 			&:hover {
-				transform: scale(1.07);
-				background: $color-navy-100;
+				background: $color-navy-50;
 			}
 		}
 

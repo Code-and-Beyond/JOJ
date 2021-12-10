@@ -1,27 +1,33 @@
 import React, { useState } from 'react';
 import Courses from './Courses';
 import Sidebar from '../../components/Sidebar/Sidebar.component';
+import { Outlet } from 'react-router';
 
 type TeacherDashboardProps = {
 
 };
 
 const TeacherDashboard: React.FC<TeacherDashboardProps> = () => {
-	const [item,] = useState<string>('courses');
-	const getSelectedItem = (item: string) => {
-		switch (item) {
-			case 'courses':
-				return <Courses />;
-			default:
-				return <Courses />;
+	const sidebarList = [
+		{
+			path: '/dashboard',
+			title: 'Dashboard'
+		},
+		{
+			path: '/courses',
+			title: 'Courses'
+		}, {
+			path: '/clubs',
+			title: 'Clubs'
 		}
-	};
+	];
+
 
 	return (
 		<div className='teacher'>
-			<Sidebar />
-			{getSelectedItem(item)}
-
+			<Sidebar list={sidebarList} initRoute='/teacher' />
+			{/* to render child elements */}
+			<Outlet />
 		</div>
 	);
 };

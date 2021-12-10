@@ -1,22 +1,40 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 type SidebarProps = {
-
+	list: Array<any>;
+	initRoute?: string;
 };
 
-const Sidebar: React.FC<SidebarProps> = () => {
+const Sidebar: React.FC<SidebarProps> = (props) => {
+	const { list, initRoute } = props;
+	const location = useLocation();
+
+	useEffect(() => {
+
+		console.log(location);
+	}, []);
+
+	const getActiveClass = (currPath: string) => {
+		let classes: string = location.pathname === currPath ? 'sidebar__container--active' : '';
+		return classes;
+	};
 
 	return (
 		<div className='sidebar'>
 			<div className='sidebar__head'>
 				<h1 className='h h--3'>JOJ</h1>
 			</div>
-			<div className='sidebar__container'>
-				<h2 className='a a--2'>Dashboard</h2>
-				<h2 className='a a--2'>Courses</h2>
-				<h2 className='a a--2'>Clubs</h2>
+			<ul className='sidebar__container'>
+				{list.map((item, index) =>
+					<li key={index} className={getActiveClass(initRoute + item.path)}>
+						<Link to={initRoute + item.path} className='sidebar__container--link' >
+							<h2 className='a a--2'>{item.title}</h2>
+						</Link>
+					</li>
+				)}
 				<h2 className='a a--2'>Settings</h2>
-			</div>
+			</ul>
 		</div>
 	);
 };
