@@ -39,9 +39,9 @@ const updateEvaluation = async (
 
     const args = computeUpdateQuery();
     const client = await Connect();
-    const course = await Query(client, args.queryString, args.queryArray);
+    const evaluation = await Query(client, args.queryString, args.queryArray);
     res.status(200).json({
-      course: course.rows,
+      evaluation: evaluation.rows,
     });
     client.end();
   } catch (error: any) {

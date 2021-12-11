@@ -165,13 +165,14 @@ const getCourseEvaluations = async (
   try {
     const { courseId } = req.params;
     const client = await Connect();
-    const course = await Query(
+    const evals = await Query(
       client,
       'SELECT * FROM "evals" WHERE "courseId" = $1',
       [courseId]
     );
     res.status(200).json({
-      course: course.rows,
+      evals: evals.rows,
+      count: evals.rows.length,
     });
     client.end();
   } catch (error: any) {

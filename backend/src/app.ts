@@ -6,6 +6,9 @@ import courseRoutes from './routes/course';
 import courseMemberRoutes from './routes/courseMember';
 import evaluationRoutes from './routes/evaluation';
 import evalReportRoutes from './routes/report';
+import clubRoutes from './routes/club';
+import clubAdminRoutes from './routes/clubAdmin';
+import contestRoutes from './routes/contest';
 import problemRoutes from './routes/problem';
 import bodyParser from 'body-parser';
 
@@ -46,6 +49,9 @@ app.use('/api', courseRoutes);
 app.use('/api', courseMemberRoutes);
 app.use('/api', evaluationRoutes);
 app.use('/api', evalReportRoutes);
+app.use('/api', clubRoutes);
+app.use('/api', clubAdminRoutes);
+app.use('/api', contestRoutes);
 app.use('/api', problemRoutes);
 
 /** Error handling */
