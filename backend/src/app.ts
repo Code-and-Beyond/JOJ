@@ -11,6 +11,8 @@ import clubAdminRoutes from './routes/clubAdmin';
 import contestRoutes from './routes/contest';
 import problemRoutes from './routes/problem';
 import testcaseRoutes from './routes/testcase';
+import submissionRoutes from './routes/submission';
+import standingsRoutes from './routes/standings';
 import bodyParser from 'body-parser';
 
 const app = express();
@@ -55,6 +57,8 @@ app.use('/api', clubAdminRoutes);
 app.use('/api', contestRoutes);
 app.use('/api', problemRoutes);
 app.use('/api', testcaseRoutes);
+app.use('/api', submissionRoutes);
+app.use('/api', standingsRoutes);
 
 /** Error handling */
 app.use((req, res, next) => {
