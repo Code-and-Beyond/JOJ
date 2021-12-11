@@ -16,4 +16,10 @@ router.post(
   contestController.createContestProblem
 );
 
+// submissions
+router.get(
+  '/contests/:contestId/submissions',
+  contestController.getContestSubmissions
+);
+
 export = router;

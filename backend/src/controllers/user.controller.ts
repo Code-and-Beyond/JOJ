@@ -153,6 +153,140 @@ const getUserReports = async (
   }
 };
 
+// get user submissions
+const getUserSubmissions = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { uid } = req.params;
+    const client = await Connect();
+    const submissions = await Query(
+      client,
+      'SELECT * FROM "submissions" WHERE "uid" = $1',
+      [uid]
+    );
+    res.status(200).json({
+      submissions: submissions.rows,
+      count: submissions.rows.length,
+    });
+    client.end();
+  } catch (error: any) {
+    next(new HttpException(404, error.message));
+  }
+};
+
+// get user contest submissions
+const getUserContestSubmissions = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { uid, contestId } = req.params;
+    const client = await Connect();
+    const submissions = await Query(
+      client,
+      'SELECT "submissions".* FROM "submissions" INNER JOIN "problems" ON "submissions"."uid" = $1 AND "problems"."contestId" = $2 AND "submissions"."problemId" = "problems"."problemId"',
+      [uid, contestId]
+    );
+    res.status(200).json({
+      submissions: submissions.rows,
+      count: submissions.rows.length,
+    });
+    client.end();
+  } catch (error: any) {
+    next(new HttpException(404, error.message));
+  }
+};
+
+// get user evaluation submissions
+const getUserEvaluationSubmissions = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { uid, evalId } = req.params;
+    const client = await Connect();
+    const submissions = await Query(
+      client,
+      'SELECT "submissions".* FROM "submissions" INNER JOIN "problems" ON "submissions"."uid" = $1 AND "problems"."contestId" = $2 AND "submissions"."problemId" = "problems"."problemId"',
+      [uid, evalId]
+    );
+    res.status(200).json({
+      submissions: submissions.rows,
+      count: submissions.rows.length,
+    });
+    client.end();
+  } catch (error: any) {
+    next(new HttpException(404, error.message));
+  }
+};
+
+// get user problem submissions
+const getUserProblemSubmissions = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { uid, problemId } = req.params;
+    const client = await Connect();
+    const submissions = await Query(
+      client,
+      'SELECT * FROM "submissions" WHERE "problemId" = $1 AND "uid" = $2',
+      [problemId, uid]
+    );
+    res.status(200).json({
+      submissions: submissions.rows,
+      count: submissions.rows.length,
+    });
+    client.end();
+  } catch (error: any) {
+    next(new HttpException(404, error.message));
+  }
+};
+
+// create user problem submission
+const createUserProblemSubmission = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const submissionObj = {
+      ...req.body,
+      submissionId: uuidv4(),
+      uid: req.params.uid,
+      problemId: req.params.problemId,
+      creationTime: new Date(),
+    };
+    const client = await Connect();
+    const submission = await Query(
+      client,
+      'INSERT INTO "submissions" ("submissionId", "problemId", "uid", "creationTime", "sourceCode", "language", "verdict", "testcasesPassed") VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
+      [
+        submissionObj.submissionId,
+        submissionObj.problemId,
+        submissionObj.uid,
+        submissionObj.creationTime,
+        submissionObj.sourceCode,
+        submissionObj.language,
+        submissionObj.verdict,
+        submissionObj.testcasesPassed,
+      ]
+    );
+    res.status(201).json({
+      submission: submission.rows,
+    });
+    client.end();
+  } catch (error: any) {
+    next(new HttpException(404, error.message));
+  }
+};
+
 export default {
   getAllUsers,
   getUserByUid,
@@ -160,4 +294,9 @@ export default {
   updateUser,
   getUserCourses,
   getUserReports,
+  getUserSubmissions,
+  getUserContestSubmissions,
+  getUserEvaluationSubmissions,
+  getUserProblemSubmissions,
+  createUserProblemSubmission,
 };

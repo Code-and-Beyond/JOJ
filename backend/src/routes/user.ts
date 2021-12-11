@@ -15,4 +15,23 @@ router.get('/users/:uid/courses', userController.getUserCourses);
 // reports
 router.get('/users/:uid/reports', userController.getUserReports);
 
+// submissions
+router.get('/users/:uid/submissions/', userController.getUserSubmissions);
+router.get(
+  '/users/:uid/contests/:contestId/submissions',
+  userController.getUserContestSubmissions
+);
+router.get(
+  '/users/:uid/evaluations/:evalId/submissions',
+  userController.getUserEvaluationSubmissions
+);
+router.get(
+  '/users/:uid/problems/:problemId/submissions',
+  userController.getUserProblemSubmissions
+);
+router.post(
+  '/users/:uid/problems/:problemId/submissions',
+  userController.createUserProblemSubmission
+);
+
 export = router;

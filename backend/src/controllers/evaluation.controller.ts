@@ -49,6 +49,31 @@ const updateEvaluation = async (
   }
 };
 
+// get evaluation submissions
+const getEvaluationSubmissions = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { evalId } = req.params;
+    const client = await Connect();
+    const submissions = await Query(
+      client,
+      'SELECT "submissions".* FROM "submissions" INNER JOIN "problems" ON "problems"."contestId" = $1 AND "submissions"."problemId" = "problems"."problemId"',
+      [evalId]
+    );
+    res.status(200).json({
+      submissions: submissions.rows,
+      count: submissions.rows.length,
+    });
+    client.end();
+  } catch (error: any) {
+    next(new HttpException(404, error.message));
+  }
+};
+
 export default {
   updateEvaluation,
+  getEvaluationSubmissions,
 };

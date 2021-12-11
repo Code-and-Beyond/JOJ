@@ -16,4 +16,10 @@ router.post(
   problemController.createProblemTestcase
 );
 
+// submissions
+router.get(
+  '/problems/:problemId/submissions',
+  problemController.getProblemSubmissions
+);
+
 export = router;

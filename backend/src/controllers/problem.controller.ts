@@ -69,7 +69,7 @@ const getProblemTestcases = async (
       [problemId]
     );
     res.status(200).json({
-      course: testcases.rows,
+      testcases: testcases.rows,
       count: testcases.rows.length,
     });
     client.end();
@@ -111,4 +111,33 @@ const createProblemTestcase = async (
   }
 };
 
-export default { updateProblem, getProblemTestcases, createProblemTestcase };
+// get problem submissions
+const getProblemSubmissions = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { problemId } = req.params;
+    const client = await Connect();
+    const submissions = await Query(
+      client,
+      'SELECT * FROM "submissions" WHERE "problemId" = $1',
+      [problemId]
+    );
+    res.status(200).json({
+      submissions: submissions.rows,
+      count: submissions.rows.length,
+    });
+    client.end();
+  } catch (error: any) {
+    next(new HttpException(404, error.message));
+  }
+};
+
+export default {
+  updateProblem,
+  getProblemTestcases,
+  createProblemTestcase,
+  getProblemSubmissions,
+};

@@ -107,4 +107,33 @@ const createContestProblem = async (
   }
 };
 
-export default { updateContest, getContestProblems, createContestProblem };
+// get contest submissions
+const getContestSubmissions = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { contestId } = req.params;
+    const client = await Connect();
+    const submissions = await Query(
+      client,
+      'SELECT "submissions".* FROM "submissions" INNER JOIN "problems" ON "problems"."contestId" = $1 AND "submissions"."problemId" = "problems"."problemId";',
+      [contestId]
+    );
+    res.status(200).json({
+      submissions: submissions.rows,
+      count: submissions.rows.length,
+    });
+    client.end();
+  } catch (error: any) {
+    next(new HttpException(404, error.message));
+  }
+};
+
+export default {
+  updateContest,
+  getContestProblems,
+  createContestProblem,
+  getContestSubmissions,
+};
