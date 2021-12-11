@@ -4,14 +4,16 @@ import problemController from '../controllers/problem.controller';
 
 const router = express.Router();
 
+router.put('/problems/:problemId', problemController.updateProblem);
+
+// testcases
 router.get(
-  '/contests/:contestId/problems',
-  problemController.getContestProblems
+  '/problems/:problemId/testcases',
+  problemController.getProblemTestcases
 );
 router.post(
-  '/contests/:contestId/problems',
-  problemController.createContestProblem
+  '/problems/:problemId/testcases',
+  problemController.createProblemTestcase
 );
-router.put('/problems/:problemId', problemController.updateProblem);
 
 export = router;
