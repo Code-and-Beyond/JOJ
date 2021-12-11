@@ -41,30 +41,6 @@ const getUserByUid = async (
   }
 };
 
-// get courses of a user
-const getCoursesOfUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const { uid } = req.params;
-    const client = await Connect();
-    const courses = await Query(
-      client,
-      'SELECT * FROM "courses" INNER JOIN "courseMembers" ON "courseMembers"."uid" = $1 AND "courseMembers"."courseId" = "courses"."courseId";',
-      [uid]
-    );
-    res.status(200).json({
-      courses: courses.rows,
-      count: courses.rows.length,
-    });
-    client.end();
-  } catch (error: any) {
-    next(new HttpException(404, error.message));
-  }
-};
-
 // push a user
 const createUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -130,10 +106,58 @@ const updateUser = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+// get user courses
+const getUserCourses = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { uid } = req.params;
+    const client = await Connect();
+    const courses = await Query(
+      client,
+      'SELECT * FROM "courses" INNER JOIN "courseMembers" ON "courseMembers"."uid" = $1 AND "courseMembers"."courseId" = "courses"."courseId";',
+      [uid]
+    );
+    res.status(200).json({
+      courses: courses.rows,
+      count: courses.rows.length,
+    });
+    client.end();
+  } catch (error: any) {
+    next(new HttpException(404, error.message));
+  }
+};
+
+// get user reports
+const getUserReports = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { uid } = req.params;
+    const client = await Connect();
+    const course = await Query(
+      client,
+      'SELECT * FROM "evalReports" WHERE "uid" = $1',
+      [uid]
+    );
+    res.status(200).json({
+      course: course.rows,
+    });
+    client.end();
+  } catch (error: any) {
+    next(new HttpException(404, error.message));
+  }
+};
+
 export default {
   getAllUsers,
   getUserByUid,
-  getCoursesOfUser,
   createUser,
   updateUser,
+  getUserCourses,
+  getUserReports,
 };

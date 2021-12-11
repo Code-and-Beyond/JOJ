@@ -4,15 +4,14 @@ import evalReportController from '../controllers/evalReport.controller';
 
 const router = express.Router();
 
-router.get('/reports/:evalId', evalReportController.getEvalReport);
-router.get('/users/:uid/reports', evalReportController.getEvalReportsForUser);
+router.get('/reports/:evalId', evalReportController.getReport);
 router.post(
   '/reports/:evalId/users/:uid',
-  evalReportController.createEvalReportEntry
+  evalReportController.createReportEntry
 );
 router.put(
   '/reports/:evalId/users/:uid',
-  evalReportController.updateEvalReportEntry
+  evalReportController.updateReportEntry
 );
 
 export = router;

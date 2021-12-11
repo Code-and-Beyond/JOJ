@@ -4,11 +4,7 @@ import { HttpException } from '../middleware/errorHandler';
 import { Connect, Query } from '../config/postgres';
 
 // get report of an eval
-const getEvalReport = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+const getReport = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { evalId } = req.params;
     const client = await Connect();
@@ -26,31 +22,8 @@ const getEvalReport = async (
   }
 };
 
-// get eval reports for a student
-const getEvalReportsForUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const { uid } = req.params;
-    const client = await Connect();
-    const course = await Query(
-      client,
-      'SELECT * FROM "evalReports" WHERE "uid" = $1',
-      [uid]
-    );
-    res.status(200).json({
-      course: course.rows,
-    });
-    client.end();
-  } catch (error: any) {
-    next(new HttpException(404, error.message));
-  }
-};
-
 // create eval report entry
-const createEvalReportEntry = async (
+const createReportEntry = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -84,7 +57,7 @@ const createEvalReportEntry = async (
 };
 
 // update eval report entry
-const updateEvalReportEntry = async (
+const updateReportEntry = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -124,8 +97,7 @@ const updateEvalReportEntry = async (
 };
 
 export default {
-  getEvalReport,
-  getEvalReportsForUser,
-  createEvalReportEntry,
-  updateEvalReportEntry,
+  getReport,
+  createReportEntry,
+  updateReportEntry,
 };

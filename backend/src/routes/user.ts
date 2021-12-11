@@ -6,8 +6,13 @@ const router = express.Router();
 
 router.get('/users', userController.getAllUsers);
 router.get('/users/:uid', userController.getUserByUid);
-router.get('/users/:uid/courses', userController.getCoursesOfUser);
 router.post('/users', userController.createUser);
 router.put('/users/:uid', userController.updateUser);
+
+// courses
+router.get('/users/:uid/courses', userController.getUserCourses);
+
+// reports
+router.get('/users/:uid/reports', userController.getUserReports);
 
 export = router;
