@@ -141,7 +141,7 @@ const getUserReports = async (
     const client = await Connect();
     const course = await Query(
       client,
-      'SELECT * FROM "evalReports" WHERE "uid" = $1',
+      'SELECT * FROM "reports" WHERE "uid" = $1',
       [uid]
     );
     res.status(200).json({

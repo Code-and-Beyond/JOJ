@@ -5,7 +5,7 @@ import userRoutes from './routes/user';
 import courseRoutes from './routes/course';
 import courseMemberRoutes from './routes/courseMember';
 import evaluationRoutes from './routes/evaluation';
-import evalReportRoutes from './routes/evalReport';
+import evalReportRoutes from './routes/report';
 import problemRoutes from './routes/problem';
 import bodyParser from 'body-parser';
 

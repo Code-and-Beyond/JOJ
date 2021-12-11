@@ -1,5 +1,5 @@
 import express from 'express';
-import evalReportController from '../controllers/evalReport.controller';
+import evalReportController from '../controllers/report.controller';
 // import auth from '../middleware/auth';
 
 const router = express.Router();

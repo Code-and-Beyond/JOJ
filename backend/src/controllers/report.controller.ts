@@ -10,7 +10,7 @@ const getReport = async (req: Request, res: Response, next: NextFunction) => {
     const client = await Connect();
     const course = await Query(
       client,
-      'SELECT * FROM "evalReports" WHERE "evalId" = $1',
+      'SELECT * FROM "reports" WHERE "evalId" = $1',
       [evalId]
     );
     res.status(200).json({
@@ -37,7 +37,7 @@ const createReportEntry = async (
     const client = await Connect();
     const evalReport = await Query(
       client,
-      'INSERT INTO "evalReports" ("evalId", "uid", "score", "plagPercentage", "marks", "comments") VALUES ($1, $2, $3, $4, $5, $6)',
+      'INSERT INTO "reports" ("evalId", "uid", "score", "plagPercentage", "marks", "comments") VALUES ($1, $2, $3, $4, $5, $6)',
       [
         evalReportObj.evalId,
         evalReportObj.uid,
@@ -64,7 +64,7 @@ const updateReportEntry = async (
 ) => {
   try {
     const computeUpdateQuery = () => {
-      let queryString = 'UPDATE "evalReports" SET ';
+      let queryString = 'UPDATE "reports" SET ';
       let queryArray: any = [];
 
       const updateColumns = (colArray: string[]) => {
