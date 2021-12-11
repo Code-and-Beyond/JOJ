@@ -4,20 +4,14 @@ import evalReportController from '../controllers/evalReport.controller';
 
 const router = express.Router();
 
-// reports/:evalId
-router.get('/evaluations/:evalId/reports', evalReportController.getEvalReport);
-// reports/users
-// users/:uid/reports
-router.get(
-  '/evaluations/reports/users/:uid',
-  evalReportController.getEvalReportsForUser
-);
+router.get('/reports/:evalId', evalReportController.getEvalReport);
+router.get('/users/:uid/reports', evalReportController.getEvalReportsForUser);
 router.post(
-  '/evaluations/:evalId/reports/users/:uid',
+  '/reports/:evalId/users/:uid',
   evalReportController.createEvalReportEntry
 );
 router.put(
-  '/evaluations/:evalId/reports/users/:uid',
+  '/reports/:evalId/users/:uid',
   evalReportController.updateEvalReportEntry
 );
 

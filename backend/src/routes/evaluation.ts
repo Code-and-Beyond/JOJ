@@ -5,11 +5,11 @@ import evaluationController from '../controllers/evaluation.controller';
 const router = express.Router();
 
 router.get(
-  '/evaluations/courses/:courseId', // courses/:courseId/evaluations
+  '/courses/:courseId/evaluations',
   evaluationController.getEvaluationsOfCourse
 );
 router.post(
-  '/evaluations/courses/:courseId',
+  '/courses/:courseId/evaluations',
   evaluationController.createEvaluation
 );
 router.put('/evaluations/:evalId', evaluationController.updateEvaluation);
