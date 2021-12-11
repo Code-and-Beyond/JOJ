@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
-import Courses from './Courses';
+import React from 'react';
 import Sidebar from '../../components/Sidebar/Sidebar.component';
 import { Outlet } from 'react-router';
 
-type TeacherDashboardProps = {
+type TeacherControllerProps = {
 
 };
 
-const TeacherDashboard: React.FC<TeacherDashboardProps> = () => {
+const TeacherController: React.FC<TeacherControllerProps> = () => {
 	const sidebarList = [
 		{
 			path: '/dashboard',
@@ -32,4 +31,4 @@ const TeacherDashboard: React.FC<TeacherDashboardProps> = () => {
 	);
 };
 
-export default TeacherDashboard;
+export default TeacherController;

@@ -1,0 +1,114 @@
+.test {
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+
+	&__head {
+		background: $color-white-light;
+		display: flex;
+		align-items: center;
+
+		border-bottom: 0.1rem solid $color-gray-100;
+		flex: 0.03;
+		padding: 1rem 1.2rem;
+
+		&--logo { 
+			font-weight: 600;
+			color: $color-blue;
+			flex: 0.04;
+		}
+
+		&--title {
+			text-align: center;
+			color: $color-gray-200;
+			flex: 0.43;
+		}
+
+		&--time {
+			flex: 0.48;
+			font-weight: 500;
+		}
+
+		&--endtest {
+			width: 12rem;
+			flex: 0.05;
+		}
+	}
+	
+	&__body {
+		background: $color-white-light;
+		flex: 0.97;
+		display: flex;
+
+		&--nav {
+			padding: 2rem 1.2rem;
+			flex: 0.02;
+			border-right: 0.1rem solid $color-gray-100;
+
+			h3 {
+				cursor: pointer;
+				border: 0.1rem solid $color-gray-100;
+				border-radius: 0.2rem;
+				font-weight: 300;
+				margin-bottom: 1rem;
+				height: max-content;
+				background: $color-white;
+				padding: 0rem 1rem;
+
+				&:hover {
+					box-shadow: 0.2rem 0.2rem $color-gray-200;
+				}
+			}
+
+			&-active {
+				color: $color-white !important;
+				border: 0.1rem solid $color-primary !important;
+				background-color: $color-blue-dark !important;
+
+				&:hover {
+					box-shadow: none !important;
+				}
+			}
+		}
+
+		&--problem {
+			background: $color-white;
+			flex: 0.47;
+		}
+
+		&--editor {
+			border-left: 0.1rem solid $color-gray-100;
+			flex: 0.51;
+			display: flex;
+			flex-direction: column;
+
+			& > div:first-child {
+				padding: 1.2rem;
+				flex: 0.15;
+				display: flex;
+				align-items: center;
+
+				& > * {
+					width: 12rem;
+				}
+			}
+
+			& > div:nth-child(2) {
+				flex: 0.70;
+			}
+
+			& > div:last-child {
+				padding: 1.2rem;
+				flex: 0.15;
+				display: flex;
+				align-items: center;
+
+				& > div {
+					// border-radius: 0.4rem;
+					width: 12rem;
+				}
+			}
+
+		}
+	}
+}

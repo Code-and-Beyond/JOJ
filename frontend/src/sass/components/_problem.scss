@@ -1,0 +1,39 @@
+.problem {
+	padding: 2rem;
+
+	h1 {
+		font-weight: 600;
+		color: $color-primary;
+		margin-bottom: 1rem;
+		border-bottom: 0.1rem solid $color-gray-100;
+	}
+
+	h3 {
+		margin-bottom: 1rem;
+		font-weight: 500;
+	}
+
+	ul {
+		margin-left: 4rem;
+		& > li {
+			padding: 0.2rem 1rem;
+			margin-bottom: 0.5rem;
+			width: max-content;
+			background: rgba($color-blue-dark, 0.1);
+		}
+	}
+
+	&__sample {
+		padding: 1rem 1.5rem;
+		background: rgba($color-blue-dark, 0.1);
+		
+		p {
+			margin-bottom: 0.5rem;
+		}
+
+		span {
+			font-weight: 500;
+			margin-right: 0.5rem;
+		}
+	}
+}

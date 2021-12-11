@@ -29,6 +29,7 @@
 @import "sass/components/sidebar";
 @import "sass/components/course";
 @import "sass/components/form";
+@import "sass/components/problem";
 
 
 /**Layouts*/
@@ -38,9 +39,5 @@
 /**Pages*/
 @import "sass/pages/login.scss";
 @import "sass/pages/landing.scss";
-@import "sass/pages/buses.scss";
-@import "sass/pages/booking.scss";
-@import "sass/pages/passengers.scss";
-@import "sass/pages/mytickets.scss";
-@import "sass/pages/admin.scss";
 @import "sass/pages/teacher.scss";
+@import "sass/pages/test.scss";

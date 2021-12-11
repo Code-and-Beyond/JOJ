@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 type SidebarProps = {
@@ -9,11 +9,6 @@ type SidebarProps = {
 const Sidebar: React.FC<SidebarProps> = (props) => {
 	const { list, initRoute } = props;
 	const location = useLocation();
-
-	useEffect(() => {
-
-		console.log(location);
-	}, []);
 
 	const getActiveClass = (currPath: string) => {
 		let classes: string = location.pathname === currPath ? 'sidebar__container--active' : '';

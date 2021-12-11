@@ -3,14 +3,14 @@ import FillButton from '../../components/Button/Fill';
 import Course from '../../components/Course/Course';
 import FormContainer from '../../components/Form/FormContainer';
 import Input from '../../components/Input/Input.component';
-import colors from '../../sass/abstracts/vars.scss';
+// import colors from '../../sass/abstracts/vars.scss';
 
 type CoursesProps = {
 
 };
 
 const Courses: React.FC<CoursesProps> = () => {
-	const [course, setCourse] = useState({
+	const [course, ] = useState({
 		name: '',
 		code: '',
 		degree: '',

@@ -6,8 +6,9 @@
 	flex-direction: row;
 	align-items: center;
 	justify-content: center;
-	border-radius: 0.6rem;
+	border-radius: 0.2rem;
 	transition: all 0.3s ease-in-out;
+	font-weight: 300;
 
 	&:hover{box-shadow: 0 0.3rem 0.6rem rgba($color-black, 0.16);}
 
@@ -34,13 +35,13 @@
 
 	&--no-fill{		
 		padding: 0.3rem 1rem;
-		background-color: $color-white;
+		// background-color: $color-white;
 		&--normal{ border: 0.1rem $color-gray solid;}
-		&--primary{ border: 0.2rem $color-primary solid; color: $color-primary !important; &:hover{background-color: $color-primary; color: $color-white !important;}}
-		&--error{ border: 0.2rem $color-red solid; color: $color-red !important; &:hover{background-color: $color-red; color: $color-white !important;}}
-		&--warning{ border: 0.2rem $color-yellow solid; color: $color-black !important; &:hover{background-color: $color-yellow; color: $color-black !important;}}
-		&--info{ border: 0.2rem $color-blue solid; color: $color-blue !important; &:hover{background-color: $color-blue; color: $color-white !important;}}
-		&--success{ border: 0.2rem $color-green solid; color: $color-black !important; &:hover{background-color: $color-green; color: $color-black !important;}}
+		&--primary{ border: 0.1rem $color-primary solid; color: $color-primary !important; &:hover{background-color: $color-primary; color: $color-white !important;}}
+		&--error{ border: 0.1rem $color-red solid; color: $color-red !important; &:hover{background-color: $color-red; color: $color-white !important;}}
+		&--warning{ border: 0.1rem $color-yellow solid; color: $color-black !important; &:hover{background-color: $color-yellow; color: $color-black !important;}}
+		&--info{ border: 0.1rem $color-blue solid; color: $color-blue !important; &:hover{background-color: $color-blue; color: $color-white !important;}}
+		&--success{ border: 0.1rem $color-green solid; color: $color-black !important; &:hover{background-color: $color-green; color: $color-black !important;}}
 	}
 
 	&--hover{
