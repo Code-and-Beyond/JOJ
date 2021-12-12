@@ -50,7 +50,7 @@ const createStandingsEntry = async (
       ]
     );
     res.status(201).json({
-      standingsEntry: standingsEntryObj.rows,
+      standingsEntry: standingsEntry.rows,
     });
     client.end();
   } catch (error: any) {

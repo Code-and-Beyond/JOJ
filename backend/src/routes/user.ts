@@ -22,7 +22,7 @@ router.get(
   userController.getUserContestSubmissions
 );
 router.get(
-  '/users/:uid/evaluations/:evalId/submissions',
+  '/users/:uid/evaluations/:evaluationId/submissions',
   userController.getUserEvaluationSubmissions
 );
 router.get(

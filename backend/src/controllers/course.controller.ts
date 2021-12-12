@@ -165,14 +165,14 @@ const getCourseEvaluations = async (
   try {
     const { courseId } = req.params;
     const client = await Connect();
-    const evals = await Query(
+    const evaluations = await Query(
       client,
-      'SELECT * FROM "evals" WHERE "courseId" = $1',
+      'SELECT * FROM "evaluations" WHERE "courseId" = $1',
       [courseId]
     );
     res.status(200).json({
-      evals: evals.rows,
-      count: evals.rows.length,
+      evaluations: evaluations.rows,
+      count: evaluations.rows.length,
     });
     client.end();
   } catch (error: any) {
@@ -190,14 +190,14 @@ const createCourseEvaluation = async (
     const evalObj = {
       ...req.body,
       courseId: req.params.courseId,
-      evalId: uuidv4(),
+      evaluationId: uuidv4(),
     };
     const client = await Connect();
     const evaluation = await Query(
       client,
-      'INSERT INTO "evals" ("evalId", "courseId", "name", "startTime", "endTime", "description", "totalMarks") VALUES ($1, $2, $3, $4, $5, $6, $7)',
+      'INSERT INTO "evaluations" ("evaluationId", "courseId", "name", "startTime", "endTime", "description", "totalMarks") VALUES ($1, $2, $3, $4, $5, $6, $7)',
       [
-        evalObj.evalId,
+        evalObj.evaluationId,
         evalObj.courseId,
         evalObj.name,
         evalObj.startTime,

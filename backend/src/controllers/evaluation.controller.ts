@@ -11,7 +11,7 @@ const updateEvaluation = async (
 ) => {
   try {
     const computeUpdateQuery = () => {
-      let queryString = 'UPDATE "evals" SET ';
+      let queryString = 'UPDATE "evaluations" SET ';
       let queryArray: any = [];
 
       const updateColumns = (colArray: string[]) => {
@@ -32,7 +32,7 @@ const updateEvaluation = async (
       ]);
 
       queryString = queryString.substring(0, queryString.length - 2);
-      queryString += ` WHERE "evalId" = '${req.params.evalId}'`;
+      queryString += ` WHERE "evaluationId" = '${req.params.evaluationId}'`;
 
       return { queryString, queryArray };
     };
@@ -56,12 +56,12 @@ const getEvaluationSubmissions = async (
   next: NextFunction
 ) => {
   try {
-    const { evalId } = req.params;
+    const { evaluationId } = req.params;
     const client = await Connect();
     const submissions = await Query(
       client,
       'SELECT "submissions".* FROM "submissions" INNER JOIN "problems" ON "problems"."contestId" = $1 AND "submissions"."problemId" = "problems"."problemId"',
-      [evalId]
+      [evaluationId]
     );
     res.status(200).json({
       submissions: submissions.rows,

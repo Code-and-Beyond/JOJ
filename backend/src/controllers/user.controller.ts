@@ -139,13 +139,14 @@ const getUserReports = async (
   try {
     const { uid } = req.params;
     const client = await Connect();
-    const course = await Query(
+    const reports = await Query(
       client,
       'SELECT * FROM "reports" WHERE "uid" = $1',
       [uid]
     );
     res.status(200).json({
-      course: course.rows,
+      reports: reports.rows,
+      count: reports.rows.length,
     });
     client.end();
   } catch (error: any) {
@@ -208,12 +209,12 @@ const getUserEvaluationSubmissions = async (
   next: NextFunction
 ) => {
   try {
-    const { uid, evalId } = req.params;
+    const { uid, evaluationId } = req.params;
     const client = await Connect();
     const submissions = await Query(
       client,
       'SELECT "submissions".* FROM "submissions" INNER JOIN "problems" ON "submissions"."uid" = $1 AND "problems"."contestId" = $2 AND "submissions"."problemId" = "problems"."problemId"',
-      [uid, evalId]
+      [uid, evaluationId]
     );
     res.status(200).json({
       submissions: submissions.rows,

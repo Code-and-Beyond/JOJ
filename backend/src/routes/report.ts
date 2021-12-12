@@ -1,17 +1,17 @@
 import express from 'express';
-import evalReportController from '../controllers/report.controller';
+import reportController from '../controllers/report.controller';
 // import auth from '../middleware/auth';
 
 const router = express.Router();
 
-router.get('/reports/:evalId', evalReportController.getReport);
+router.get('/reports/:evaluationId', reportController.getReport);
 router.post(
-  '/reports/:evalId/users/:uid',
-  evalReportController.createReportEntry
+  '/reports/:evaluationId/users/:uid',
+  reportController.createReportEntry
 );
 router.put(
-  '/reports/:evalId/users/:uid',
-  evalReportController.updateReportEntry
+  '/reports/:evaluationId/users/:uid',
+  reportController.updateReportEntry
 );
 
 export = router;

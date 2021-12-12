@@ -19,7 +19,6 @@ const getSubmissionById = async (
     );
     res.status(200).json({
       submission: submission.rows,
-      count: submission.rows.length,
     });
     client.end();
   } catch (error: any) {

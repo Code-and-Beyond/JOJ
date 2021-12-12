@@ -12,14 +12,14 @@ const getCourseMembers = async (
   try {
     const { courseId } = req.params;
     const client = await Connect();
-    const members = await Query(
+    const courseMembers = await Query(
       client,
       'SELECT "users"."uid", "users"."username", "users"."fullname", "users"."image", "courseMembers"."role" FROM "users" INNER JOIN "courseMembers" ON "courseMembers"."courseId" = $1 AND "users"."uid" = "courseMembers"."uid";',
       [courseId]
     );
     res.status(200).json({
-      members: members.rows,
-      count: members.rows.length,
+      courseMembers: courseMembers.rows,
+      count: courseMembers.rows.length,
     });
     client.end();
   } catch (error: any) {
@@ -37,13 +37,13 @@ const pushCourseMember = async (
     const { courseId, uid } = req.params;
     const { role } = req.body;
     const client = await Connect();
-    const member = await Query(
+    const courseMember = await Query(
       client,
       'INSERT INTO "courseMembers" ("courseId", "uid", "role") VALUES ($1, $2, $3)',
       [courseId, uid, role]
     );
     res.status(200).json({
-      member: member.rows,
+      courseMember: courseMember.rows,
     });
     client.end();
   } catch (error: any) {
@@ -51,7 +51,7 @@ const pushCourseMember = async (
   }
 };
 
-// update a course member
+// update a member of a course
 const updateCourseMember = async (
   req: Request,
   res: Response,
@@ -81,9 +81,9 @@ const updateCourseMember = async (
 
     const args = computeUpdateQuery();
     const client = await Connect();
-    const course = await Query(client, args.queryString, args.queryArray);
+    const courseMember = await Query(client, args.queryString, args.queryArray);
     res.status(200).json({
-      course: course.rows,
+      courseMember: courseMember.rows,
     });
     client.end();
   } catch (error: any) {
@@ -100,13 +100,13 @@ const deleteCourseMember = async (
   try {
     const { courseId, uid } = req.params;
     const client = await Connect();
-    const member = await Query(
+    const courseMember = await Query(
       client,
       'DELETE FROM "courseMembers" WHERE "courseId" = $1 AND "uid" = $2',
       [courseId, uid]
     );
     res.status(200).json({
-      member: member.rows,
+      courseMember: courseMember.rows,
     });
     client.end();
   } catch (error: any) {

@@ -12,14 +12,14 @@ const getClubAdmins = async (
   try {
     const { clubId } = req.params;
     const client = await Connect();
-    const admins = await Query(
+    const clubAdmins = await Query(
       client,
       'SELECT "users"."uid", "users"."username", "users"."fullname", "users"."image" FROM "users" INNER JOIN "clubAdmins" ON "clubAdmins"."clubId" = $1 AND "users"."uid" = "clubAdmins"."uid";',
       [clubId]
     );
     res.status(200).json({
-      admins: admins.rows,
-      count: admins.rows.length,
+      clubAdmins: clubAdmins.rows,
+      count: clubAdmins.rows.length,
     });
     client.end();
   } catch (error: any) {
@@ -36,13 +36,13 @@ const pushClubAdmin = async (
   try {
     const { clubId, uid } = req.params;
     const client = await Connect();
-    const admin = await Query(
+    const clubAdmin = await Query(
       client,
       'INSERT INTO "clubAdmins" ("clubId", "uid") VALUES ($1, $2)',
       [clubId, uid]
     );
     res.status(200).json({
-      admin: admin.rows,
+      clubAdmin: clubAdmin.rows,
     });
     client.end();
   } catch (error: any) {
@@ -59,13 +59,13 @@ const deleteClubAdmin = async (
   try {
     const { clubId, uid } = req.params;
     const client = await Connect();
-    const admin = await Query(
+    const clubAdmin = await Query(
       client,
       'DELETE FROM "clubAdmins" WHERE "clubId" = $1 AND "uid" = $2',
       [clubId, uid]
     );
     res.status(200).json({
-      admin: admin.rows,
+      clubAdmin: clubAdmin.rows,
     });
     client.end();
   } catch (error: any) {

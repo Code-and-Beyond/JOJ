@@ -4,11 +4,11 @@ import evaluationController from '../controllers/evaluation.controller';
 
 const router = express.Router();
 
-router.put('/evaluations/:evalId', evaluationController.updateEvaluation);
+router.put('/evaluations/:evaluationId', evaluationController.updateEvaluation);
 
 // submissions
 router.get(
-  '/evaluations/:evalId/submissions',
+  '/evaluations/:evaluationId/submissions',
   evaluationController.getEvaluationSubmissions
 );
 

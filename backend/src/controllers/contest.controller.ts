@@ -60,7 +60,7 @@ const getContestProblems = async (
       [contestId]
     );
     res.status(200).json({
-      course: problems.rows,
+      problems: problems.rows,
       count: problems.rows.length,
     });
     client.end();
