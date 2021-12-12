@@ -3,15 +3,15 @@ import { Request, Response, NextFunction } from 'express';
 import { HttpException } from '../middleware/errorHandler';
 import { Connect, Query } from '../config/postgres';
 
-// update an eval
-const updateEvaluation = async (
+// update a testcase
+const updateTestcase = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const computeUpdateQuery = () => {
-      let queryString = 'UPDATE "evaluations" SET ';
+      let queryString = 'UPDATE "testcases" SET ';
       let queryArray: any = [];
 
       const updateColumns = (colArray: string[]) => {
@@ -23,25 +23,19 @@ const updateEvaluation = async (
         }
       };
 
-      updateColumns([
-        'name',
-        'startTime',
-        'endTime',
-        'description',
-        'totalMarks',
-      ]);
+      updateColumns(['stdin', 'expectedOutput', 'isSample']);
 
       queryString = queryString.substring(0, queryString.length - 2);
-      queryString += ` WHERE "evaluationId" = '${req.params.evaluationId}'`;
+      queryString += ` WHERE "testcaseId" = '${req.params.testcaseId}'`;
 
       return { queryString, queryArray };
     };
 
     const args = computeUpdateQuery();
     const client = await Connect();
-    const evaluation = await Query(client, args.queryString, args.queryArray);
+    const testcase = await Query(client, args.queryString, args.queryArray);
     res.status(200).json({
-      evaluation: evaluation.rows,
+      testcase: testcase.rows,
     });
     client.end();
   } catch (error: any) {
@@ -49,23 +43,22 @@ const updateEvaluation = async (
   }
 };
 
-// get evaluation submissions
-const getEvaluationSubmissions = async (
+// delete a testcase
+const deleteTestcase = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const { evaluationId } = req.params;
+    const { testcaseId } = req.params;
     const client = await Connect();
-    const submissions = await Query(
+    const testcase = await Query(
       client,
-      'SELECT "submissions".* FROM "submissions" INNER JOIN "problems" ON "problems"."contestId" = $1 AND "submissions"."problemId" = "problems"."problemId"',
-      [evaluationId]
+      'DELETE FROM "testcases" WHERE "testcaseId" = $1',
+      [testcaseId]
     );
     res.status(200).json({
-      submissions: submissions.rows,
-      count: submissions.rows.length,
+      testcase: testcase.rows,
     });
     client.end();
   } catch (error: any) {
@@ -73,7 +66,4 @@ const getEvaluationSubmissions = async (
   }
 };
 
-export default {
-  updateEvaluation,
-  getEvaluationSubmissions,
-};
+export default { updateTestcase, deleteTestcase };
