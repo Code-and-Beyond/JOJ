@@ -2,13 +2,14 @@ import React from 'react';
 
 type CourseProps = {
 	bgColor: string;
+	onClickHandler?: React.MouseEventHandler<HTMLDivElement> | undefined
 };
 
 const Course: React.FC<CourseProps> = (props) => {
 	const { bgColor } = props;
 
 	return (
-		<div className='course'>
+		<div className='course' onClick={props.onClickHandler}>
 			<div className='course__head' style={{ backgroundColor: bgColor }}>
 				<div className='course__head--title'>
 					<h1 className='h h--3'>Introduction to blockchain</h1>

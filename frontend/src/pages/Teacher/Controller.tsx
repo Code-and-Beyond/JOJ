@@ -26,7 +26,9 @@ const TeacherController: React.FC<TeacherControllerProps> = () => {
 		<div className='teacher'>
 			<Sidebar list={sidebarList} initRoute='/teacher' />
 			{/* to render child elements */}
-			<Outlet />
+			<div>
+				<Outlet />
+			</div>
 		</div>
 	);
 };

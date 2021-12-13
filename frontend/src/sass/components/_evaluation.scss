@@ -1,0 +1,42 @@
+.eval {
+	cursor: pointer;
+	padding: 1rem 2rem;
+	border: 0.1rem solid $color-gray-100;
+	border-radius: inherit;
+	display: flex;
+	margin-bottom: 1rem;
+
+	&:hover {
+		background: rgba($color-blue-dark, 0.2);
+	}
+
+	&__icon {
+		flex: 0.1;
+		
+		& > div {
+			align-items: center;
+			display: flex;
+			border-radius: 20rem;
+			padding: 1rem;
+			width: max-content;
+			background: $color-gray-200;
+			opacity: 0.4;
+		}
+	}
+
+	&__content {
+		flex: 0.9;
+		padding: 0 0.5rem;
+
+		h3 {
+			font-weight: 400;
+			margin-bottom: 0.5rem;
+		}
+
+		h5 {
+			font-weight: 400;
+			color: $color-gray-400;
+		}
+	}
+
+}

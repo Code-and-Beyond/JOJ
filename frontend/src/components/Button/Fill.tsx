@@ -26,7 +26,6 @@ const FillButton: React.FC<fillButtonProps> = props => {
 			classes.pop();
 			classes.push('button--disable');
 		}
-		console.log(classes);
 
 		return classes.join(" , ");
 	};

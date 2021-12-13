@@ -3,6 +3,7 @@ import FillButton from '../components/Button/Fill';
 import NoFillButton from '../components/Button/NoFill';
 import codeLogo from '../code-run.json';
 import lottie from "lottie-web";
+import { useNavigate } from 'react-router';
 
 
 type LandingProps = {
@@ -10,6 +11,8 @@ type LandingProps = {
 };
 
 const Landing: React.FC<LandingProps> = () => {
+	const navigate = useNavigate();
+
 	useEffect(() => {
 		lottie.loadAnimation({
 			container: document.querySelector("#react-logo") as HTMLElement,
@@ -31,12 +34,12 @@ const Landing: React.FC<LandingProps> = () => {
 							<div className='landing__content--tile'>
 								<h4 className='h h--3'>For Teachers</h4>
 								<p className='b b--1'>Create ready assessments, have reports and provide feedback.</p>
-								<FillButton type={1} text='Teacher' onClickHandler={() => console.log('teacher')} />
+								<FillButton type={1} text='Teacher' onClickHandler={() => navigate('login/teacher')} />
 							</div>
 							<div className='landing__content--tile'>
 								<h4 className='h h--3'>For Students</h4>
 								<p className='b b--1'>Give live contests, see past participations, get all results and sign in to clubs.</p>
-								<NoFillButton type={1} text='Student' onClickHandler={() => console.log('teacher')} />
+								<NoFillButton type={1} text='Student' onClickHandler={() => navigate('login/student')} />
 							</div>
 						</div>
 					</div>

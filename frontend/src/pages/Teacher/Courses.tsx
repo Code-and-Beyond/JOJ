@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router';
 import FillButton from '../../components/Button/Fill';
 import Course from '../../components/Course/Course';
 import FormContainer from '../../components/Form/FormContainer';
+import Header from '../../components/Header/Header';
 import Input from '../../components/Input/Input.component';
 // import colors from '../../sass/abstracts/vars.scss';
+
+import docsIcon from '../../assets/icons/docs.png';
 
 type CoursesProps = {
 
 };
 
 const Courses: React.FC<CoursesProps> = () => {
-	const [course, ] = useState({
+	const navigate = useNavigate();
+	const [course,] = useState({
 		name: '',
 		code: '',
 		degree: '',
@@ -46,7 +51,7 @@ const Courses: React.FC<CoursesProps> = () => {
 			</div>
 			<div className='teacher__courses--body'>
 				<div>
-					<Course bgColor={'red'} />
+					<Course bgColor={'red'} onClickHandler={() => navigate('12/evaluations')} />
 					<Course bgColor={'blue'} />
 					<Course bgColor={'orange'} />
 					<Course bgColor={'green'} />
@@ -61,7 +66,10 @@ const Courses: React.FC<CoursesProps> = () => {
 
 	return (
 		<div className='d--f'>
-			{getCourses()}
+			<div className='teacher__content'>
+				<Header title='Courses' icon={docsIcon} name='R' />
+				{getCourses()}
+			</div>
 			{getForm()}
 		</div>
 	);

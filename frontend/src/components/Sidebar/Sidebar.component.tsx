@@ -11,7 +11,9 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
 	const location = useLocation();
 
 	const getActiveClass = (currPath: string) => {
-		let classes: string = location.pathname === currPath ? 'sidebar__container--active' : '';
+		const path = location.pathname.split('/');
+		const urlPath = '/' + path[1] + '/' + path[2];
+		let classes: string = urlPath  === currPath ? 'sidebar__container--active' : '';
 		return classes;
 	};
 
