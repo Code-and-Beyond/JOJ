@@ -5,8 +5,14 @@ import userRoutes from './routes/user';
 import courseRoutes from './routes/course';
 import courseMemberRoutes from './routes/courseMember';
 import evaluationRoutes from './routes/evaluation';
-import evalReportRoutes from './routes/evalReport';
+import evalReportRoutes from './routes/report';
+import clubRoutes from './routes/club';
+import clubAdminRoutes from './routes/clubAdmin';
+import contestRoutes from './routes/contest';
 import problemRoutes from './routes/problem';
+import testcaseRoutes from './routes/testcase';
+import submissionRoutes from './routes/submission';
+import standingsRoutes from './routes/standings';
 import bodyParser from 'body-parser';
 
 const app = express();
@@ -46,7 +52,13 @@ app.use('/api', courseRoutes);
 app.use('/api', courseMemberRoutes);
 app.use('/api', evaluationRoutes);
 app.use('/api', evalReportRoutes);
+app.use('/api', clubRoutes);
+app.use('/api', clubAdminRoutes);
+app.use('/api', contestRoutes);
 app.use('/api', problemRoutes);
+app.use('/api', testcaseRoutes);
+app.use('/api', submissionRoutes);
+app.use('/api', standingsRoutes);
 
 /** Error handling */
 app.use((req, res, next) => {

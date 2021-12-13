@@ -4,14 +4,12 @@ import evaluationController from '../controllers/evaluation.controller';
 
 const router = express.Router();
 
+router.put('/evaluations/:evaluationId', evaluationController.updateEvaluation);
+
+// submissions
 router.get(
-  '/evaluations/courses/:courseId', // courses/:courseId/evaluations
-  evaluationController.getEvaluationsOfCourse
+  '/evaluations/:evaluationId/submissions',
+  evaluationController.getEvaluationSubmissions
 );
-router.post(
-  '/evaluations/courses/:courseId',
-  evaluationController.createEvaluation
-);
-router.put('/evaluations/:evalId', evaluationController.updateEvaluation);
 
 export = router;

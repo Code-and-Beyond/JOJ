@@ -156,10 +156,71 @@ const updateCourse = async (
   }
 };
 
+// get course evaluations
+const getCourseEvaluations = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { courseId } = req.params;
+    const client = await Connect();
+    const evaluations = await Query(
+      client,
+      'SELECT * FROM "evaluations" WHERE "courseId" = $1',
+      [courseId]
+    );
+    res.status(200).json({
+      evaluations: evaluations.rows,
+      count: evaluations.rows.length,
+    });
+    client.end();
+  } catch (error: any) {
+    next(new HttpException(404, error.message));
+  }
+};
+
+// create course evaluation
+const createCourseEvaluation = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const evalObj = {
+      ...req.body,
+      courseId: req.params.courseId,
+      evaluationId: uuidv4(),
+    };
+    const client = await Connect();
+    const evaluation = await Query(
+      client,
+      'INSERT INTO "evaluations" ("evaluationId", "courseId", "name", "startTime", "endTime", "description", "totalMarks") VALUES ($1, $2, $3, $4, $5, $6, $7)',
+      [
+        evalObj.evaluationId,
+        evalObj.courseId,
+        evalObj.name,
+        evalObj.startTime,
+        evalObj.endTime,
+        evalObj.description,
+        evalObj.totalMarks,
+      ]
+    );
+    res.status(201).json({
+      eval: evaluation.rows,
+    });
+    client.end();
+  } catch (error: any) {
+    next(new HttpException(404, error.message));
+  }
+};
+
 export default {
   getAllCourses,
   getCourseById,
   getCourseByInviteCode,
   createCourse,
   updateCourse,
+  getCourseEvaluations,
+  createCourseEvaluation,
 };

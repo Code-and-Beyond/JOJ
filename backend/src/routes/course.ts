@@ -10,4 +10,14 @@ router.get('/courses/codes/:code', courseController.getCourseByInviteCode);
 router.post('/courses', courseController.createCourse);
 router.put('/courses/:courseId', courseController.updateCourse);
 
+// evaluations
+router.get(
+  '/courses/:courseId/evaluations',
+  courseController.getCourseEvaluations
+);
+router.post(
+  '/courses/:courseId/evaluations',
+  courseController.createCourseEvaluation
+);
+
 export = router;

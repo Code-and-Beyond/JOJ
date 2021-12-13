@@ -41,30 +41,6 @@ const getUserByUid = async (
   }
 };
 
-// get courses of a user
-const getCoursesOfUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const { uid } = req.params;
-    const client = await Connect();
-    const courses = await Query(
-      client,
-      'SELECT * FROM "courses" INNER JOIN "courseMembers" ON "courseMembers"."uid" = $1 AND "courseMembers"."courseId" = "courses"."courseId";',
-      [uid]
-    );
-    res.status(200).json({
-      courses: courses.rows,
-      count: courses.rows.length,
-    });
-    client.end();
-  } catch (error: any) {
-    next(new HttpException(404, error.message));
-  }
-};
-
 // push a user
 const createUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -130,10 +106,198 @@ const updateUser = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+// get user courses
+const getUserCourses = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { uid } = req.params;
+    const client = await Connect();
+    const courses = await Query(
+      client,
+      'SELECT * FROM "courses" INNER JOIN "courseMembers" ON "courseMembers"."uid" = $1 AND "courseMembers"."courseId" = "courses"."courseId";',
+      [uid]
+    );
+    res.status(200).json({
+      courses: courses.rows,
+      count: courses.rows.length,
+    });
+    client.end();
+  } catch (error: any) {
+    next(new HttpException(404, error.message));
+  }
+};
+
+// get user reports
+const getUserReports = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { uid } = req.params;
+    const client = await Connect();
+    const reports = await Query(
+      client,
+      'SELECT * FROM "reports" WHERE "uid" = $1',
+      [uid]
+    );
+    res.status(200).json({
+      reports: reports.rows,
+      count: reports.rows.length,
+    });
+    client.end();
+  } catch (error: any) {
+    next(new HttpException(404, error.message));
+  }
+};
+
+// get user submissions
+const getUserSubmissions = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { uid } = req.params;
+    const client = await Connect();
+    const submissions = await Query(
+      client,
+      'SELECT * FROM "submissions" WHERE "uid" = $1',
+      [uid]
+    );
+    res.status(200).json({
+      submissions: submissions.rows,
+      count: submissions.rows.length,
+    });
+    client.end();
+  } catch (error: any) {
+    next(new HttpException(404, error.message));
+  }
+};
+
+// get user contest submissions
+const getUserContestSubmissions = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { uid, contestId } = req.params;
+    const client = await Connect();
+    const submissions = await Query(
+      client,
+      'SELECT "submissions".* FROM "submissions" INNER JOIN "problems" ON "submissions"."uid" = $1 AND "problems"."contestId" = $2 AND "submissions"."problemId" = "problems"."problemId"',
+      [uid, contestId]
+    );
+    res.status(200).json({
+      submissions: submissions.rows,
+      count: submissions.rows.length,
+    });
+    client.end();
+  } catch (error: any) {
+    next(new HttpException(404, error.message));
+  }
+};
+
+// get user evaluation submissions
+const getUserEvaluationSubmissions = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { uid, evaluationId } = req.params;
+    const client = await Connect();
+    const submissions = await Query(
+      client,
+      'SELECT "submissions".* FROM "submissions" INNER JOIN "problems" ON "submissions"."uid" = $1 AND "problems"."contestId" = $2 AND "submissions"."problemId" = "problems"."problemId"',
+      [uid, evaluationId]
+    );
+    res.status(200).json({
+      submissions: submissions.rows,
+      count: submissions.rows.length,
+    });
+    client.end();
+  } catch (error: any) {
+    next(new HttpException(404, error.message));
+  }
+};
+
+// get user problem submissions
+const getUserProblemSubmissions = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { uid, problemId } = req.params;
+    const client = await Connect();
+    const submissions = await Query(
+      client,
+      'SELECT * FROM "submissions" WHERE "problemId" = $1 AND "uid" = $2',
+      [problemId, uid]
+    );
+    res.status(200).json({
+      submissions: submissions.rows,
+      count: submissions.rows.length,
+    });
+    client.end();
+  } catch (error: any) {
+    next(new HttpException(404, error.message));
+  }
+};
+
+// create user problem submission
+const createUserProblemSubmission = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const submissionObj = {
+      ...req.body,
+      submissionId: uuidv4(),
+      uid: req.params.uid,
+      problemId: req.params.problemId,
+      creationTime: new Date(),
+    };
+    const client = await Connect();
+    const submission = await Query(
+      client,
+      'INSERT INTO "submissions" ("submissionId", "problemId", "uid", "creationTime", "sourceCode", "language", "verdict", "testcasesPassed") VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
+      [
+        submissionObj.submissionId,
+        submissionObj.problemId,
+        submissionObj.uid,
+        submissionObj.creationTime,
+        submissionObj.sourceCode,
+        submissionObj.language,
+        submissionObj.verdict,
+        submissionObj.testcasesPassed,
+      ]
+    );
+    res.status(201).json({
+      submission: submission.rows,
+    });
+    client.end();
+  } catch (error: any) {
+    next(new HttpException(404, error.message));
+  }
+};
+
 export default {
   getAllUsers,
   getUserByUid,
-  getCoursesOfUser,
   createUser,
   updateUser,
+  getUserCourses,
+  getUserReports,
+  getUserSubmissions,
+  getUserContestSubmissions,
+  getUserEvaluationSubmissions,
+  getUserProblemSubmissions,
+  createUserProblemSubmission,
 };
