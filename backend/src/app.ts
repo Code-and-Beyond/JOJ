@@ -66,7 +66,7 @@ app.use('/api', standingsRoutes);
 app.use((req, res, next) => {
     const error = new Error('Not found');
 
-    res.status(404).json({
+    res.status(500).json({
         message: error.message,
     });
 });

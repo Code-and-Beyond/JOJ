@@ -16,7 +16,7 @@ const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
         });
         client.end();
     } catch (error: any) {
-        next(new HttpException(404, error.message));
+        next(new HttpException(500, error.message));
     }
 };
 
@@ -39,7 +39,7 @@ const getUserByUid = async (
         });
         client.end();
     } catch (error: any) {
-        next(new HttpException(404, error.message));
+        next(new HttpException(500, error.message));
     }
 };
 
@@ -70,7 +70,7 @@ const createUser = async (req: Request, res: Response, next: NextFunction) => {
         });
         client.end();
     } catch (error: any) {
-        next(new HttpException(404, error.message));
+        next(new HttpException(500, error.message));
     }
 };
 
@@ -106,7 +106,7 @@ const updateUser = async (req: Request, res: Response, next: NextFunction) => {
         });
         client.end();
     } catch (error: any) {
-        next(new HttpException(404, error.message));
+        next(new HttpException(500, error.message));
     }
 };
 
@@ -130,7 +130,7 @@ const getUserCourses = async (
         });
         client.end();
     } catch (error: any) {
-        next(new HttpException(404, error.message));
+        next(new HttpException(500, error.message));
     }
 };
 
@@ -154,7 +154,7 @@ const getUserReports = async (
         });
         client.end();
     } catch (error: any) {
-        next(new HttpException(404, error.message));
+        next(new HttpException(500, error.message));
     }
 };
 
@@ -178,7 +178,7 @@ const getUserSubmissions = async (
         });
         client.end();
     } catch (error: any) {
-        next(new HttpException(404, error.message));
+        next(new HttpException(500, error.message));
     }
 };
 
@@ -202,7 +202,7 @@ const getUserContestSubmissions = async (
         });
         client.end();
     } catch (error: any) {
-        next(new HttpException(404, error.message));
+        next(new HttpException(500, error.message));
     }
 };
 
@@ -226,7 +226,7 @@ const getUserEvaluationSubmissions = async (
         });
         client.end();
     } catch (error: any) {
-        next(new HttpException(404, error.message));
+        next(new HttpException(500, error.message));
     }
 };
 
@@ -250,7 +250,7 @@ const getUserProblemSubmissions = async (
         });
         client.end();
     } catch (error: any) {
-        next(new HttpException(404, error.message));
+        next(new HttpException(500, error.message));
     }
 };
 
@@ -266,12 +266,11 @@ const createUserProblemSubmission = async (
             submissionId: uuidv4(),
             uid: req.params.uid,
             problemId: req.params.problemId,
-            creationTime: new Date(),
         };
         const client = await Connect();
         const submission = await Query(
             client,
-            'INSERT INTO "submissions" ("submissionId", "problemId", "uid", "creationTime", "sourceCode", "language", "verdict", "testcasesPassed") VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
+            'INSERT INTO "submissions" ("submissionId", "problemId", "uid", "creationTime", "sourceCode", "language", "status", "testcasesPassed", "timeTaken", "memoryConsumed") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)',
             [
                 submissionObj.submissionId,
                 submissionObj.problemId,
@@ -279,8 +278,10 @@ const createUserProblemSubmission = async (
                 submissionObj.creationTime,
                 submissionObj.sourceCode,
                 submissionObj.language,
-                submissionObj.verdict,
+                submissionObj.status,
                 submissionObj.testcasesPassed,
+                submissionObj.timeTaken,
+                submissionObj.memoryConsumed,
             ]
         );
         res.status(201).json({
@@ -288,7 +289,7 @@ const createUserProblemSubmission = async (
         });
         client.end();
     } catch (error: any) {
-        next(new HttpException(404, error.message));
+        next(new HttpException(500, error.message));
     }
 };
 
