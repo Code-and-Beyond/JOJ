@@ -20,6 +20,7 @@ const Landing: React.FC<LandingProps> = () => {
 		});
 	}, []);
 
+
 	return (
 		<div className='landing'>
 			<div className='landing__container'>

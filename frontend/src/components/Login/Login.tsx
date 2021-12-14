@@ -4,7 +4,9 @@ import GoogleLogin from 'react-google-login';
 
 import google from '../../assets/icons/logo-google.svg';
 import IconContainer from '../Icon/Container/Container';
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
+import { googleLogin } from '../../services/auth';
+import { useDispatch } from 'react-redux';
 
 
 type LoginProps = {
@@ -13,22 +15,13 @@ type LoginProps = {
 
 const Login: React.FC<LoginProps> = () => {
 	const location = useLocation();
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
+
 	const role = location.pathname.split('/')[location.pathname.split('/').length - 1];
 
 	const onSuccessHandler = async (response: any) => {
-		const res = await axios({
-			url: 'http://localhost:8080/auth/google',
-			method: 'post',
-			headers: {
-				'Content-Type': 'application/json',
-				'Access-Control-Allow-Origin': '*'
-			},
-			data: {
-				'token': response.accessToken,
-				'username': response.profileObj.email
-			}
-		});
-		console.log(res);
+		googleLogin(response, role, dispatch, navigate);
 	};
 
 	const onFailureHandler = (res: any) => { console.log({ failure: res }); /*dispatch(setAlert(-1, "Something went wrong", true))*/ };
