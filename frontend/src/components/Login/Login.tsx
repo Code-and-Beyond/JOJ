@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 import GoogleLogin from 'react-google-login';
 
 import google from '../../assets/icons/logo-google.svg';

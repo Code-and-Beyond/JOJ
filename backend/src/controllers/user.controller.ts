@@ -112,12 +112,13 @@ const updateUser = async (req: Request, res: Response, next: NextFunction) => {
 
 // get user courses
 const getUserCourses = async (
-    req: Request,
+    req: Request | any,
     res: Response,
     next: NextFunction
 ) => {
     try {
         const { uid } = req.params;
+        // const uid = req.user.uid;
         const client = await Connect();
         const courses = await Query(
             client,

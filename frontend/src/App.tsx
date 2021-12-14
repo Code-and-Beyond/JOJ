@@ -1,10 +1,7 @@
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 
 // Redux
-import { createStore, compose, applyMiddleware } from 'redux';
-import { Provider, useDispatch } from 'react-redux';
-import { rootReducer } from "./store/reducers/root";
-import thunk from 'redux-thunk';
+import { useDispatch } from 'react-redux';
 
 // Pages
 import Landing from './pages/Landing';
@@ -27,6 +24,7 @@ const App = () => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
+		console.log('App.tsx: useEffect');
 		persistLogin(dispatch, navigate);
 	}, []);
 

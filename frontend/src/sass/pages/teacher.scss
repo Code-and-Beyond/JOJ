@@ -1,5 +1,6 @@
 .teacher {
     display: flex;
+    position: relative;
 
     // side bar
     & > div:first-child {

@@ -22,8 +22,6 @@ export const googleLogin = async (response: any, role: string, dispatch: Dispatc
 			}
 		});
 
-		console.log(res);
-
 		if (res.status === 200 && !res.data.error) {
 			setAccessToken(res.data.token);
 			setUser(res.data.user);
@@ -35,7 +33,6 @@ export const googleLogin = async (response: any, role: string, dispatch: Dispatc
 	catch (err: any) {
 		console.log({ err });
 		dispatch(setUserError(err.response.data.message));
-		setTimeout(() => { dispatch(setUserError('')); }, 3000);
 	}
 };
 
@@ -45,9 +42,10 @@ export const persistLogin = (dispatch: Dispatch<any>, navigate: any) => {
 	checkTokens();
 	const user = getUser();
 	const token = getAccessToken();
+	dispatch(setUserData(user));
+	console.log('reach');
 
 	if (user && token) {
-		dispatch(setUserData(user));
 		dispatch(toggleLoggedIn(true));
 	}
 	else {
@@ -55,3 +53,9 @@ export const persistLogin = (dispatch: Dispatch<any>, navigate: any) => {
 	}
 };
 
+// const handleLogout = (dispatch: Dispatch<any>, navigate: any) => {
+// 	dispatch(toggleLoggedIn(false));
+// 	dispatch(setUserData({}));
+// 	setLogout();
+// 	navigate('/');
+// };
