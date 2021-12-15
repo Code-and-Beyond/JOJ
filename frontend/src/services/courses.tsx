@@ -39,7 +39,7 @@ export const addCourseService = async (
     }
 };
 
-export const updateCourseMember = async (
+export const updateCourseService = async (
     courseId: string,
     courseObj: any,
     dispatch: Dispatch<any>

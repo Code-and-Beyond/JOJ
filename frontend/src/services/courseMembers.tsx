@@ -3,7 +3,7 @@ import { getAccessToken, getUser } from '../helpers/session';
 import { Dispatch } from 'react';
 import { setLoading } from '../store/actions/loading';
 
-export const getCourseMembers = async (
+export const getCourseMembersService = async (
     courseId: string,
     dispatch: Dispatch<any>
 ) => {
@@ -28,7 +28,7 @@ export const getCourseMembers = async (
     }
 };
 
-export const addCourseMember = async (
+export const addCourseMemberService = async (
     courseId: string,
     role: string,
     dispatch: Dispatch<any>
@@ -58,7 +58,7 @@ export const addCourseMember = async (
     }
 };
 
-export const updateCourseMember = async (
+export const updateCourseMemberService = async (
     courseId: string,
     role: string,
     dispatch: Dispatch<any>
