@@ -90,11 +90,41 @@ const Problems: React.FC<ProblemsProps> = () => {
         return formOpen && <div className='teacher__form'>
             <FormContainer title='Add Problem' onAdd={handleAddProblem} onCancel={() => setFormOpen(false)}>
                 <Input type='text' placeholder='Problem Name' value={data.name} handleInput={(val: string) => handleProblemData('name', val)} />
-                <Input type='text' placeholder='Problem Statement' value={data.statement} handleInput={(val: string) => handleProblemData('statement', val)} />
-                <Input type='text' placeholder='Input Format' value={data.input} handleInput={(val: string) => handleProblemData('input', val)} />
-                <Input type='text' placeholder='Output Format' value={data.output} handleInput={(val: string) => handleProblemData('output', val)} />
-                <Input type='text' placeholder='Constraints' value={data.constraints} handleInput={(val: string) => handleProblemData('constraints', val)} />
-                <Input type='text' placeholder='Explanation' value={data.explanation} handleInput={(val: string) => handleProblemData('explanation', val)} />
+                <TextBox
+                    cols={10}
+                    rows={5}
+                    value={data.statement}
+                    placeholder="Problem Statement"
+                    handleChange={((val: string) => handleProblemData('statement', val))}
+                />
+                <TextBox
+                    cols={10}
+                    rows={1}
+                    value={data.input}
+                    placeholder="Input Format"
+                    handleChange={((val: string) => handleProblemData('input', val))}
+                />
+                <TextBox
+                    cols={10}
+                    rows={1}
+                    value={data.output}
+                    placeholder="Output Format"
+                    handleChange={((val: string) => handleProblemData('output', val))}
+                />
+                <TextBox
+                    cols={10}
+                    rows={1}
+                    value={data.constraints}
+                    placeholder="Constraints"
+                    handleChange={((val: string) => handleProblemData('constraints', val))}
+                />
+                <TextBox
+                    cols={10}
+                    rows={1}
+                    value={data.explanation}
+                    placeholder="Explanation"
+                    handleChange={((val: string) => handleProblemData('explanation', val))}
+                />
                 <Input type='text' placeholder='Time Limit' value={data.timeLimit} handleInput={(val: string) => handleProblemData('timeLimit', val)} />
                 <Input type='text' placeholder='Memory Limit' value={data.memoryLimit} handleInput={(val: string) => handleProblemData('memoryLimit', val)} />
             </FormContainer>
@@ -104,7 +134,13 @@ const Problems: React.FC<ProblemsProps> = () => {
     const getTestCaseForm = () => {
         return testcaseFormOpen && <div className='teacher__form'>
             <FormContainer title='Add Test Case' onAdd={handleAddTestcase} onCancel={() => setTestcaseFormOpen(false)}>
-                <Input type='text' placeholder='Input' value={testcase.stdin} handleInput={(val: string) => handleTestCaseData('stdin', val)} />
+                <TextBox
+                    cols={10}
+                    rows={5}
+                    value={testcase.stdin}
+                    placeholder="Input"
+                    handleChange={((val: string) => handleTestCaseData('stdin', val))}
+                />
                 <TextBox
                     cols={10}
                     rows={5}
