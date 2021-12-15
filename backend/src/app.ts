@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { NextFunction } from 'express';
 import config from './config/config';
 import http from 'http';
 import cors from 'cors';
@@ -50,7 +50,7 @@ app.use((req, res, next) => {
 });
 
 // middleware
-app.use(auth.authenticateToken);
+// app.use(auth.authenticateToken);
 
 /** Routes */
 app.use('/api', authRoutes);
