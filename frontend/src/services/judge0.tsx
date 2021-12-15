@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { computeSubmissionResultService } from './submission';
 
 type languageIdsTypes = {
     [languageName: string]: number;
@@ -9,6 +10,21 @@ const languageIds: languageIdsTypes = {
     'C++': 54,
     Java: 62,
     Python: 71,
+};
+
+type testcaseType = {
+    testcaseId: string;
+    stdin: string;
+    expectedOutput: string;
+    isSample: boolean;
+};
+
+const getMinStatusId = (submissions: any[]) => {
+    let minStatusId = 100;
+    for (let submission of submissions) {
+        minStatusId = Math.min(minStatusId, submission.status.id);
+    }
+    return minStatusId;
 };
 
 export const createJudgeSubmissionService = async (submissionObj: any) => {
@@ -129,5 +145,66 @@ export const getJudgeSubmissionBatchService = async (
         return response.data.submissions;
     } catch (err: any) {
         throw new Error(err);
+    }
+};
+
+export const runCodeService = async (
+    languageName: string,
+    sourceCode: string,
+    stdin: string,
+    expectedOutput: string
+) => {
+    try {
+        const submissionObj = {
+            languageName,
+            sourceCode,
+            stdin,
+            expectedOutput,
+        };
+
+        const submissionToken = await createJudgeSubmissionService(
+            submissionObj
+        );
+        const submission = await getJudgeSubmissionService(submissionToken);
+        return submission;
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+export const submitCodeService = async (
+    testcases: testcaseType[],
+    languageName: string,
+    sourceCode: string
+) => {
+    let submissionsArray = [];
+    for (let testcase of testcases) {
+        submissionsArray.push({
+            languageName,
+            sourceCode,
+            ...testcase,
+        });
+    }
+
+    try {
+        const submissionTokens = await createJudgeSubmissionBatchService(
+            submissionsArray
+        );
+        let submissions = null;
+        do {
+            submissions = await getJudgeSubmissionBatchService(
+                submissionTokens
+            );
+        } while (getMinStatusId(submissions) <= 2);
+        console.log(submissions);
+        if (submissions) {
+            const submissionResult = computeSubmissionResultService(
+                submissions,
+                testcases
+            );
+            return { submissionResult, submission: submissions[0] };
+        }
+    } catch (error) {
+        console.log(error);
     }
 };
