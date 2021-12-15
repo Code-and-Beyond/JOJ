@@ -31,16 +31,16 @@ const TeacherController: React.FC<TeacherControllerProps> = () => {
 
 
 	return (
-		<React.Fragment>
+		<div style={{ position: 'relative' }}>
+			<Loading />
 			<div className='teacher'>
-				<Loading />
 				<Sidebar list={sidebarList} initRoute='/teacher' />
 				{/* to render child elements */}
 				<div>
 					<Outlet />
 				</div>
 			</div>
-		</React.Fragment>
+		</div>
 	);
 };
 

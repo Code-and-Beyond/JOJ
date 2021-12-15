@@ -13,7 +13,7 @@ const Loading: React.FC<LoadingProps> = () => {
 	const loadingState = useSelector((state: RootState) => state.load);
 	return (
 		loadingState.loading ?
-			<Box sx={{ width: '100%' }} style={{ position: 'absolute', top: 0 }}>
+			<Box sx={{ width: '100%' }} style={{ position: 'absolute', top: 0, zIndex: 100 }}>
 				<LinearProgress />
 			</Box>
 			: null
