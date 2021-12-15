@@ -166,10 +166,10 @@ const Test: React.FC<TestProps> = () => {
         }
     };
 
-    const testCall = async () => {
-        const res = await getUserCoursesService(userState.info.uid);
-        console.log(res);
-    };
+    // const testCall = async () => {
+    //     const res = await getUserCoursesService(userState.info.uid);
+    //     console.log(res);
+    // };
 
     const getEditor = () => (
         <div className="test__body--editor">
@@ -200,7 +200,7 @@ const Test: React.FC<TestProps> = () => {
                     text="Run Code"
                     onClickHandler={() => {
                         // if (code.length) runCode(languages, code, '1 2', '3');
-                        testCall();
+                        // testCall();
                     }}
                     extraStyle="u-m-l-auto a a--2"
                 />

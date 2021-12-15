@@ -99,6 +99,11 @@ const createCourse = async (
                 courseObj.year,
             ]
         );
+        await Query(
+            client,
+            `INSERT INTO "courseMembers" ("courseId", "uid", "role") VALUES ($1, $2, 'teacher')`,
+            [courseObj.courseId, courseObj.uid]
+        );
         res.status(201).json({
             course: course.rows,
         });

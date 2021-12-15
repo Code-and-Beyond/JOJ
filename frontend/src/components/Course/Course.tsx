@@ -1,22 +1,24 @@
 import React from 'react';
 
 type CourseProps = {
+	course: any;
 	bgColor: string;
-	onClickHandler?: React.MouseEventHandler<HTMLDivElement> | undefined
+	onClickHandler?: React.MouseEventHandler<HTMLDivElement> | undefined;
 };
 
 const Course: React.FC<CourseProps> = (props) => {
-	const { bgColor } = props;
+	const { bgColor, course } = props;
 
 	return (
 		<div className='course' onClick={props.onClickHandler}>
 			<div className='course__head' style={{ backgroundColor: bgColor }}>
 				<div className='course__head--title'>
-					<h1 className='h h--3'>Introduction to blockchain</h1>
+					<h1 className='h h--3'>{course.name}</h1>
 					{/* <h3 className='b b--1 u-m-l-m'>101 Students</h3> */}
 				</div>
-				<h3 className='b b--3 u-m-b-s'>B.Tech | CSE | 2022</h3>
-				<h3 className='b b--3'>2018B2018</h3>
+				<h3 className='b b--3 u-m-b-s'>{course.degree} | {course.branch} | {course.year}</h3>
+				{/* <h3 className='b b--3 u-m-b-s'>{course.batch}</h3> */}
+				<h3 className='b b--3'>{course.subjectCode} | {course.batch}</h3>
 			</div>
 			<div className='course__body' >
 				<h3 className='b b--2'>Updates</h3>

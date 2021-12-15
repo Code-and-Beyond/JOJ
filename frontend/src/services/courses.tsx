@@ -1,9 +1,10 @@
 import axios from './axiosConfig';
 import { Dispatch } from 'react';
 import { setLoading } from '../store/actions/loading';
-import { getAccessToken } from '../helpers/session';
+import { getAccessToken, getUser } from '../helpers/session';
 
 export const addCourseService = async (
+    uid: string,
     course: any,
     dispatch: Dispatch<any>
 ) => {
@@ -19,6 +20,7 @@ export const addCourseService = async (
                 Authorization: 'Bearer ' + getAccessToken(),
             },
             data: {
+                uid,
                 name: course.name,
                 subjectCode: course.code,
                 degree: course.degree,
@@ -57,8 +59,9 @@ export const updateCourseMember = async (courseId: string, courseObj: any) => {
     }
 };
 
-export const getUserCoursesService = async (uid: string) => {
+export const getUserCoursesService = async () => {
     try {
+        const uid = getUser().uid;
         const response = await axios({
             url: `/api/users/${uid}/courses`,
             method: 'GET',
@@ -68,7 +71,6 @@ export const getUserCoursesService = async (uid: string) => {
                 Authorization: 'Bearer ' + getAccessToken(),
             },
         });
-
         return response.data;
     } catch (err: any) {
         throw new Error(err.stack);
