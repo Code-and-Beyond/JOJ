@@ -1,0 +1,21 @@
+.textbox {
+    font-family: 'Poppins', 'sans-serif';
+    resize: none;
+    border-radius: 0.2rem;
+    outline: none;
+    width: 100%;
+    padding: 1rem;
+    scroll-behavior: smooth;
+    overflow-y: scroll;
+    border-color: $color-gray-200;
+
+    &::-webkit-scrollbar {
+        width: 0.3rem; /* Remove scrollbar space */
+        background: transparent; /* Optional: just make scrollbar invisible */
+    }
+
+    /* Optional: show position indicator in gray */
+    &::-webkit-scrollbar-thumb {
+        background: $color-gray-100;
+    }
+}
