@@ -43,19 +43,10 @@ const App = () => {
     const getTeacherRoutes = () => (
         <Route path="/teacher" element={<TeacherPanel />}>
             <Route path="courses" element={<TeacherCourses />} />
-            <Route
-                path="courses/:id/evaluations"
-                element={<TeacherEvaluations />}
-            />
+            <Route path="courses/:id/evaluations" element={<TeacherEvaluations />} />
             <Route path="courses/:id/people" element={<TeacherPeople />} />
-            <Route
-                path="courses/:id/evaluations/:id/problems"
-                element={<TeacherProblems />}
-            />
-            <Route
-                path="courses/:id/evaluations/:id/reports"
-                element={<TeacherReports />}
-            />
+            <Route path="courses/:id/evaluations/:id/problems" element={<TeacherProblems />} />
+            <Route path="courses/:id/evaluations/:id/reports" element={<TeacherReports />} />
             <Route path="clubs" element={<TeacherCourses />} />
         </Route>
     );
@@ -63,10 +54,7 @@ const App = () => {
     const getStudentRoutes = () => (
         <Route path="/student" element={<StudentPanel />}>
             <Route path="courses" element={<StudentCourses />} />
-            <Route
-                path="courses/:id/evaluations"
-                element={<StudentEvaluations />}
-            />
+            <Route path="courses/:id/evaluations" element={<StudentEvaluations />} />
             <Route path="courses/:id/people" element={<StudentClassmates />} />
             <Route path="clubs" element={<StudentCourses />} />
         </Route>
@@ -76,9 +64,9 @@ const App = () => {
         <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/login/:role" element={<Login />} />
+            <Route path="/test/:testId/problems" element={<Test />} />
             {getTeacherRoutes()}
             {getStudentRoutes()}
-            <Route path="/test/:testId/problems" element={<Test />} />
         </Routes>
     );
 };

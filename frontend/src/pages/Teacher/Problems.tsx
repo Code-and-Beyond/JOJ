@@ -126,7 +126,7 @@ const Problems: React.FC<ProblemsProps> = () => {
 
     const getEvalHead = () => {
         return <div className="evaluations__head" style={{ background: currEvalState.color }}>
-            <h1 className="h h--l2">Problems - {currEvalState.name}</h1>
+            <h1 className="h h--l2">Problems</h1>
             <h3 className="h h--4">{startDate} | {currEvalState.description} | {startTime} - {endTime}</h3>
         </div>;
     };

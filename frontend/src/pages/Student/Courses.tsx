@@ -7,10 +7,11 @@ import Header from '../../components/Header/Header';
 import Input from '../../components/Input/Input.component';
 
 import docsIcon from '../../assets/icons/docs.png';
-import { addCourseService, getUserCoursesService } from '../../services/courses';
+import { getCourseByInviteCodeService, getUserCoursesService } from '../../services/courses';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/reducers/root';
 import { setCurrentCourse } from '../../store/actions';
+import { addCourseMemberService } from '../../services/courseMembers';
 
 
 type CoursesProps = {
@@ -28,17 +29,9 @@ const Courses: React.FC<CoursesProps> = () => {
 	const dispatch = useDispatch();
 	const userState = useSelector((state: RootState) => state.user);
 	const courseState = useSelector((state: RootState) => state.crs);
+	const [inviteCode, setInviteCode] = useState('');
 
-	const [course, setCourse] = useState({
-		name: '',
-		code: '',
-		degree: '',
-		year: 2022,
-		batch: '',
-		branch: ''
-	});
 	const [formOpen, setFormOpen] = useState(false);
-	const [courses, setCourses] = useState([]);
 
 	// get all courses of user
 	const fetchAllCourses = async () => {
@@ -56,22 +49,18 @@ const Courses: React.FC<CoursesProps> = () => {
 		navigate(course['courseId'] + '/evaluations');
 	};
 
-
-	const handleCourseData = (type: string, val: string | number) => {
-		setCourse({ ...course, [type]: val });
-	};
-
-	const handleAddCourse = async () => {
+	const handleJoinCourse = async () => {
 		setFormOpen(false);
-		await addCourseService(userState.info.uid, course, dispatch);
+		const res = await getCourseByInviteCodeService(inviteCode, dispatch);
+		await addCourseMemberService(res.course[0].courseId, dispatch);
 		fetchAllCourses();
 	};
 
 
 	const getForm = () => {
 		return formOpen && <div className='teacher__form'>
-			<FormContainer title='Join Course' onAdd={handleAddCourse} onCancel={() => setFormOpen(false)}>
-				<Input type='text' placeholder='Invite' value={course.name} handleInput={(val: string) => handleCourseData('name', val)} />
+			<FormContainer title='Join Course' onAdd={handleJoinCourse} onCancel={() => setFormOpen(false)}>
+				<Input type='text' placeholder='Invite' value={inviteCode} handleInput={(val: string) => setInviteCode(val)} />
 			</FormContainer>
 		</div>;
 	};

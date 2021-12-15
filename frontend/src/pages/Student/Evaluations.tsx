@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router';
-import FillButton from '../../components/Button/Fill';
 import Evaluation from '../../components/Evaluation/Evaluation';
 import FormContainer from '../../components/Form/FormContainer';
 import Input from '../../components/Input/Input.component';
@@ -90,44 +89,33 @@ const Evaluations: React.FC<EvaluationsProps> = () => {
 
 
     return (
-        <div className="d--f">
-            <div className="teacher__content">
-                <Navbar navList={routeList} />
-                <div className="evaluations">
-                    <div className="evaluations__container">
-                        <div className="evaluations__head" style={{ background: currCourseState.color }}>
-                            <h1 className="h h--l2">
-                                Evaluations - {currCourseState.name}
-                            </h1>
-                            <h3 className="h h--4">{currCourseState.subjectCode}</h3>
+        <div className="teacher__content">
+            <Navbar navList={routeList} />
+            <div className="evaluations">
+                <div className="evaluations__container">
+                    <div className="evaluations__head" style={{ background: currCourseState.color }}>
+                        <h1 className="h h--l2">
+                            Evaluations
+                        </h1>
+                        <h3 className="h h--4">{currCourseState.subjectCode}</h3>
+                    </div>
+                    <div className="evaluations__body">
+                        <div className="evaluations__body--upcoming">
+                            <h2 className="a a--2">Upcoming</h2>
+                            <p className="b b--3">
+                                No upcoming evaluations!
+                            </p>
                         </div>
-                        <div className="evaluations__body">
-                            <div>
-                                <div className="evaluations__body--upcoming">
-                                    <h2 className="a a--2">Upcoming</h2>
-                                    <p className="b b--3">
-                                        No upcoming evaluations!
-                                    </p>
-                                </div>
-                                <FillButton
-                                    color={currCourseState.color}
-                                    text="Create Evaluation"
-                                    type={2}
-                                    onClickHandler={() => setFormOpen(true)}
-                                />
-                            </div>
-                            <div>
-                                {evalState.evaluations.map((evaluation: any, index: number) =>
-                                    <Evaluation
-                                        key={index}
-                                        evaluation={evaluation} onClickHandler={() => handleEvalClick(evaluation)}
-                                    />)}
-                            </div>
+                        <div>
+                            {evalState.evaluations.map((evaluation: any, index: number) =>
+                                <Evaluation
+                                    key={index}
+                                    evaluation={evaluation} onClickHandler={() => handleEvalClick(evaluation)}
+                                />)}
                         </div>
                     </div>
                 </div>
             </div>
-            {getForm()}
         </div>
     );
 };

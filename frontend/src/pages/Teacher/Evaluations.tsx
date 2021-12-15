@@ -64,7 +64,7 @@ const Evaluations: React.FC<EvaluationsProps> = () => {
 
     const handleEvalClick = (evaluation: any) => {
         dispatch(setCurrentEvaluation({ ...evaluation, color: currCourseState.color }));
-        navigate('13/problems');
+        navigate(`${evaluation.evaluationId}/problems`);
     };
 
 
@@ -97,7 +97,7 @@ const Evaluations: React.FC<EvaluationsProps> = () => {
                     <div className="evaluations__container">
                         <div className="evaluations__head" style={{ background: currCourseState.color }}>
                             <h1 className="h h--l2">
-                                Evaluations - {currCourseState.name}
+                                Evaluations
                             </h1>
                             <h3 className="h h--4">{currCourseState.subjectCode}</h3>
                         </div>

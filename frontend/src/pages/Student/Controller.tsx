@@ -34,7 +34,7 @@ const TeacherController: React.FC<TeacherControllerProps> = () => {
 		<div style={{ position: 'relative' }}>
 			<Loading />
 			<div className='teacher'>
-				<Sidebar list={sidebarList} initRoute='/teacher' />
+				<Sidebar list={sidebarList} initRoute='/student' />
 				{/* to render child elements */}
 				<div>
 					<Outlet />

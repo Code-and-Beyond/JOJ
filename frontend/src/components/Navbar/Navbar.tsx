@@ -17,6 +17,7 @@ const Navbar: React.FC<NavbarProps> = (props) => {
     const location = useLocation();
     const navigate = useNavigate();
     const userState = useSelector((state: RootState) => state.user);
+    const courseState = useSelector((state: RootState) => state.crs);
 
     const getActiveClass = (currPath: string) => {
         const path = location.pathname;
@@ -31,7 +32,7 @@ const Navbar: React.FC<NavbarProps> = (props) => {
         <div className="navbar">
             <div className="navbar__title">
                 <Icon src={backIcon} alt="docs icon" size="s" onClickHandler={() => navigate(-1)} />
-                <h2 className="h h--4">Introduction to blockchain</h2>
+                <h2 className="h h--4">{courseState.currentCourse.name}</h2>
             </div>
             <div className="navbar__nav">
                 {navList.map((item, index) => (
