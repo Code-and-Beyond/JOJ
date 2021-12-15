@@ -1,9 +1,16 @@
 import axios from './axiosConfig';
 import { getAccessToken } from '../helpers/session';
 import { getProblemTestcasesService } from './testcases';
+import { Dispatch } from 'react';
+import { setLoading } from '../store/actions/loading';
 
-export const getTestProblemsService = async (contestId: string) => {
+export const getTestProblemsService = async (
+    contestId: string,
+    dispatch: Dispatch<any>
+) => {
     try {
+        dispatch(setLoading(true));
+
         const response = await axios({
             url: `/api/contests/${contestId}/problems`,
             method: 'GET',
@@ -18,13 +25,16 @@ export const getTestProblemsService = async (contestId: string) => {
         const problems = response.data.problems;
         for (let problem of problems) {
             const testcases = await getProblemTestcasesService(
-                problem.problemId
+                problem.problemId,
+                dispatch
             );
             resultObj.push({
                 ...problem,
                 testcases,
             });
         }
+
+        dispatch(setLoading(false));
 
         return resultObj;
     } catch (err) {
@@ -34,9 +44,12 @@ export const getTestProblemsService = async (contestId: string) => {
 
 export const createTestProblemService = async (
     contestId: string,
-    problemObj: any
+    problemObj: any,
+    dispatch: Dispatch<any>
 ) => {
     try {
+        dispatch(setLoading(true));
+
         const response = await axios({
             url: `/api/contests/${contestId}/problems`,
             method: 'POST',
@@ -50,6 +63,8 @@ export const createTestProblemService = async (
             },
         });
 
+        dispatch(setLoading(false));
+
         console.log(response);
     } catch (err) {
         console.log(err);
@@ -58,9 +73,12 @@ export const createTestProblemService = async (
 
 export const updateProblemService = async (
     problemId: string,
-    problemObj: any
+    problemObj: any,
+    dispatch: Dispatch<any>
 ) => {
     try {
+        dispatch(setLoading(true));
+
         const response = await axios({
             url: `/api/problems/${problemId}`,
             method: 'PUT',
@@ -73,6 +91,8 @@ export const updateProblemService = async (
                 ...problemObj,
             },
         });
+
+        dispatch(setLoading(false));
 
         return response.data;
     } catch (err: any) {

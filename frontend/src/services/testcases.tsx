@@ -1,8 +1,15 @@
 import axios from './axiosConfig';
 import { getAccessToken } from '../helpers/session';
+import { Dispatch } from 'react';
+import { setLoading } from '../store/actions/loading';
 
-export const getProblemTestcasesService = async (problemId: string) => {
+export const getProblemTestcasesService = async (
+    problemId: string,
+    dispatch: Dispatch<any>
+) => {
     try {
+        dispatch(setLoading(true));
+
         const response = await axios({
             url: `/api/problems/${problemId}/testcases`,
             method: 'GET',
@@ -13,6 +20,8 @@ export const getProblemTestcasesService = async (problemId: string) => {
             },
         });
 
+        dispatch(setLoading(false));
+
         return response.data.testcases;
     } catch (err) {
         console.log(err);
@@ -21,9 +30,12 @@ export const getProblemTestcasesService = async (problemId: string) => {
 
 export const createProblemTestcaseService = async (
     problemId: string,
-    testcaseObj: any
+    testcaseObj: any,
+    dispatch: Dispatch<any>
 ) => {
     try {
+        dispatch(setLoading(true));
+
         const response = await axios({
             url: `/api/problems/${problemId}/testcases`,
             method: 'POST',
@@ -37,6 +49,8 @@ export const createProblemTestcaseService = async (
             },
         });
 
+        dispatch(setLoading(false));
+
         console.log(response);
     } catch (err) {
         console.log(err);
@@ -45,9 +59,12 @@ export const createProblemTestcaseService = async (
 
 export const updateTestcaseService = async (
     testcaseId: string,
-    testcaseObj: any
+    testcaseObj: any,
+    dispatch: Dispatch<any>
 ) => {
     try {
+        dispatch(setLoading(true));
+
         const response = await axios({
             url: `/api/testcases/${testcaseId}`,
             method: 'PUT',
@@ -61,23 +78,32 @@ export const updateTestcaseService = async (
             },
         });
 
+        dispatch(setLoading(false));
+
         return response.data;
     } catch (err: any) {
         throw new Error(err.stack);
     }
 };
 
-export const deleteTestcaseService = async (testcaseId: string) => {
+export const deleteTestcaseService = async (
+    testcaseId: string,
+    dispatch: Dispatch<any>
+) => {
     try {
+        dispatch(setLoading(true));
+
         const response = await axios({
             url: `/api/testcases/${testcaseId}`,
-            method: 'PUT',
+            method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
                 Authorization: 'Bearer ' + getAccessToken(),
             },
         });
+
+        dispatch(setLoading(false));
 
         return response.data;
     } catch (err: any) {

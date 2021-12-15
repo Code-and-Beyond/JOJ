@@ -42,7 +42,7 @@ const Courses: React.FC<CoursesProps> = () => {
 
 	// get all courses of user
 	const fetchAllCourses = async () => {
-		const allCourses = await getUserCoursesService();
+		const allCourses = await getUserCoursesService(dispatch);
 		setCourses(allCourses.courses);
 		console.log(allCourses);
 	};

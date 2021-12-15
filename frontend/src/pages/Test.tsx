@@ -81,26 +81,26 @@ const Test: React.FC<TestProps> = () => {
 
     const userState = useSelector((state: RootState) => state.user);
 
-    const foo = async () => {
-        const res: any = await getTestProblemsService(
-            '20988809-95f1-4ed5-bc4f-06dc88dcaf25'
-        );
-        setProblems(res);
-        setCurrProblem(res[0]);
-        console.log(res);
-    };
+    // const foo = async () => {
+    //     const res: any = await getTestProblemsService(
+    //         '20988809-95f1-4ed5-bc4f-06dc88dcaf25'
+    //     );
+    //     setProblems(res);
+    //     setCurrProblem(res[0]);
+    //     console.log(res);
+    // };
 
     useEffect(() => {
         // checkIfAllowed();
-        foo();
+        // foo();
     }, []);
 
     const pushSubmissionToDatabase = (submission: any) => {
-        createSubmissionService(
-            userState.info.uid,
-            'a17507a1-f6ac-4525-8d2a-ec621868ea30',
-            submission
-        );
+        // createSubmissionService(
+        //     userState.info.uid,
+        //     'a17507a1-f6ac-4525-8d2a-ec621868ea30',
+        //     submission
+        // );
     };
 
     const runCode = async (
@@ -199,7 +199,7 @@ const Test: React.FC<TestProps> = () => {
                     type={1}
                     text="Run Code"
                     onClickHandler={() => {
-                        // if (code.length) runCode(languages, code, '1 2', '3');
+                        if (code.length) runCode(languages, code, '1 2', '3');
                         // testCall();
                     }}
                     extraStyle="u-m-l-auto a a--2"
