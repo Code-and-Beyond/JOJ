@@ -13,6 +13,7 @@ import { RootState } from '../../store/reducers/root';
 import { createTestProblemService, getTestProblemsService } from '../../services/problem';
 import { handleOffset } from '../../services/helper';
 import { createProblemTestcaseService } from '../../services/testcases';
+import TextBox from '../../components/TextBox/TextBox';
 
 
 type ProblemsProps = {};
@@ -104,7 +105,13 @@ const Problems: React.FC<ProblemsProps> = () => {
         return testcaseFormOpen && <div className='teacher__form'>
             <FormContainer title='Add Test Case' onAdd={handleAddTestcase} onCancel={() => setTestcaseFormOpen(false)}>
                 <Input type='text' placeholder='Input' value={testcase.stdin} handleInput={(val: string) => handleTestCaseData('stdin', val)} />
-                <Input type='text' placeholder='Expected Output' value={testcase.expectedOutput} handleInput={(val: string) => handleTestCaseData('expectedOutput', val)} />
+                <TextBox
+                    cols={10}
+                    rows={5}
+                    value={testcase.expectedOutput}
+                    placeholder="Expected Output"
+                    handleChange={((val: string) => handleTestCaseData('expectedOutput', val))}
+                />
                 <Input type='boolean' placeholder='Is it a Sample testcase' value={testcase.isSample} handleInput={(val: boolean) => handleTestCaseData('isSample', val)} />
             </FormContainer>
         </div>;
@@ -135,7 +142,7 @@ const Problems: React.FC<ProblemsProps> = () => {
 
     const showSampleTestcases = () => {
 
-    }
+    };
 
     const getEvalHead = () => {
         return <div className="evaluations__head" style={{ background: currEvalState.color }}>
