@@ -50,7 +50,7 @@ app.use((req, res, next) => {
 });
 
 // middleware
-app.use(auth.authenticateToken);
+// app.use(auth.authenticateToken);
 
 /** Routes */
 app.use('/api', authRoutes);

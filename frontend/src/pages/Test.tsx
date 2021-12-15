@@ -23,6 +23,7 @@ import {
     getJudgeSubmissionService,
 } from '../services/judge0';
 import { getTestProblemsService } from '../services/problem';
+import { getUserCoursesService } from '../services/courses';
 
 type TestProps = {
     // testId: string;
@@ -165,6 +166,11 @@ const Test: React.FC<TestProps> = () => {
         }
     };
 
+    const testCall = async () => {
+        const res = await getUserCoursesService(userState.info.uid);
+        console.log(res);
+    };
+
     const getEditor = () => (
         <div className="test__body--editor">
             <div>
@@ -193,7 +199,8 @@ const Test: React.FC<TestProps> = () => {
                     type={1}
                     text="Run Code"
                     onClickHandler={() => {
-                        runCode(languages, code, '1 2', '3');
+                        // if (code.length) runCode(languages, code, '1 2', '3');
+                        testCall();
                     }}
                     extraStyle="u-m-l-auto a a--2"
                 />
@@ -201,7 +208,12 @@ const Test: React.FC<TestProps> = () => {
                     type={3}
                     text="Submit"
                     onClickHandler={() => {
-                        submitCode(problems[0]['testcases'], languages, code);
+                        if (code.length)
+                            submitCode(
+                                problems[0]['testcases'],
+                                languages,
+                                code
+                            );
                     }}
                     extraStyle="u-m-l-s a a--2"
                 />

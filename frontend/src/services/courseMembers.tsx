@@ -1,11 +1,10 @@
 import axios from './axiosConfig';
 import { getAccessToken } from '../helpers/session';
-import { getProblemTestcasesService } from './testcases';
 
-export const getTestProblemsService = async (contestId: string) => {
+export const getCourseMembers = async (courseId: string) => {
     try {
         const response = await axios({
-            url: `/api/contests/${contestId}/problems`,
+            url: `/api/courses/${courseId}/members`,
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -14,31 +13,20 @@ export const getTestProblemsService = async (contestId: string) => {
             },
         });
 
-        let resultObj = [];
-        const problems = response.data.problems;
-        for (let problem of problems) {
-            const testcases = await getProblemTestcasesService(
-                problem.problemId
-            );
-            resultObj.push({
-                ...problem,
-                testcases,
-            });
-        }
-
-        return resultObj;
-    } catch (err) {
-        console.log(err);
+        return response.data;
+    } catch (err: any) {
+        throw new Error(err.stack);
     }
 };
 
-export const createTestProblemService = async (
-    contestId: string,
-    problemObj: any
+export const addCourseMember = async (
+    courseId: string,
+    uid: string,
+    role: string
 ) => {
     try {
         const response = await axios({
-            url: `/api/contests/${contestId}/problems`,
+            url: `/api/courses/${courseId}/members/${uid}`,
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -46,23 +34,24 @@ export const createTestProblemService = async (
                 Authorization: 'Bearer ' + getAccessToken(),
             },
             data: {
-                ...problemObj,
+                role,
             },
         });
 
-        console.log(response);
-    } catch (err) {
-        console.log(err);
+        return response.data;
+    } catch (err: any) {
+        throw new Error(err.stack);
     }
 };
 
-export const updateProblemService = async (
-    problemId: string,
-    problemObj: any
+export const updateCourseMember = async (
+    courseId: string,
+    uid: string,
+    role: string
 ) => {
     try {
         const response = await axios({
-            url: `/api/problems/${problemId}`,
+            url: `/api/courses/${courseId}/members/${uid}`,
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -70,7 +59,7 @@ export const updateProblemService = async (
                 Authorization: 'Bearer ' + getAccessToken(),
             },
             data: {
-                ...problemObj,
+                role,
             },
         });
 

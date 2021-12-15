@@ -33,15 +33,54 @@ export const createProblemTestcaseService = async (
                 Authorization: 'Bearer ' + getAccessToken(),
             },
             data: {
-                testcaseId: testcaseObj.testcaseId,
-                stdin: testcaseObj.stdin,
-                expectedOutput: testcaseObj.expectedOutput,
-                isSample: testcaseObj.isSample,
+                ...testcaseObj,
             },
         });
 
         console.log(response);
     } catch (err) {
         console.log(err);
+    }
+};
+
+export const updateTestcaseService = async (
+    testcaseId: string,
+    testcaseObj: any
+) => {
+    try {
+        const response = await axios({
+            url: `/api/testcases/${testcaseId}`,
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                Authorization: 'Bearer ' + getAccessToken(),
+            },
+            data: {
+                ...testcaseObj,
+            },
+        });
+
+        return response.data;
+    } catch (err: any) {
+        throw new Error(err.stack);
+    }
+};
+
+export const deleteTestcaseService = async (testcaseId: string) => {
+    try {
+        const response = await axios({
+            url: `/api/testcases/${testcaseId}`,
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                Authorization: 'Bearer ' + getAccessToken(),
+            },
+        });
+
+        return response.data;
+    } catch (err: any) {
+        throw new Error(err.stack);
     }
 };
