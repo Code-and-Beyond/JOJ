@@ -1,6 +1,5 @@
 import express from 'express';
 import userController from '../controllers/user.controller';
-// import auth from '../middleware/auth';
 
 const router = express.Router();
 
@@ -18,20 +17,20 @@ router.get('/users/:uid/reports', userController.getUserReports);
 // submissions
 router.get('/users/:uid/submissions/', userController.getUserSubmissions);
 router.get(
-  '/users/:uid/contests/:contestId/submissions',
-  userController.getUserContestSubmissions
+    '/users/:uid/contests/:contestId/submissions',
+    userController.getUserContestSubmissions
 );
 router.get(
-  '/users/:uid/evaluations/:evaluationId/submissions',
-  userController.getUserEvaluationSubmissions
+    '/users/:uid/evaluations/:evaluationId/submissions',
+    userController.getUserEvaluationSubmissions
 );
 router.get(
-  '/users/:uid/problems/:problemId/submissions',
-  userController.getUserProblemSubmissions
+    '/users/:uid/problems/:problemId/submissions',
+    userController.getUserProblemSubmissions
 );
 router.post(
-  '/users/:uid/problems/:problemId/submissions',
-  userController.createUserProblemSubmission
+    '/users/:uid/problems/:problemId/submissions',
+    userController.createUserProblemSubmission
 );
 
 export = router;

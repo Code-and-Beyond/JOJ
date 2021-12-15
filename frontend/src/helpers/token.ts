@@ -7,8 +7,6 @@ const checkAccess = () => {
     let tknData: any = null;
     let isExp = true;
 
-    console.log('checkAccess: ', acs);
-
     if (acs) {
         tknData = decodeToken(acs);
         isExp = isExpired(acs);

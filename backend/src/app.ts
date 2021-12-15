@@ -3,6 +3,8 @@ import config from './config/config';
 import http from 'http';
 import cors from 'cors';
 
+import auth from './middleware/auth';
+
 import authRoutes from './routes/auth';
 import userRoutes from './routes/user';
 import courseRoutes from './routes/course';
@@ -46,6 +48,9 @@ app.use((req, res, next) => {
 
     next();
 });
+
+// middleware
+app.use(auth.authenticateToken);
 
 /** Routes */
 app.use('/api', authRoutes);

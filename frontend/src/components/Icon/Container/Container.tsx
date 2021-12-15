@@ -4,11 +4,11 @@ import Icon from '../Icon';
 
 type ContainerProps = {
 	text?: string,
-	color: string,
+	color?: string,
 	src: any,
 	alt: string,
 	size: string;
-	onClickHandler: React.MouseEventHandler<HTMLDivElement>;
+	onClickHandler?: React.MouseEventHandler<HTMLDivElement>;
 };
 
 
@@ -17,7 +17,7 @@ const Container: React.FC<ContainerProps> = (props) => {
 	return (
 		<div className='icon--container u-c-pointer' style={{ background: color }} onClick={props.onClickHandler}>
 			<Icon src={src} alt={alt} size={size} />
-			<h1 className='h--white b b--2'>{text}</h1>
+			<h1 className='h--white a a--2'>{text}</h1>
 		</div>
 	);
 };

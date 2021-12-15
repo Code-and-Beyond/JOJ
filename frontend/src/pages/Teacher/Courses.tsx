@@ -8,6 +8,8 @@ import Input from '../../components/Input/Input.component';
 // import colors from '../../sass/abstracts/vars.scss';
 
 import docsIcon from '../../assets/icons/docs.png';
+import { addCourseService } from '../../services/courses';
+import { useDispatch } from 'react-redux';
 
 type CoursesProps = {
 
@@ -15,7 +17,8 @@ type CoursesProps = {
 
 const Courses: React.FC<CoursesProps> = () => {
 	const navigate = useNavigate();
-	const [course,] = useState({
+	const dispatch = useDispatch();
+	const [course, setCourse] = useState({
 		name: '',
 		code: '',
 		degree: '',
@@ -25,15 +28,19 @@ const Courses: React.FC<CoursesProps> = () => {
 	});
 	const [formOpen, setFormOpen] = useState(false);
 
+	const handleCourseData = (type: string, val: string | number) => {
+		setCourse({ ...course, [type]: val });
+	};
+
 	const getForm = () => {
 		return formOpen && <div className='teacher__form'>
-			<FormContainer title='Add Course' onAdd={() => console.log('add')} onCancel={() => setFormOpen(false)}>
-				<Input type='text' placeholder='Course Name' value={course.name} handleInput={() => console.log('hello')} />
-				<Input type='text' placeholder='Subject Code' value={course.code} handleInput={() => console.log('code')} />
-				<Input type='text' placeholder='Branch' value={course.branch} handleInput={() => console.log('code')} />
-				<Input type='text' placeholder='Degree' value={course.degree} handleInput={() => console.log('code')} />
-				<Input type='number' placeholder='Year' value={course.year} handleInput={() => console.log('code')} />
-				<Input type='text' placeholder='Batch(es)' value={course.batch} handleInput={() => console.log('code')} />
+			<FormContainer title='Add Course' onAdd={() => { addCourseService(course, dispatch); setFormOpen(false); }} onCancel={() => setFormOpen(false)}>
+				<Input type='text' placeholder='Course Name' value={course.name} handleInput={(val: string) => handleCourseData('name', val)} />
+				<Input type='text' placeholder='Subject Code' value={course.code} handleInput={(val: string) => handleCourseData('code', val)} />
+				<Input type='text' placeholder='Branch' value={course.branch} handleInput={(val: string) => handleCourseData('branch', val)} />
+				<Input type='text' placeholder='Degree' value={course.degree} handleInput={(val: string) => handleCourseData('degree', val)} />
+				<Input type='number' placeholder='Year' value={course.year} handleInput={(val: number) => handleCourseData('year', val)} />
+				<Input type='text' placeholder='Batch(es)' value={course.batch} handleInput={(val: string) => handleCourseData('batch', val)} />
 			</FormContainer>
 		</div>;
 	};
@@ -67,7 +74,7 @@ const Courses: React.FC<CoursesProps> = () => {
 	return (
 		<div className='d--f'>
 			<div className='teacher__content'>
-				<Header title='Courses' icon={docsIcon} name='R' />
+				<Header title='Courses' icon={docsIcon} />
 				{getCourses()}
 			</div>
 			{getForm()}
