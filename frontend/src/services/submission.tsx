@@ -1,5 +1,7 @@
 import axios from './axiosConfig';
-import { getAccessToken } from '../helpers/session';
+import { getAccessToken, getUser } from '../helpers/session';
+import { Dispatch } from 'react';
+import { setLoading } from '../store/actions/loading';
 
 type testcaseType = {
     testcaseId: string;
@@ -9,11 +11,14 @@ type testcaseType = {
 };
 
 export const createSubmissionService = async (
-    uid: string,
     problemId: string,
-    submissionObj: any
+    submissionObj: any,
+    dispatch: Dispatch<any>
 ) => {
     try {
+        dispatch(setLoading(true));
+        const uid = getUser().uid;
+
         const response = await axios({
             url: `/api/users/${uid}/problems/${problemId}/submissions`,
             method: 'POST',
@@ -28,6 +33,8 @@ export const createSubmissionService = async (
                 ...submissionObj,
             },
         });
+
+        dispatch(setLoading(false));
 
         console.log(response);
     } catch (err) {

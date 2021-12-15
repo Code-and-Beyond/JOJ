@@ -1,7 +1,7 @@
 import axios from './axiosConfig';
 import { Dispatch } from 'react';
 import { setLoading } from '../store/actions/loading';
-import { getAccessToken } from '../helpers/session';
+import { getAccessToken, getUser } from '../helpers/session';
 
 export const addCourseService = async (
     course: any,
@@ -35,8 +35,14 @@ export const addCourseService = async (
     }
 };
 
-export const updateCourseMember = async (courseId: string, courseObj: any) => {
+export const updateCourseMember = async (
+    courseId: string,
+    courseObj: any,
+    dispatch: Dispatch<any>
+) => {
     try {
+        dispatch(setLoading(true));
+
         const response = await axios({
             url: `/api/courses/${courseId}`,
             method: 'PUT',
@@ -50,14 +56,19 @@ export const updateCourseMember = async (courseId: string, courseObj: any) => {
             },
         });
 
+        dispatch(setLoading(false));
+
         return response.data;
     } catch (err: any) {
         throw new Error(err.stack);
     }
 };
 
-export const getUserCoursesService = async (uid: string) => {
+export const getUserCoursesService = async (dispatch: Dispatch<any>) => {
     try {
+        dispatch(setLoading(true));
+        const uid = getUser().uid;
+
         const response = await axios({
             url: `/api/users/${uid}/courses`,
             method: 'GET',
@@ -68,14 +79,21 @@ export const getUserCoursesService = async (uid: string) => {
             },
         });
 
+        dispatch(setLoading(false));
+
         return response.data;
     } catch (err: any) {
         throw new Error(err.stack);
     }
 };
 
-export const getCourseByInviteCodeService = async (inviteCode: string) => {
+export const getCourseByInviteCodeService = async (
+    inviteCode: string,
+    dispatch: Dispatch<any>
+) => {
     try {
+        dispatch(setLoading(true));
+
         const response = await axios({
             url: `api/courses/codes/${inviteCode}`,
             method: 'GET',
@@ -85,6 +103,8 @@ export const getCourseByInviteCodeService = async (inviteCode: string) => {
                 Authorization: 'Bearer ' + getAccessToken(),
             },
         });
+
+        dispatch(setLoading(false));
 
         return response.data;
     } catch (err: any) {

@@ -1,8 +1,15 @@
 import axios from './axiosConfig';
-import { getAccessToken } from '../helpers/session';
+import { getAccessToken, getUser } from '../helpers/session';
+import { Dispatch } from 'react';
+import { setLoading } from '../store/actions/loading';
 
-export const getCourseMembers = async (courseId: string) => {
+export const getCourseMembers = async (
+    courseId: string,
+    dispatch: Dispatch<any>
+) => {
     try {
+        dispatch(setLoading(true));
+
         const response = await axios({
             url: `/api/courses/${courseId}/members`,
             method: 'GET',
@@ -13,6 +20,8 @@ export const getCourseMembers = async (courseId: string) => {
             },
         });
 
+        dispatch(setLoading(false));
+
         return response.data;
     } catch (err: any) {
         throw new Error(err.stack);
@@ -21,10 +30,13 @@ export const getCourseMembers = async (courseId: string) => {
 
 export const addCourseMember = async (
     courseId: string,
-    uid: string,
-    role: string
+    role: string,
+    dispatch: Dispatch<any>
 ) => {
     try {
+        dispatch(setLoading(true));
+        const uid = getUser().uid;
+
         const response = await axios({
             url: `/api/courses/${courseId}/members/${uid}`,
             method: 'POST',
@@ -38,6 +50,8 @@ export const addCourseMember = async (
             },
         });
 
+        dispatch(setLoading(false));
+
         return response.data;
     } catch (err: any) {
         throw new Error(err.stack);
@@ -46,10 +60,13 @@ export const addCourseMember = async (
 
 export const updateCourseMember = async (
     courseId: string,
-    uid: string,
-    role: string
+    role: string,
+    dispatch: Dispatch<any>
 ) => {
     try {
+        dispatch(setLoading(true));
+        const uid = getUser().uid;
+
         const response = await axios({
             url: `/api/courses/${courseId}/members/${uid}`,
             method: 'PUT',
@@ -62,6 +79,8 @@ export const updateCourseMember = async (
                 role,
             },
         });
+
+        dispatch(setLoading(false));
 
         return response.data;
     } catch (err: any) {
