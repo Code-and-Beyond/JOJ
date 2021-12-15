@@ -25,4 +25,17 @@
             margin-bottom: 1rem;
         }
     }
+
+    &__problem {
+        &--tail {
+            padding: 1rem 0;
+            display: flex;
+            justify-content: center;
+            border-top: 0.1rem solid $color-gray-100;
+
+            & > div {
+                width: 15rem;
+            }
+        }
+    }
 }

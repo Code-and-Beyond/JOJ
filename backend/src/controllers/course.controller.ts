@@ -172,9 +172,10 @@ const getCourseEvaluations = async (
         const client = await Connect();
         const evaluations = await Query(
             client,
-            'SELECT * FROM "evaluations" WHERE "courseId" = $1',
+            'SELECT * FROM "evaluations" WHERE "courseId" = $1 ORDER BY "startTime" ASC',
             [courseId]
         );
+
         res.status(200).json({
             evaluations: evaluations.rows,
             count: evaluations.rows.length,

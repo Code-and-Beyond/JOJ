@@ -1,14 +1,18 @@
 import axios from './axiosConfig';
 import { getAccessToken } from '../helpers/session';
 import { Dispatch } from 'react';
+import { setLoading } from '../store/actions/loading';
+import { setEvaluations } from '../store/actions';
 
 export const getCourseEvaluations = async (
     courseId: string,
     dispatch: Dispatch<any>
 ) => {
     try {
+        dispatch(setLoading(true));
+
         const response = await axios({
-            url: `/courses/${courseId}/evaluations`,
+            url: `/api/courses/${courseId}/evaluations`,
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -17,7 +21,10 @@ export const getCourseEvaluations = async (
             },
         });
 
-        return response.data;
+        console.log(response.data);
+        dispatch(setLoading(false));
+        dispatch(setEvaluations(response.data.evaluations));
+
     } catch (err: any) {
         throw new Error(err.stack);
     }
@@ -29,6 +36,8 @@ export const createCourseEvaluation = async (
     dispatch: Dispatch<any>
 ) => {
     try {
+        dispatch(setLoading(true));
+
         const response = await axios({
             url: `/api/courses/${courseId}/evaluations`,
             method: 'POST',
@@ -42,7 +51,9 @@ export const createCourseEvaluation = async (
             },
         });
 
-        return response.data;
+        console.log('Course evaluation created successfully');
+        dispatch(setLoading(false));
+
     } catch (err: any) {
         throw new Error(err.stack);
     }

@@ -230,7 +230,7 @@ const Test: React.FC<TestProps> = () => {
                 </h3>
                 <h2 className="b b--2 test__head--time">
                     <Countdown
-                        date="2021-12-13T14:12:03"
+                        date="2021-12-16T14:12:03"
                         zeroPadTime={4}
                         zeroPadDays={2}
                         renderer={renderer}
@@ -250,9 +250,9 @@ const Test: React.FC<TestProps> = () => {
                     <h3 className="h h--3">C</h3>
                 </div>
                 <div className="test__body--problem">
-                    <Problem />
+                    <Problem count={1} />
                 </div>
-                {problems.length ? getEditor() : null}
+                {!problems.length ? getEditor() : null}
             </div>
         </div>
     );

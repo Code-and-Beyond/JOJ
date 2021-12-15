@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from 'react-router';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/reducers/root';
 
-import docsIcon from '../../assets/icons/docs.png';
+import backIcon from '../../assets/icons/back.png';
 
 type NavbarProps = {
     navList: Array<any>;
@@ -30,7 +30,7 @@ const Navbar: React.FC<NavbarProps> = (props) => {
     return (
         <div className="navbar">
             <div className="navbar__title">
-                <Icon src={docsIcon} alt="docs icon" size="s" />
+                <Icon src={backIcon} alt="docs icon" size="s" onClickHandler={() => navigate(-1)} />
                 <h2 className="h h--4">Introduction to blockchain</h2>
             </div>
             <div className="navbar__nav">

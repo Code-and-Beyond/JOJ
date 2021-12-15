@@ -40,7 +40,7 @@ export const googleLogin = async (
             setUser(res.data.user);
             dispatch(setUserData(res.data.user));
             dispatch(toggleLoggedIn(true));
-            navigate('/teacher/courses');
+            navigate(`/${role}/courses`);
         }
     } catch (err: any) {
         console.log({ err });

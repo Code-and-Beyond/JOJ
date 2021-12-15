@@ -2,6 +2,7 @@ import axios from './axiosConfig';
 import { Dispatch } from 'react';
 import { setLoading } from '../store/actions/loading';
 import { getAccessToken, getUser } from '../helpers/session';
+import { setCourses } from '../store/actions';
 
 export const addCourseService = async (
     uid: string,
@@ -83,8 +84,7 @@ export const getUserCoursesService = async (dispatch: Dispatch<any>) => {
         });
 
         dispatch(setLoading(false));
-
-        return response.data;
+        dispatch(setCourses(response.data.courses));
     } catch (err: any) {
         throw new Error(err.stack);
     }
