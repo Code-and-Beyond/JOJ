@@ -10,13 +10,19 @@ const authenticateToken = async (
 ) => {
     const token = req.headers.authorization?.split(' ')[1];
 
+    // skipping auth for google login
+    console.log(req.path);
+    // if (req.path === '/api/auth/google' && req.method === 'POST') {
+    //     next();
+    // }
+
     if (token) {
         jwt.verify(
             token,
             config.server.token.secret,
             async (error: any, decoded: any) => {
                 if (error) {
-                    res.status(500).json({
+                    res.status(404).json({
                         message: error.message,
                         error,
                     });

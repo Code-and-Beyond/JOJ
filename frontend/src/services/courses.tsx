@@ -16,6 +16,7 @@ export const addCourseService = async (
             headers: {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
+                Authorization: 'Bearer ' + getAccessToken(),
             },
             data: {
                 name: course.name,

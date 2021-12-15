@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { NextFunction } from 'express';
 import config from './config/config';
 import http from 'http';
 import cors from 'cors';
