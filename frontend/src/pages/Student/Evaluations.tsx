@@ -63,7 +63,7 @@ const Evaluations: React.FC<EvaluationsProps> = () => {
 
     const handleEvalClick = (evaluation: any) => {
         dispatch(setCurrentEvaluation({ ...evaluation, color: currCourseState.color }));
-        navigate('13/problems');
+        navigate(`/test/${evaluation.evaluationId}}/instructions`);
     };
 
 

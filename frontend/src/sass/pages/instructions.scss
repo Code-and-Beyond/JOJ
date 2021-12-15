@@ -1,0 +1,57 @@
+.instructions {
+    position: relative;
+
+    &__container {
+        width: 60%;
+        height: 60vh;
+        padding: 0;
+
+        &--head {
+            padding: 1rem 0;
+            background: $color-white-light;
+            margin: 0;
+            h1 {
+                font-weight: 500 !important;
+                color: $color-navy-50 !important;
+            }
+        }
+
+        &--body {
+            height: 100%;
+
+            h2 {
+                background: $color-navy-50;
+                color: $color-white;
+            }
+
+            & > div {
+                padding: 2rem 5rem;
+                ol {
+                    margin: 1rem 3rem;
+                    li {
+                        margin-bottom: 1rem;
+                    }
+                }
+            }
+        }
+    }
+
+    &__footer {
+        z-index: 100;
+        position: absolute;
+        bottom: 0;
+        height: 8vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: $color-gray-100;
+        width: 100%;
+
+        & > div {
+            padding: 0.8rem 1rem;
+            position: relative;
+            width: 20rem;
+        }
+    }
+}

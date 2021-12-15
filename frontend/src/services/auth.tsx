@@ -12,6 +12,7 @@ import {
 import { setUserData, toggleLoggedIn } from '../store/actions';
 import { setUserError } from '../store/actions/user';
 import checkAccess from '../helpers/token';
+import { setLoading } from '../store/actions/loading';
 
 export const googleLogin = async (
     response: any,
@@ -20,6 +21,7 @@ export const googleLogin = async (
     navigate: any
 ) => {
     try {
+        dispatch(setLoading(true));
         const res = await axios({
             url: '/api/auth/google',
             method: 'post',
@@ -36,6 +38,7 @@ export const googleLogin = async (
         });
 
         if (res.status === 200 && !res.data.error) {
+            dispatch(setLoading(false));
             setAccessToken(res.data.token);
             setUser(res.data.user);
             dispatch(setUserData(res.data.user));
@@ -62,7 +65,6 @@ export const persistLogin = (dispatch: Dispatch<any>, navigate: any) => {
     const user = getUser();
     const token = getAccessToken();
     dispatch(setUserData(user));
-    console.log('reach');
 
     if (user && token) {
         dispatch(toggleLoggedIn(true));

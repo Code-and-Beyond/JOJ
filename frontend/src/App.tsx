@@ -22,6 +22,7 @@ import StudentPanel from './pages/Student/Controller';
 import StudentCourses from './pages/Student/Courses';
 import StudentEvaluations from './pages/Student/Evaluations';
 import StudentClassmates from './pages/Student/People';
+import Instructions from './pages/Student/Instructions';
 
 
 import { persistLogin } from './services/auth';
@@ -36,7 +37,6 @@ const App = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log('App.tsx: useEffect');
         persistLogin(dispatch, navigate);
     }, []);
 
@@ -64,6 +64,7 @@ const App = () => {
         <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/login/:role" element={<Login />} />
+            <Route path="/test/:testId/instructions" element={<Instructions />} />
             <Route path="/test/:testId/problems" element={<Test />} />
             {getTeacherRoutes()}
             {getStudentRoutes()}

@@ -5,7 +5,7 @@ import logoutIcon from '../../assets/icons/logout.png';
 
 import IconContainer from '../Icon/Container/Container';
 import { useDispatch } from 'react-redux';
-import { setUserData, toggleLoggedIn } from '../../store/actions';
+import { setCourses, setUserData, toggleLoggedIn } from '../../store/actions';
 
 type SidebarProps = {
 	list: Array<any>;
@@ -28,6 +28,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
 	const handleLogout = () => {
 		dispatch(toggleLoggedIn(false));
 		dispatch(setUserData({}));
+		dispatch(setCourses([]));
 		setLogout();
 		navigate('/');
 	};
