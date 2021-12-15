@@ -12,18 +12,13 @@ import NoFillButton from '../components/Button/NoFill';
 import Problem from '../components/Problem/Problem';
 import {
     createSubmissionService,
-    computeSubmissionResultService,
 } from '../services/submission';
-import { useSelector } from 'react-redux';
-import { RootState } from '../store/reducers/root';
+import { useDispatch, useSelector } from 'react-redux';
 import {
-    createJudgeSubmissionBatchService,
-    createJudgeSubmissionService,
-    getJudgeSubmissionBatchService,
-    getJudgeSubmissionService,
+    runCodeService,
+    submitCodeService,
 } from '../services/judge0';
 import { getTestProblemsService } from '../services/problem';
-import { getUserCoursesService } from '../services/courses';
 
 type TestProps = {
     // testId: string;
@@ -63,15 +58,9 @@ type testcaseType = {
     isSample: boolean;
 };
 
-const getMinStatusId = (submissions: any[]) => {
-    let minStatusId = 100;
-    for (let submission of submissions) {
-        minStatusId = Math.min(minStatusId, submission.status.id);
-    }
-    return minStatusId;
-};
-
 const Test: React.FC<TestProps> = () => {
+    const dispatch = useDispatch();
+
     const [code, setCode] = useState('');
     const options = ['C++', 'Python', 'Javascript'];
     const [languages] = useState(options[0]);
@@ -79,97 +68,32 @@ const Test: React.FC<TestProps> = () => {
     const [submission, setSubmission] = useState({});
     const [problems, setProblems] = useState([]);
 
-    const userState = useSelector((state: RootState) => state.user);
-
-    // const foo = async () => {
-    //     const res: any = await getTestProblemsService(
-    //         '20988809-95f1-4ed5-bc4f-06dc88dcaf25'
-    //     );
+    // const fetchTestProblems = async () => {
+    //     const res: any = await getTestProblemsService('20988809-95f1-4ed5-bc4f-06dc88dcaf25', dispatch);
     //     setProblems(res);
     //     setCurrProblem(res[0]);
     //     console.log(res);
     // };
 
     useEffect(() => {
-        // checkIfAllowed();
-        // foo();
+        // checkIfAllowed(); // check if test ended
+        // fetchTestProblems();
     }, []);
 
     const pushSubmissionToDatabase = (submission: any) => {
-        // createSubmissionService(
-        //     userState.info.uid,
-        //     'a17507a1-f6ac-4525-8d2a-ec621868ea30',
-        //     submission
-        // );
+        createSubmissionService('a17507a1-f6ac-4525-8d2a-ec621868ea30', submission, dispatch);
     };
 
-    const runCode = async (
-        languageName: string,
-        sourceCode: string,
-        stdin: string,
-        expectedOutput: string
-    ) => {
-        try {
-            const submissionObj = {
-                languageName,
-                sourceCode,
-                stdin,
-                expectedOutput,
-            };
-
-            const submissionToken = await createJudgeSubmissionService(
-                submissionObj
-            );
-            const submission = await getJudgeSubmissionService(submissionToken);
-            setSubmission(submission);
-        } catch (err) {
-            console.log(err);
-        }
+    const runCode = async (languageName: string, sourceCode: string, stdin: string, expectedOutput: string) => {
+        const submission = await runCodeService(languageName, sourceCode, stdin, expectedOutput);
+        setSubmission(submission);
     };
 
-    const submitCode = async (
-        testcases: testcaseType[],
-        languageName: string,
-        sourceCode: string
-    ) => {
-        let submissionsArray = [];
-        for (let testcase of testcases) {
-            submissionsArray.push({
-                languageName,
-                sourceCode,
-                ...testcase,
-            });
-        }
-
-        try {
-            const submissionTokens = await createJudgeSubmissionBatchService(
-                submissionsArray
-            );
-            let submissions = null;
-            do {
-                submissions = await getJudgeSubmissionBatchService(
-                    submissionTokens
-                );
-            } while (getMinStatusId(submissions) <= 2);
-            console.log(submissions);
-            if (submissions) {
-                const submissionResult = computeSubmissionResultService(
-                    submissions,
-                    testcases
-                );
-                pushSubmissionToDatabase(submissionResult);
-                setSubmission(submissions[0]);
-                return submissionResult;
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    // const testCall = async () => {
-    //     const res = await getUserCoursesService(userState.info.uid);
-    //     console.log(res);
-    // };
+    const submitCode = async (testcases: testcaseType[], languageName: string, sourceCode: string) => {
+        const submissionObj = await submitCodeService(testcases, languageName, sourceCode);
+        setSubmission(submissionObj?.submission);
+        pushSubmissionToDatabase(submissionObj?.submissionResult);
+    }
 
     const getEditor = () => (
         <div className="test__body--editor">
@@ -199,8 +123,7 @@ const Test: React.FC<TestProps> = () => {
                     type={1}
                     text="Run Code"
                     onClickHandler={() => {
-                        if (code.length) runCode(languages, code, '1 2', '3');
-                        // testCall();
+                        if (code.length) runCode(languages, code, '1 2', '3'); // change these values
                     }}
                     extraStyle="u-m-l-auto a a--2"
                 />
@@ -209,11 +132,7 @@ const Test: React.FC<TestProps> = () => {
                     text="Submit"
                     onClickHandler={() => {
                         if (code.length)
-                            submitCode(
-                                problems[0]['testcases'],
-                                languages,
-                                code
-                            );
+                            submitCode(problems[0]['testcases'], languages, code);
                     }}
                     extraStyle="u-m-l-s a a--2"
                 />
