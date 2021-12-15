@@ -55,7 +55,7 @@ const Problems: React.FC<ProblemsProps> = () => {
     const fetchAllProblems = async (evalId: string) => {
         const allProblems: any = await getTestProblemsService(evalId, dispatch);
         setProblems(allProblems);
-        console.log(problems);
+        console.log(allProblems);
     };
 
     useEffect(() => {
@@ -70,7 +70,7 @@ const Problems: React.FC<ProblemsProps> = () => {
     const handleAddProblem = async () => {
         setFormOpen(false);
         await createTestProblemService(currEvalState.evaluationId, data, dispatch);
-        // fetchAllEvaluations(currCourseState.courseId);
+        fetchAllProblems(currEvalState.evaluationId);
     };
 
     const handleAddTestcase = async () => {
@@ -132,10 +132,6 @@ const Problems: React.FC<ProblemsProps> = () => {
             }
         </div>;
     };
-
-    const showSampleTestcases = () => {
-
-    }
 
     const getEvalHead = () => {
         return <div className="evaluations__head" style={{ background: currEvalState.color }}>
