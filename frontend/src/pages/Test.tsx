@@ -21,6 +21,10 @@ import {
 import { getTestProblemsService } from '../services/problem';
 import { useNavigate } from 'react-router';
 import { addReportEntryService, getReportEntryService } from '../services/reports';
+import { useLocation } from 'react-router';
+import Loading from '../components/Loading/Loading.component';
+import { RootState } from '../store/reducers/root';
+import RunWindow from '../components/RunWindow/RunWindow';
 
 type TestProps = {
     // testId: string;
@@ -63,58 +67,73 @@ type testcaseType = {
 const Test: React.FC<TestProps> = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const location = useLocation();
 
     const [code, setCode] = useState('');
     const options = ['C++', 'Python', 'Javascript'];
     const [languages] = useState(options[0]);
-    const [currProblem, setCurrProblem] = useState({});
-    const [submission, setSubmission] = useState({});
+
+    const currEval = useSelector((state: RootState) => state.eval.currentEvalution);
+    const [currProblem, setCurrProblem]: any = useState({});
+    const [currProblemIndex, setCurrProblemIndex]: any = useState(0);
+
+    const [submission, setSubmission]: any = useState({});
     const [problems, setProblems] = useState([]);
+    const [openRunCode, setOpenRunCode] = useState(false);
+    const [customTestcase, setCustomTestcase] = useState('');
+    const [submit, setSubmit] = useState(false);
+
+    const evalId = location.pathname.split('/')[2];
 
     const createReportEntry = async () => {
-        await addReportEntryService('87457b38-bb39-4058-8bb7-f1c456c6f699', {}, dispatch);
+        await addReportEntryService(evalId, {}, dispatch);
         navigate(-2);
-    }
+    };
 
     const fetchTestProblems = async () => {
-        const res: any = await getTestProblemsService('87457b38-bb39-4058-8bb7-f1c456c6f699', dispatch);
+        const evalId = location.pathname.split('/')[2];
+
+        const res: any = await getTestProblemsService(evalId, dispatch);
         setProblems(res);
         setCurrProblem(res[0]);
         console.log(res);
     };
 
-    // const allowedToView = async () => {
-    //     const reportEntry = await getReportEntryService('evalId', dispatch);
-    //     return reportEntry.length === 0;
-    // }
+    const allowedToView = async () => {
+        const reportEntry = await getReportEntryService('evalId', dispatch);
+        return reportEntry.length === 0;
+    };
 
     const checkIfAllowed = async () => {
-        // const allowed = await allowedToView();
-        // if (!allowed) {
-        //     navigate(-1);
-        // } else {
-        fetchTestProblems();
-        // }
-    }
+        const allowed = await allowedToView();
+        if (!allowed) {
+            navigate(-1);
+        } else {
+            fetchTestProblems();
+        }
+    };
 
     useEffect(() => {
         checkIfAllowed();
     }, []);
 
     const pushSubmissionToDatabase = (submission: any) => {
-        // createSubmissionService('a17507a1-f6ac-4525-8d2a-ec621868ea30', submission, dispatch);
+        createSubmissionService(currProblem['problemId'], submission, dispatch);
     };
 
-    const runCode = async (languageName: string, sourceCode: string, stdin: string, expectedOutput: string) => {
-        const submission = await runCodeService(languageName, sourceCode, stdin, expectedOutput);
+    const runCode = async (languageName: string, sourceCode: string, stdin: string) => {
+        const submission = await runCodeService(languageName, sourceCode, stdin);
+        console.log(submission);
         setSubmission(submission);
     };
 
     const submitCode = async (testcases: testcaseType[], languageName: string, sourceCode: string) => {
+        setSubmit(true);
         const submissionObj = await submitCodeService(testcases, languageName, sourceCode);
+        setSubmit(false);
         setSubmission(submissionObj?.submission);
         pushSubmissionToDatabase(submissionObj?.submissionResult);
-    }
+    };
 
     const getEditor = () => (
         <div className="test__body--editor">
@@ -139,34 +158,45 @@ const Test: React.FC<TestProps> = () => {
                     }}
                 />
             </div>
-            <div>
+            <div style={{ position: 'relative', padding: 'auto 0' }}>
+                {openRunCode && <RunWindow
+                    testcase={customTestcase}
+                    result={submission}
+                    handleTestCaseChange={(val: string) => { setCustomTestcase(val); }}
+                    handleClose={() => setOpenRunCode(false)}
+                />}
+                <div>{Object.keys(submission).length ? <h2 className='h h--4 u-m-l-s'>Verdict: {submit ? submission.status : submission.status.description}</h2> : null}</div>
+
                 <NoFillButton
                     type={1}
                     text="Run Code"
                     onClickHandler={() => {
-                        if (code.length) runCode(languages, code, '1 2', '3'); // change these values
+                        if (code.length && customTestcase.length) runCode(languages, code, customTestcase); // change these values
+                        setOpenRunCode(true);
                     }}
-                    extraStyle="u-m-l-auto a a--2"
+
+                    extraStyle="u-m-l-auto a a--2 test__body--btn"
                 />
                 <FillButton
                     type={3}
                     text="Submit"
                     onClickHandler={() => {
                         if (code.length)
-                            submitCode(problems[0]['testcases'], languages, code);
+                            submitCode(currProblem['testcases'], languages, code);
                     }}
-                    extraStyle="u-m-l-s a a--2"
+                    extraStyle="u-m-l-s a a--2 test__body--btn"
                 />
             </div>
         </div>
     );
 
     return (
-        <div className="test">
+        <div className="test" style={{ position: 'relative' }}>
+            <Loading />
             <div className="test__head">
                 <h1 className="h h--3 test__head--logo">JOJ</h1>
                 <h3 className="h h--4 test__head--title">
-                    Data Structures and Algorithms Test
+                    {currEval.name}
                 </h3>
                 <h2 className="b b--2 test__head--time">
                     <Countdown
@@ -187,14 +217,16 @@ const Test: React.FC<TestProps> = () => {
             </div>
             <div className="test__body">
                 <div className="test__body--nav">
-                    <h3 className="h h--3 test__body--nav-active">A</h3>
-                    <h3 className="h h--3">B</h3>
-                    <h3 className="h h--3">C</h3>
+                    {problems.map((problem: any, index: number) => (
+                        <h3 className={currProblem.problemId === problem.problemId ? 'h h--3 test__body--nav-active' : 'h h--3'} onClick={() => { setCurrProblem(problem); setCurrProblemIndex(index); }}>
+                            {String.fromCharCode(97 + index).toUpperCase()}
+                        </h3>
+                    ))}
                 </div>
                 <div className="test__body--problem">
-                    {Object.keys(currProblem).length ? <Problem data={currProblem} count={1} /> : null}
+                    {Object.keys(currProblem).length ? <Problem data={currProblem} count={currProblemIndex} /> : null}
                 </div>
-                {problems.length ? getEditor() : null}
+                {getEditor()}
             </div>
         </div>
     );

@@ -42,7 +42,7 @@ export const createJudgeSubmissionService = async (submissionObj: any) => {
                 language_id: languageIds[submissionObj.languageName],
                 source_code: submissionObj.sourceCode,
                 stdin: submissionObj.stdin,
-                expected_output: submissionObj.expectedOutput,
+                // expected_output: submissionObj.expectedOutput,
             },
         };
 
@@ -152,14 +152,12 @@ export const runCodeService = async (
     languageName: string,
     sourceCode: string,
     stdin: string,
-    expectedOutput: string
 ) => {
     try {
         const submissionObj = {
             languageName,
             sourceCode,
             stdin,
-            expectedOutput,
         };
 
         const submissionToken = await createJudgeSubmissionService(
