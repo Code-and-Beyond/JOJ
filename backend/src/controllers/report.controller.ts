@@ -10,7 +10,7 @@ const getReport = async (req: Request, res: Response, next: NextFunction) => {
         const client = await Connect();
         const report = await Query(
             client,
-            'SELECT * FROM "reports" WHERE "evaluationId" = $1',
+            'SELECT * FROM "reports" INNER JOIN "users" ON "users"."uid" = "reports"."uid" AND "evaluationId" = $1',
             [evaluationId]
         );
         res.status(200).json({

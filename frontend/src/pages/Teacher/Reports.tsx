@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router';
 import FillButton from '../../components/Button/Fill';
 import Navbar from '../../components/Navbar/Navbar';
+import { getTestProblemsService } from '../../services/problem';
+import { getEvaluationReportService } from '../../services/reports';
+import { getUserProblemSubmissions } from '../../services/submission';
 
 type ReportsProps = {};
 
@@ -14,10 +18,45 @@ const Reports: React.FC<ReportsProps> = (props) => {
         { path: currPath, title: 'Reports' },
     ];
 
+    const dispatch = useDispatch();
+    const [report, setReport] = useState([]);
+    const [problems, setProblems] = useState([]);
+
+    const fetchUserProblemSubmissions = async (uid: string, problemId: string) => {
+        const res = await getUserProblemSubmissions(uid, problemId, dispatch);
+    }
+
+    const fetchEvaluationProblems = async () => {
+        let evaluationId = '';
+        const res: any = await getTestProblemsService(evaluationId, dispatch);
+        setProblems(res);
+    }
+
+    const fetchEvaluationReport = async () => {
+        let evaluationId = '';
+        const response = await getEvaluationReportService(evaluationId, dispatch);
+        setReport(response.report);
+        console.log(response);
+    }
+
+    useEffect(() => {
+        fetchEvaluationReport();
+        fetchEvaluationProblems();
+    }, []);
+
+    const showReport = () => {
+        return report.map((reportEntry: any, index: number) => (
+            <li key={index}>
+                {reportEntry.fullname} | {reportEntry.score}
+            </li>
+        ))
+    }
+
     return (
         <div>
             <Navbar navList={routeList} />
             <h1>Reports will be available after the evalutaion.</h1>
+            {report.length && showReport()}
         </div>
     );
 };

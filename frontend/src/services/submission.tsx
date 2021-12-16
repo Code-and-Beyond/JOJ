@@ -42,6 +42,28 @@ export const createSubmissionService = async (
     }
 };
 
+export const getUserProblemSubmissions = async (uid: string, problemId: string, dispatch: Dispatch<any>) => {
+    try {
+        dispatch(setLoading(true));
+
+        const response = await axios({
+            url: `/api/users/${uid}/problems/${problemId}/submissions`,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                Authorization: 'Bearer ' + getAccessToken(),
+            },
+        });
+
+        dispatch(setLoading(false));
+
+        return response.data;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 export const computeSubmissionResultService = (
     submissions: any[],
     testcases: testcaseType[]

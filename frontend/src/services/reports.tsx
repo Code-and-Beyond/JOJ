@@ -63,3 +63,25 @@ export const addReportEntryService = async (
         // throw new Error(err.stack);
     }
 };
+
+export const getEvaluationReportService = async (evaluationId: string, dispatch: Dispatch<any>) => {
+    try {
+        dispatch(setLoading(true));
+
+        const response = await axios({
+            url: `/api/reports/${evaluationId}`,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                Authorization: 'Bearer ' + getAccessToken(),
+            },
+        });
+
+        dispatch(setLoading(false));
+
+        return response.data;
+    } catch (err: any) {
+        throw new Error(err.stack);
+    }
+}
