@@ -22,6 +22,28 @@ const getReport = async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
+const getReportEntry = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const { evaluationId, uid } = req.params;
+        const client = await Connect();
+        const reportEntry = await Query(
+            client,
+            'SELECT * FROM "reports" WHERE "evaluationId" = $1 AND "uid" = $2',
+            [evaluationId, uid]
+        );
+        res.status(200).json({
+            reportEntry: reportEntry.rows,
+        });
+        client.end();
+    } catch (error: any) {
+        next(new HttpException(500, error.message));
+    }
+};
+
 // create report entry
 const createReportEntry = async (
     req: Request,
@@ -102,6 +124,7 @@ const updateReportEntry = async (
 
 export default {
     getReport,
+    getReportEntry,
     createReportEntry,
     updateReportEntry,
 };

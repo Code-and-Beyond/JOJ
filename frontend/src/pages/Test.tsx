@@ -19,6 +19,8 @@ import {
     submitCodeService,
 } from '../services/judge0';
 import { getTestProblemsService } from '../services/problem';
+import { useNavigate } from 'react-router';
+import { addReportEntryService, getReportEntryService } from '../services/reports';
 
 type TestProps = {
     // testId: string;
@@ -59,6 +61,7 @@ type testcaseType = {
 };
 
 const Test: React.FC<TestProps> = () => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const [code, setCode] = useState('');
@@ -68,20 +71,38 @@ const Test: React.FC<TestProps> = () => {
     const [submission, setSubmission] = useState({});
     const [problems, setProblems] = useState([]);
 
-    // const fetchTestProblems = async () => {
-    //     const res: any = await getTestProblemsService('20988809-95f1-4ed5-bc4f-06dc88dcaf25', dispatch);
-    //     setProblems(res);
-    //     setCurrProblem(res[0]);
-    //     console.log(res);
-    // };
+    const createReportEntry = async () => {
+        await addReportEntryService('87457b38-bb39-4058-8bb7-f1c456c6f699', {}, dispatch);
+        navigate(-2);
+    }
+
+    const fetchTestProblems = async () => {
+        const res: any = await getTestProblemsService('87457b38-bb39-4058-8bb7-f1c456c6f699', dispatch);
+        setProblems(res);
+        setCurrProblem(res[0]);
+        console.log(res);
+    };
+
+    // const allowedToView = async () => {
+    //     const reportEntry = await getReportEntryService('evalId', dispatch);
+    //     return reportEntry.length === 0;
+    // }
+
+    const checkIfAllowed = async () => {
+        // const allowed = await allowedToView();
+        // if (!allowed) {
+        //     navigate(-1);
+        // } else {
+        fetchTestProblems();
+        // }
+    }
 
     useEffect(() => {
-        // checkIfAllowed(); // check if test ended
-        // fetchTestProblems();
+        checkIfAllowed();
     }, []);
 
     const pushSubmissionToDatabase = (submission: any) => {
-        createSubmissionService('a17507a1-f6ac-4525-8d2a-ec621868ea30', submission, dispatch);
+        // createSubmissionService('a17507a1-f6ac-4525-8d2a-ec621868ea30', submission, dispatch);
     };
 
     const runCode = async (languageName: string, sourceCode: string, stdin: string, expectedOutput: string) => {
@@ -158,7 +179,9 @@ const Test: React.FC<TestProps> = () => {
                 <FillButton
                     type={2}
                     text="End test"
-                    onClickHandler={() => console.log('run code')}
+                    onClickHandler={() => {
+                        createReportEntry();
+                    }}
                     extraStyle="a a--2 test__head--endtest"
                 />
             </div>
@@ -169,9 +192,9 @@ const Test: React.FC<TestProps> = () => {
                     <h3 className="h h--3">C</h3>
                 </div>
                 <div className="test__body--problem">
-                    <Problem count={1} />
+                    {Object.keys(currProblem).length ? <Problem data={currProblem} count={1} /> : null}
                 </div>
-                {!problems.length ? getEditor() : null}
+                {problems.length ? getEditor() : null}
             </div>
         </div>
     );

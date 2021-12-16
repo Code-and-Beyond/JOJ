@@ -93,3 +93,24 @@ export const computeSubmissionResultService = (
 
     return submissionResult;
 };
+
+export const calculateUserEvaluationScoreService = async (evaluationId: string, uid: string) => {
+    const response = await axios({
+        url: `/api/users/${uid}/evaluations/${evaluationId}/submissions`,
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            Authorization: 'Bearer ' + getAccessToken(),
+        },
+    });
+
+    const submissions = response.data.submissions;
+    const problemsSolved = new Set();
+    for (let submission of submissions) {
+        if (submission.status === "Accepted")
+            problemsSolved.add(submission.problemId);
+    }
+    console.log(problemsSolved);
+    return problemsSolved.size;
+}
