@@ -1,0 +1,31 @@
+.runwindow {
+    position: absolute;
+    z-index: 100;
+    bottom: 5.5rem;
+    width: 100%;
+
+    display: flex;
+    background: $color-white-light;
+    border-bottom: 0.1rem solid $color-gray-100;
+
+    &__container {
+        width: 100%;
+        h2 {
+            width: 100%;
+            font-weight: 400;
+            padding: 1rem 2rem;
+            border-bottom: 0.1rem solid $color-gray-100;
+            border-right: 0.1rem solid $color-gray-100;
+        }
+
+        &--content {
+            padding: 2rem;
+            border-right: 0.1rem solid $color-gray-100;
+
+            & > textarea {
+                background: $color-white-light;
+                border: 0.1rem solid $color-gray-100;
+            }
+        }
+    }
+}

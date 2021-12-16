@@ -34,7 +34,7 @@ const Instructions: React.FC<InstructionsProps> = () => {
 		if (currTime >= startTime && currTime < endTime) {
 			return false;
 		}
-		return true;
+		return false;
 	};
 
 	const onJoinTest = () => {

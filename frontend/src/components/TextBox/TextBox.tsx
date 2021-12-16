@@ -11,7 +11,7 @@ type TextBoxProps = {
 	name?: string,
 	readOnly?: boolean,
 	extraStyle?: string;
-	handleChange: any;
+	handleChange?: any;
 	handleKeyPress?: any;
 };
 

@@ -77,6 +77,7 @@ const Problems: React.FC<ProblemsProps> = () => {
     const handleAddTestcase = async () => {
         setTestcaseFormOpen(false);
         await createProblemTestcaseService(currProblemId, testcase, dispatch);
+        fetchAllProblems(currEvalState.evaluationId);
     };
 
     const handleProblemData = (type: string, val: string) => {
