@@ -87,6 +87,7 @@ const Test: React.FC<TestProps> = () => {
 
     const createReportEntry = async () => {
         await addReportEntryService(evalId, {}, dispatch);
+        console.log("in create report entry");
         navigate(-2);
     };
 
@@ -100,12 +101,14 @@ const Test: React.FC<TestProps> = () => {
     };
 
     const allowedToView = async () => {
-        const reportEntry = await getReportEntryService('evalId', dispatch);
-        return reportEntry.length === 0;
+        const reportEntry = await getReportEntryService(evalId, dispatch);
+        console.log(reportEntry);
+        return reportEntry.length < 1;
     };
 
     const checkIfAllowed = async () => {
         const allowed = await allowedToView();
+        console.log(allowed);
         if (!allowed) {
             navigate(-1);
         } else {
@@ -218,7 +221,7 @@ const Test: React.FC<TestProps> = () => {
             <div className="test__body">
                 <div className="test__body--nav">
                     {problems.map((problem: any, index: number) => (
-                        <h3 className={currProblem.problemId === problem.problemId ? 'h h--3 test__body--nav-active' : 'h h--3'} onClick={() => { setCurrProblem(problem); setCurrProblemIndex(index); }}>
+                        <h3 className={currProblem.problemId === problem.problemId ? 'h h--3 test__body--nav-active' : 'h h--3'} onClick={() => { setCurrProblem(problem); setCurrProblemIndex(index); }} key={index}>
                             {String.fromCharCode(97 + index).toUpperCase()}
                         </h3>
                     ))}

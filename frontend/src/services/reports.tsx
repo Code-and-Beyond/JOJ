@@ -12,6 +12,8 @@ export const getReportEntryService = async (
         dispatch(setLoading(true));
         const uid = getUser().uid;
 
+        console.log(uid);
+
         const response = await axios({
             url: `/api/reports/${evaluationId}/users/${uid}`,
             method: 'GET',
