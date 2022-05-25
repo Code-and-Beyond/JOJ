@@ -25,7 +25,7 @@ export const getCourseMembersService = async (
         response.data.courseMembers.sort((member1: any, member2: any) => {
             if (member1.role === 'teacher') return -1;
             if (member2.role === 'teacher') return 1;
-            return member1.fullname - member2.fullname;
+            return member1.fullname.toLowerCase().localeCompare(member2.fullname.toLowerCase());
         })
 
         return response.data;
