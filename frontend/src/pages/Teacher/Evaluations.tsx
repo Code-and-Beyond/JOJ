@@ -44,7 +44,7 @@ const Evaluations: React.FC<EvaluationsProps> = () => {
         console.log(currCourseState);
         if (Object.keys(currCourseState).length === 0) {
             navigate(-1);
-        } else if (evalState.evaluations.length === 0) {
+        } else {
             fetchAllEvaluations(currCourseState.courseId);
         }
     }, []);

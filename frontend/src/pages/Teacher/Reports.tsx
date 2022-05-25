@@ -27,13 +27,17 @@ const Reports: React.FC<ReportsProps> = (props) => {
     }
 
     const fetchEvaluationProblems = async () => {
-        let evaluationId = '';
+        const evalSubstring = 'evaluations/';
+        const evaluationId = currPath.substring(currPath.indexOf(evalSubstring) + evalSubstring.length, currPath.indexOf('/reports'));
+        console.log(evaluationId);
         const res: any = await getTestProblemsService(evaluationId, dispatch);
         setProblems(res);
     }
 
     const fetchEvaluationReport = async () => {
-        let evaluationId = '';
+        const evalSubstring = 'evaluations/';
+        const evaluationId = currPath.substring(currPath.indexOf(evalSubstring) + evalSubstring.length, currPath.indexOf('/reports'));
+        console.log(evaluationId);
         const response = await getEvaluationReportService(evaluationId, dispatch);
         setReport(response.report);
         console.log(response);
@@ -55,8 +59,7 @@ const Reports: React.FC<ReportsProps> = (props) => {
     return (
         <div>
             <Navbar navList={routeList} />
-            <h1>Reports will be available after the evalutaion.</h1>
-            {report.length && showReport()}
+            {report.length ? showReport() : null}
         </div>
     );
 };

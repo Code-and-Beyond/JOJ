@@ -247,7 +247,7 @@ const getUserProblemSubmissions = async (
         );
         res.status(200).json({
             submissions: submissions.rows,
-            count: submissions.rows.length,
+            submissionsCount: submissions.rows.length,
         });
         client.end();
     } catch (error: any) {
