@@ -10,17 +10,15 @@ import { cpp } from '@codemirror/lang-cpp';
 import FillButton from '../components/Button/Fill';
 import NoFillButton from '../components/Button/NoFill';
 import Problem from '../components/Problem/Problem';
-import {
-    createSubmissionService,
-} from '../services/submission';
+import { createSubmissionService } from '../services/submission';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-    runCodeService,
-    submitCodeService,
-} from '../services/judge0';
+import { runCodeService, submitCodeService } from '../services/judge0';
 import { getTestProblemsService } from '../services/problem';
 import { useNavigate } from 'react-router';
-import { addReportEntryService, getReportEntryService } from '../services/reports';
+import {
+    addReportEntryService,
+    getReportEntryService,
+} from '../services/reports';
 import { useLocation } from 'react-router';
 import Loading from '../components/Loading/Loading.component';
 import { RootState } from '../store/reducers/root';
@@ -73,7 +71,9 @@ const Test: React.FC<TestProps> = () => {
     const options = ['C++', 'Python', 'Javascript'];
     const [languages] = useState(options[0]);
 
-    const currEval = useSelector((state: RootState) => state.eval.currentEvalution);
+    const currEval = useSelector(
+        (state: RootState) => state.eval.currentEvalution
+    );
     const [currProblem, setCurrProblem]: any = useState({});
     const [currProblemIndex, setCurrProblemIndex]: any = useState(0);
 
@@ -87,7 +87,7 @@ const Test: React.FC<TestProps> = () => {
 
     const createReportEntry = async () => {
         await addReportEntryService(evalId, {}, dispatch);
-        console.log("in create report entry");
+        console.log('in create report entry');
         navigate(-2);
     };
 
@@ -100,16 +100,46 @@ const Test: React.FC<TestProps> = () => {
         console.log(res);
     };
 
+    const reportEntryExists = async () => {
+        const res = await getReportEntryService(evalId, dispatch);
+        console.log('report entry', res.reportEntry);
+        return res.reportEntry.length < 1;
+    };
+
+    const contestNotStartedYet = () => {
+        const currTime: Date = new Date();
+        // console.log(currTime, changeTimezoneToIst(currEval.startTime));
+        return currTime < changeTimezoneToIst(currEval.startTime);
+    };
+
     const allowedToView = async () => {
-        const reportEntry = await getReportEntryService(evalId, dispatch);
-        console.log(reportEntry);
-        return reportEntry.length < 1;
+        if (contestNotStartedYet() === true)
+            return {
+                allowed: false,
+                message: 'Evaluation not yet started!',
+            };
+
+        if (contestEnded() === false) {
+            const testSubmitted = await reportEntryExists();
+            if (testSubmitted === true) {
+                return {
+                    allowed: false,
+                    message: 'Test already submitted!',
+                };
+            }
+        }
+
+        return {
+            allowed: true,
+            message: '',
+        };
     };
 
     const checkIfAllowed = async () => {
-        const allowed = await allowedToView();
-        console.log(allowed);
-        if (!allowed) {
+        const res = await allowedToView();
+        console.log('allowed?', res.allowed);
+        if (!res.allowed) {
+            alert(res.message);
             navigate(-1);
         } else {
             fetchTestProblems();
@@ -124,15 +154,32 @@ const Test: React.FC<TestProps> = () => {
         createSubmissionService(currProblem['problemId'], submission, dispatch);
     };
 
-    const runCode = async (languageName: string, sourceCode: string, stdin: string) => {
-        const submission = await runCodeService(languageName, sourceCode, stdin);
+    const runCode = async (
+        languageName: string,
+        sourceCode: string,
+        stdin: string
+    ) => {
+        const submission = await runCodeService(
+            languageName,
+            sourceCode,
+            stdin
+        );
         console.log(submission);
         setSubmission(submission);
     };
 
-    const submitCode = async (testcases: testcaseType[], languageName: string, sourceCode: string) => {
+    const submitCode = async (
+        testcases: testcaseType[],
+        languageName: string,
+        sourceCode: string
+    ) => {
         setSubmit(true);
-        const submissionObj = await submitCodeService(testcases, languageName, sourceCode);
+        console.log(testcases, languageName, sourceCode);
+        const submissionObj = await submitCodeService(
+            testcases,
+            languageName,
+            sourceCode
+        );
         setSubmit(false);
         setSubmission(submissionObj?.submission);
         pushSubmissionToDatabase(submissionObj?.submissionResult);
@@ -162,22 +209,35 @@ const Test: React.FC<TestProps> = () => {
                 />
             </div>
             <div style={{ position: 'relative', padding: 'auto 0' }}>
-                {openRunCode && <RunWindow
-                    testcase={customTestcase}
-                    result={submission}
-                    handleTestCaseChange={(val: string) => { setCustomTestcase(val); }}
-                    handleClose={() => setOpenRunCode(false)}
-                />}
-                <div>{Object.keys(submission).length ? <h2 className='h h--4 u-m-l-s'>Verdict: {submit ? submission.status : submission.status.description}</h2> : null}</div>
+                {openRunCode && (
+                    <RunWindow
+                        testcase={customTestcase}
+                        result={submission}
+                        handleTestCaseChange={(val: string) => {
+                            setCustomTestcase(val);
+                        }}
+                        handleClose={() => setOpenRunCode(false)}
+                    />
+                )}
+                <div>
+                    {submission && Object.keys(submission).length ? (
+                        <h2 className="h h--4 u-m-l-s">
+                            Verdict:{' '}
+                            {submit
+                                ? submission.status
+                                : submission.status.description}
+                        </h2>
+                    ) : null}
+                </div>
 
                 <NoFillButton
                     type={1}
                     text="Run Code"
                     onClickHandler={() => {
-                        if (code.length && customTestcase.length) runCode(languages, code, customTestcase); // change these values
+                        if (code.length && customTestcase.length)
+                            runCode(languages, code, customTestcase); // change these values
                         setOpenRunCode(true);
                     }}
-
                     extraStyle="u-m-l-auto a a--2 test__body--btn"
                 />
                 <FillButton
@@ -185,7 +245,11 @@ const Test: React.FC<TestProps> = () => {
                     text="Submit"
                     onClickHandler={() => {
                         if (code.length)
-                            submitCode(currProblem['testcases'], languages, code);
+                            submitCode(
+                                currProblem['testcases'],
+                                languages,
+                                code
+                            );
                     }}
                     extraStyle="u-m-l-s a a--2 test__body--btn"
                 />
@@ -193,44 +257,87 @@ const Test: React.FC<TestProps> = () => {
         </div>
     );
 
+    function convertTimezone(date: Date | string, tzString: string) {
+        return new Date(
+            (typeof date === 'string' ? new Date(date) : date).toLocaleString(
+                'en-US',
+                { timeZone: tzString }
+            )
+        );
+    }
+
+    const changeTimezoneToIst = (dateString: string) => {
+        const offsetMs = (5 * 60 + 30) * 60000;
+        const date = new Date(dateString);
+        const dateWithOffset = new Date(date.getTime() - offsetMs);
+        return convertTimezone(dateWithOffset, 'Asia/Kolkata');
+    };
+
+    const contestEnded = () => {
+        const currTime: Date = new Date();
+        // console.log(currTime, changeTimezoneToIst(currEval.endTime));
+        return currTime >= changeTimezoneToIst(currEval.endTime);
+    };
+
     return (
         <div className="test" style={{ position: 'relative' }}>
             <Loading />
             <div className="test__head">
                 <h1 className="h h--3 test__head--logo">JOJ</h1>
-                <h3 className="h h--4 test__head--title">
-                    {currEval.name}
-                </h3>
+                <h3 className="h h--4 test__head--title">{currEval.name}</h3>
                 <h2 className="b b--2 test__head--time">
-                    <Countdown
-                        date="2021-12-16T14:12:03"
-                        zeroPadTime={4}
-                        zeroPadDays={2}
-                        renderer={renderer}
-                    />
+                    {contestEnded() === false ? (
+                        <Countdown
+                            date={changeTimezoneToIst(currEval.endTime)}
+                            zeroPadTime={4}
+                            zeroPadDays={2}
+                            renderer={renderer}
+                            onComplete={createReportEntry}
+                        />
+                    ) : null}
                 </h2>
-                <FillButton
-                    type={2}
-                    text="End test"
-                    onClickHandler={() => {
-                        createReportEntry();
-                    }}
-                    extraStyle="a a--2 test__head--endtest"
-                />
+                {contestEnded() === false ? (
+                    <FillButton
+                        type={2}
+                        text="End test"
+                        onClickHandler={() => {
+                            createReportEntry();
+                        }}
+                        extraStyle="a a--2 test__head--endtest"
+                    />
+                ) : null}
             </div>
-            <div className="test__body">
-                <div className="test__body--nav">
-                    {problems.map((problem: any, index: number) => (
-                        <h3 className={currProblem.problemId === problem.problemId ? 'h h--3 test__body--nav-active' : 'h h--3'} onClick={() => { setCurrProblem(problem); setCurrProblemIndex(index); }} key={index}>
-                            {String.fromCharCode(97 + index).toUpperCase()}
-                        </h3>
-                    ))}
+            {problems.length ? (
+                <div className="test__body">
+                    <div className="test__body--nav">
+                        {problems.map((problem: any, index: number) => (
+                            <h3
+                                className={
+                                    currProblem.problemId === problem.problemId
+                                        ? 'h h--3 test__body--nav-active'
+                                        : 'h h--3'
+                                }
+                                onClick={() => {
+                                    setCurrProblem(problem);
+                                    setCurrProblemIndex(index);
+                                }}
+                                key={index}
+                            >
+                                {String.fromCharCode(97 + index).toUpperCase()}
+                            </h3>
+                        ))}
+                    </div>
+                    <div className="test__body--problem">
+                        {Object.keys(currProblem).length ? (
+                            <Problem
+                                data={currProblem}
+                                count={currProblemIndex}
+                            />
+                        ) : null}
+                    </div>
+                    {getEditor()}
                 </div>
-                <div className="test__body--problem">
-                    {Object.keys(currProblem).length ? <Problem data={currProblem} count={currProblemIndex} /> : null}
-                </div>
-                {getEditor()}
-            </div>
+            ) : null}
         </div>
     );
 };
