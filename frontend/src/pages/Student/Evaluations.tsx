@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router';
 import Evaluation from '../../components/Evaluation/Evaluation';
-import FormContainer from '../../components/Form/FormContainer';
-import Input from '../../components/Input/Input.component';
 import Navbar from '../../components/Navbar/Navbar';
-import { createCourseEvaluation, getCourseEvaluations } from '../../services/evaluations';
+import { getCourseEvaluations } from '../../services/evaluations';
 import { setCurrentEvaluation } from '../../store/actions';
 import { RootState } from '../../store/reducers/root';
 
@@ -14,20 +12,12 @@ type EvaluationsProps = {};
 const Evaluations: React.FC<EvaluationsProps> = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [formOpen, setFormOpen] = useState(false);
+
     const currCourseState = useSelector((state: RootState) => state.crs.currentCourse);
     const evalState = useSelector((state: RootState) => state.eval);
 
-    const [evaluation, setEvaluation] = useState({
-        name: '',
-        description: '',
-        totalMarks: '',
-        startTime: '',
-        endTime: '',
-    });
     const currPath = useLocation().pathname;
     const oneBackPath = currPath.split('/').slice(0, -1).join('/');
-
     const routeList = [
         { path: currPath, title: 'Evaluations' },
         { path: oneBackPath + '/people', title: 'People' },
@@ -38,55 +28,19 @@ const Evaluations: React.FC<EvaluationsProps> = () => {
         await getCourseEvaluations(courseId, dispatch);
     };
 
-
     useEffect(() => {
         console.log(currCourseState);
         if (Object.keys(currCourseState).length === 0) {
             navigate(-1);
-        } else if (evalState.evaluations.length === 0) {
+        } else {
             fetchAllEvaluations(currCourseState.courseId);
         }
     }, []);
-
-
-
-    const handleEvaluationData = (type: string, val: string | number) => {
-        setEvaluation({ ...evaluation, [type]: val });
-    };
-
-    const handleCreateEvaluation = async () => {
-        setFormOpen(false);
-        await createCourseEvaluation(currCourseState.courseId, evaluation, dispatch);
-        fetchAllEvaluations(currCourseState.courseId);
-    };
-
 
     const handleEvalClick = (evaluation: any) => {
         dispatch(setCurrentEvaluation({ ...evaluation, color: currCourseState.color }));
         navigate(`/test/${evaluation.evaluationId}}/instructions`);
     };
-
-
-    const getForm = () => {
-        return (
-            formOpen && (
-                <div className="teacher__form">
-                    <FormContainer
-                        title="Create Evaluation"
-                        onAdd={handleCreateEvaluation}
-                        onCancel={() => setFormOpen(false)}
-                    >
-                        <Input type="text" placeholder="Evaluation Title" value={evaluation.name} handleInput={(val: string) => handleEvaluationData('name', val)} />
-                        <Input type="text" placeholder="Description" value={evaluation.description} handleInput={(val: string) => handleEvaluationData('description', val)} />
-                        <Input type="text" placeholder="Total Marks" value={evaluation.totalMarks} handleInput={(val: string) => handleEvaluationData('totalMarks', val)} />
-                        <Input type="datetime-local" placeholder="Start Time" value={evaluation.startTime} handleInput={(val: string) => handleEvaluationData('startTime', val)} />
-                        <Input type="datetime-local" placeholder="End Time" value={evaluation.endTime} handleInput={(val: string) => handleEvaluationData('endTime', val)} />
-                    </FormContainer>
-                </div>
-            )
-        );
-    };
-
 
     return (
         <div className="teacher__content">
@@ -119,4 +73,5 @@ const Evaluations: React.FC<EvaluationsProps> = () => {
         </div>
     );
 };
+
 export default Evaluations;
