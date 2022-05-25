@@ -40,13 +40,13 @@ const People: React.FC<PeopleProps> = () => {
             <Navbar navList={routeList} />
             <div className="evaluations">
                 <div className="evaluations__container">
-                    <div className="evaluations__body">
-                        {people.map((courseMember: any, index: number) => (
-                            <CourseMember
-                                key={index}
-                                courseMember={courseMember}
-                            />
-                        ))}
+                    <div className="evaluations__body d--f--c">
+                            {people.map((courseMember: any, index: number) => (
+                                <CourseMember
+                                    key={index}
+                                    courseMember={courseMember}
+                                />
+                            ))}
                     </div>
                 </div>
             </div>
