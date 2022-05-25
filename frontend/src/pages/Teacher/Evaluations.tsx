@@ -95,7 +95,7 @@ const Evaluations: React.FC<EvaluationsProps> = () => {
                 <Navbar navList={routeList} />
                 <div className="evaluations">
                     <div className="evaluations__container">
-                        <div className="evaluations__head" style={{ background: currCourseState.color }}>
+                        <div className="evaluations__head">
                             <h1 className="h h--l2">
                                 Evaluations
                             </h1>
@@ -110,9 +110,8 @@ const Evaluations: React.FC<EvaluationsProps> = () => {
                                     </p>
                                 </div>
                                 <FillButton
-                                    color={currCourseState.color}
                                     text="Create Evaluation"
-                                    type={2}
+                                    type={4}
                                     onClickHandler={() => setFormOpen(true)}
                                 />
                             </div>

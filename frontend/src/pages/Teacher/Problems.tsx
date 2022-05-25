@@ -178,7 +178,7 @@ const Problems: React.FC<ProblemsProps> = () => {
     };
 
     const getEvalHead = () => {
-        return <div className="evaluations__head" style={{ background: currEvalState.color }}>
+        return <div className="evaluations__head">
             <h1 className="h h--l2">Problems</h1>
             <h3 className="h h--4">{startDate} | {currEvalState.description} | {startTime} - {endTime}</h3>
         </div>;
@@ -204,8 +204,7 @@ const Problems: React.FC<ProblemsProps> = () => {
                             <div>
                                 <FillButton
                                     text="Add Problem"
-                                    color={currEvalState.color}
-                                    type={2}
+                                    type={4}
                                     onClickHandler={() => setFormOpen(true)}
                                     disable={testcaseFormOpen} />
                             </div>

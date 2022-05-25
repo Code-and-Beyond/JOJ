@@ -29,7 +29,7 @@
 		&--primary{ background-color: $color-primary; color: $color-white !important; }
 		&--error{ background-color: $color-red; color: $color-white !important; }
 		&--warning{ background-color: $color-yellow; }
-		&--info{ background-color: $color-blue; }
+		&--info{ background-color: $color-blue; color: $color-white !important; }
 		&--success{ background-color: $color-green; }
 	}
 
