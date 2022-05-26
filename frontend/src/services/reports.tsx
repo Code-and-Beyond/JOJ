@@ -66,6 +66,36 @@ export const addReportEntryService = async (
     }
 };
 
+export const updateReportEntryService = async (
+    evaluationId: string,
+    uid: string,
+    reportEntryObj: any,
+    dispatch: Dispatch<any>
+) => {
+    try {
+        dispatch(setLoading(true));
+
+        const response = await axios({
+            url: `/api/reports/${evaluationId}/users/${uid}`,
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                Authorization: 'Bearer ' + getAccessToken(),
+            },
+            data: {
+                ...reportEntryObj,
+            },
+        });
+
+        dispatch(setLoading(false));
+
+        return response.data;
+    } catch (err: any) {
+        throw new Error(err.stack);
+    }
+};
+
 export const getEvaluationReportService = async (evaluationId: string, dispatch: Dispatch<any>) => {
     try {
         dispatch(setLoading(true));

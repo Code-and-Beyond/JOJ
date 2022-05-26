@@ -165,7 +165,9 @@ const Test: React.FC<TestProps> = () => {
             stdin
         );
         console.log(submission);
-        setSubmission(submission);
+        if (submission) {
+            setSubmission(submission);
+        }
     };
 
     const submitCode = async (
