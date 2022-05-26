@@ -103,7 +103,7 @@ const Test: React.FC<TestProps> = () => {
     const reportEntryExists = async () => {
         const res = await getReportEntryService(evalId, dispatch);
         console.log('report entry', res.reportEntry);
-        return res.reportEntry.length < 1;
+        return res.reportEntry.length < 1 ? false : true;
     };
 
     const contestNotStartedYet = () => {
@@ -180,9 +180,17 @@ const Test: React.FC<TestProps> = () => {
             languageName,
             sourceCode
         );
-        setSubmit(false);
-        setSubmission(submissionObj?.submission);
-        pushSubmissionToDatabase(submissionObj?.submissionResult);
+
+        console.log(submissionObj);
+
+        // Known issue: Judge0 call fails for Compile Error.
+        // Status: 400, Message: "some attributes for one or more submissions cannot be converted to UTF-8, use base64_encoded=true query parameter"
+        
+        // If for some reason `submissionObj` is not received, submission is not set and the result is not pushed to the database.
+        if (submissionObj) {
+            setSubmission(submissionObj?.submission);
+            pushSubmissionToDatabase(submissionObj?.submissionResult);
+        }
     };
 
     const getEditor = () => (
@@ -223,9 +231,7 @@ const Test: React.FC<TestProps> = () => {
                     {submission && Object.keys(submission).length ? (
                         <h2 className="h h--4 u-m-l-s">
                             Verdict:{' '}
-                            {submit
-                                ? submission.status
-                                : submission.status.description}
+                            {submit ? submission.status.description : ' '}
                         </h2>
                     ) : null}
                 </div>
