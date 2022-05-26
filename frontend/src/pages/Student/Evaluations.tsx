@@ -43,29 +43,31 @@ const Evaluations: React.FC<EvaluationsProps> = () => {
     };
 
     return (
-        <div className="teacher__content">
-            <Navbar navList={routeList} />
-            <div className="evaluations">
-                <div className="evaluations__container">
-                    <div className="evaluations__head" style={{ background: currCourseState.color }}>
-                        <h1 className="h h--l2">
-                            Evaluations
-                        </h1>
-                        <h3 className="h h--4">{currCourseState.subjectCode}</h3>
-                    </div>
-                    <div className="evaluations__body">
-                        <div className="evaluations__body--upcoming">
-                            <h2 className="a a--2">Upcoming</h2>
-                            <p className="b b--3">
-                                No upcoming evaluations!
-                            </p>
+        <div className="d--f">
+            <div className="teacher__content">
+                <Navbar navList={routeList} />
+                <div className="evaluations">
+                    <div className="evaluations__container">
+                        <div className="evaluations__head">
+                            <h1 className="h h--l2">
+                                Evaluations
+                            </h1>
+                            <h3 className="h h--4">{currCourseState.subjectCode}</h3>
                         </div>
-                        <div>
-                            {evalState.evaluations.map((evaluation: any, index: number) =>
-                                <Evaluation
-                                    key={index}
-                                    evaluation={evaluation} onClickHandler={() => handleEvalClick(evaluation)}
-                                />)}
+                        <div className="evaluations__body">
+                            <div className="evaluations__body--upcoming">
+                                <h2 className="a a--2">Upcoming</h2>
+                                <p className="b b--3">
+                                    No upcoming evaluations!
+                                </p>
+                            </div>
+                            <div>
+                                {evalState.evaluations.map((evaluation: any, index: number) =>
+                                    <Evaluation
+                                        key={index}
+                                        evaluation={evaluation} onClickHandler={() => handleEvalClick(evaluation)}
+                                    />)}
+                            </div>
                         </div>
                     </div>
                 </div>
