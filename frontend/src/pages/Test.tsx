@@ -230,10 +230,9 @@ const Test: React.FC<TestProps> = () => {
                     />
                 )}
                 <div>
-                    {submission && Object.keys(submission).length ? (
+                    {submission && Object.keys(submission).length && submit? (
                         <h2 className="h h--4 u-m-l-s">
-                            Verdict:{' '}
-                            {submit ? submission.status.description : ' '}
+                            Verdict: {submission.status.description}
                         </h2>
                     ) : null}
                 </div>

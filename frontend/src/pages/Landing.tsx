@@ -29,9 +29,8 @@ const Landing: React.FC<LandingProps> = () => {
 				</div>
 				<div className='landing__content'>
 					<div>
-						<h3 className='d d--2'> The one place where we connect the upcoming developers and the current ones.</h3>
-						{/* <h3 className='h h--2 u-m-b-m'> Connecting the upcoming developers and the current ones.</h3> */}
-						<div className='d--f'>
+                        <h3 className='d d--2'>The Jaypee Online Judge</h3>
+                        <div className='d--f'>
 							<div className='landing__content--tile'>
 								<h4 className='h h--3'>For Teachers</h4>
 								<p className='b b--1'>Create ready assessments, have reports and provide feedback.</p>

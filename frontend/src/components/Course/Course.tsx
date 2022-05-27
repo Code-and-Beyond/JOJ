@@ -39,8 +39,8 @@ const Course: React.FC<CourseProps> = (props) => {
 			</div>
 			<div className='course__body' >
 				<div>
-					<h3 className='b b--2'>Updates</h3>
-					<p className='b b--3'>Upcoming contest on 20 Dec.</p>
+					{/* <h3 className='b b--2'>Updates</h3> */}
+					{/* <p className='b b--3'>Upcoming contest on 20 Dec.</p> */}
 				</div>
 				<Button type={4} text='Details' onClickHandler={props.onClickHandler} />
 			</div>

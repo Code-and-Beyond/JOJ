@@ -114,17 +114,17 @@ const Reports: React.FC<ReportsProps> = (props) => {
         console.log(reportInputs);
         let dataList: any = [
             { head: 'Name', entries: [] },
-            { head: 'Enrollment', entries: [] },
+            // { head: 'Enrollment', entries: [] },
             { head: 'Test Score', entries: [] },
             { head: 'Student Marks', entries: [] },
             { head: 'Comments', entries: [] }
         ];
         report.forEach((entry: any, entryIndex: number) => {
-            dataList[0].entries.push(entry.fname);
-            dataList[1].entries.push(entry.lname);
-            dataList[2].entries.push(entry.score);  
-            dataList[3].entries.push(getUpdateInput(reportInputs[entryIndex]?.marks, 'Enter Marks', 'number', entryIndex, 'marks'));
-            dataList[4].entries.push(getUpdateInput(reportInputs[entryIndex]?.comments, 'Enter Comments', 'text', entryIndex, 'comments'));
+            dataList[0].entries.push(entry.fullname);
+            // dataList[1].entries.push(entry.lname);
+            dataList[1].entries.push(entry.score);  
+            dataList[2].entries.push(getUpdateInput(reportInputs[entryIndex]?.marks, 'Enter Marks', 'number', entryIndex, 'marks'));
+            dataList[3].entries.push(getUpdateInput(reportInputs[entryIndex]?.comments, 'Enter Comments', 'text', entryIndex, 'comments'));
         });
 
         return <Table dataList={dataList} />;
